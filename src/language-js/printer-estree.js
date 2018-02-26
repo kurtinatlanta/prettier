@@ -1439,11 +1439,15 @@ function printPathNoParens(path, options, print, args) {
       parts.push(opening);
 
       if (n.alternate) {
+        /*
         if (n.consequent.type === "BlockStatement") {
           parts.push(" else");
         } else {
           parts.push(hardline, "else");
         }
+        */
+        // Always put else on its own line
+        parts.push(hardline, "else");
 
         parts.push(
           group(
@@ -1616,7 +1620,9 @@ function printPathNoParens(path, options, print, args) {
         n.finalizer ? concat([" finally ", path.call(print, "finalizer")]) : ""
       ]);
     case "CatchClause":
+      // Always put catch on its own line
       return concat([
+        hardline,
         "catch ",
         n.param ? concat(["(", path.call(print, "param"), ") "]) : "",
         path.call(print, "body")
@@ -3462,8 +3468,12 @@ function printFunctionDeclaration(path, print, options) {
   if (n.generator) {
     parts.push("*");
   }
+
+  // Always put a space after the function keyword
+  parts.push(" ");
+
   if (n.id) {
-    parts.push(" ", path.call(print, "id"));
+    parts.push(path.call(print, "id"));
   }
 
   parts.push(
