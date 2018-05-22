@@ -298,6 +298,10 @@ const equalityOperators = {
   "===": true,
   "!==": true
 };
+const additiveOperators = {
+  "+": true,
+  "-": true
+};
 const multiplicativeOperators = {
   "*": true,
   "/": true,
@@ -311,6 +315,11 @@ const bitshiftOperators = {
 
 function shouldFlatten(parentOp, nodeOp) {
   if (getPrecedence(nodeOp) !== getPrecedence(parentOp)) {
+    // x + y % z --> (x + y) % z
+    if (nodeOp === "%" && !additiveOperators[parentOp]) {
+      return true;
+    }
+
     return false;
   }
 
@@ -333,6 +342,16 @@ function shouldFlatten(parentOp, nodeOp) {
     return false;
   }
 
+  // x * y / z --> (x * y) / z
+  // x / y * z --> (x / y) * z
+  if (
+    nodeOp !== parentOp &&
+    multiplicativeOperators[nodeOp] &&
+    multiplicativeOperators[parentOp]
+  ) {
+    return false;
+  }
+
   // x << y << z --> (x << y) << z
   if (bitshiftOperators[parentOp] && bitshiftOperators[nodeOp]) {
     return false;
@@ -350,54 +369,65 @@ function isBitwiseOperator(operator) {
   );
 }
 
-// Tests if an expression starts with `{`, or (if forbidFunctionAndClass holds) `function` or `class`.
-// Will be overzealous if there's already necessary grouping parentheses.
-function startsWithNoLookaheadToken(node, forbidFunctionAndClass) {
+// Tests if an expression starts with `{`, or (if forbidFunctionClassAndDoExpr
+// holds) `function`, `class`, or `do {}`. Will be overzealous if there's
+// already necessary grouping parentheses.
+function startsWithNoLookaheadToken(node, forbidFunctionClassAndDoExpr) {
   node = getLeftMost(node);
   switch (node.type) {
     // Hack. Remove after https://github.com/eslint/typescript-eslint-parser/issues/331
     case "ObjectPattern":
-      return !forbidFunctionAndClass;
+      return !forbidFunctionClassAndDoExpr;
     case "FunctionExpression":
     case "ClassExpression":
-      return forbidFunctionAndClass;
+    case "DoExpression":
+      return forbidFunctionClassAndDoExpr;
     case "ObjectExpression":
       return true;
     case "MemberExpression":
-      return startsWithNoLookaheadToken(node.object, forbidFunctionAndClass);
+      return startsWithNoLookaheadToken(
+        node.object,
+        forbidFunctionClassAndDoExpr
+      );
     case "TaggedTemplateExpression":
       if (node.tag.type === "FunctionExpression") {
         // IIFEs are always already parenthesized
         return false;
       }
-      return startsWithNoLookaheadToken(node.tag, forbidFunctionAndClass);
+      return startsWithNoLookaheadToken(node.tag, forbidFunctionClassAndDoExpr);
     case "CallExpression":
       if (node.callee.type === "FunctionExpression") {
         // IIFEs are always already parenthesized
         return false;
       }
-      return startsWithNoLookaheadToken(node.callee, forbidFunctionAndClass);
+      return startsWithNoLookaheadToken(
+        node.callee,
+        forbidFunctionClassAndDoExpr
+      );
     case "ConditionalExpression":
-      return startsWithNoLookaheadToken(node.test, forbidFunctionAndClass);
+      return startsWithNoLookaheadToken(
+        node.test,
+        forbidFunctionClassAndDoExpr
+      );
     case "UpdateExpression":
       return (
         !node.prefix &&
-        startsWithNoLookaheadToken(node.argument, forbidFunctionAndClass)
+        startsWithNoLookaheadToken(node.argument, forbidFunctionClassAndDoExpr)
       );
     case "BindExpression":
       return (
         node.object &&
-        startsWithNoLookaheadToken(node.object, forbidFunctionAndClass)
+        startsWithNoLookaheadToken(node.object, forbidFunctionClassAndDoExpr)
       );
     case "SequenceExpression":
       return startsWithNoLookaheadToken(
         node.expressions[0],
-        forbidFunctionAndClass
+        forbidFunctionClassAndDoExpr
       );
     case "TSAsExpression":
       return startsWithNoLookaheadToken(
         node.expression,
-        forbidFunctionAndClass
+        forbidFunctionClassAndDoExpr
       );
     default:
       return false;
@@ -409,29 +439,6 @@ function getLeftMost(node) {
     return getLeftMost(node.left);
   }
   return node;
-}
-
-function hasBlockComments(node) {
-  return node.comments && node.comments.some(isBlockComment);
-}
-
-function isBlockComment(comment) {
-  return comment.type === "Block" || comment.type === "CommentBlock";
-}
-
-function hasClosureCompilerTypeCastComment(text, node, locEnd) {
-  // https://github.com/google/closure-compiler/wiki/Annotating-Types#type-casts
-  // Syntax example: var x = /** @type {string} */ (fruit);
-  return (
-    node.comments &&
-    node.comments.some(
-      comment =>
-        comment.leading &&
-        isBlockComment(comment) &&
-        comment.value.match(/^\*\s*@type\s*{[^}]+}\s*$/) &&
-        getNextNonSpaceNonCommentCharacter(text, comment, locEnd) === "("
-    )
-  );
 }
 
 function getAlignmentSize(value, tabWidth, startIndex) {
@@ -500,7 +507,9 @@ function printString(raw, options, isDirectiveLiteral) {
   const enclosingQuote =
     options.parser === "json"
       ? double.quote
-      : shouldUseAlternateQuote ? alternate.quote : preferred.quote;
+      : shouldUseAlternateQuote
+        ? alternate.quote
+        : preferred.quote;
 
   // Directives are exact code unit sequences, which means that you can't
   // change the escape sequences they use.
@@ -598,34 +607,22 @@ function getMaxContinuousCount(str, target) {
   );
 }
 
-function mapDoc(doc, callback) {
-  if (doc.parts) {
-    const parts = doc.parts.map(part => mapDoc(part, callback));
-    return callback(Object.assign({}, doc, { parts }));
-  }
-
-  if (doc.contents) {
-    const contents = mapDoc(doc.contents, callback);
-    return callback(Object.assign({}, doc, { contents }));
-  }
-
-  return callback(doc);
-}
-
 /**
  * split text into whitespaces and words
  * @param {string} text
  * @return {Array<{ type: "whitespace", value: " " | "\n" | "" } | { type: "word", value: string }>}
  */
-function splitText(text) {
+function splitText(text, options) {
   const KIND_NON_CJK = "non-cjk";
   const KIND_CJK_CHARACTER = "cjk-character";
   const KIND_CJK_PUNCTUATION = "cjk-punctuation";
 
   const nodes = [];
 
-  text
-    .replace(new RegExp(`(${cjkPattern})\n(${cjkPattern})`, "g"), "$1$2")
+  (options.proseWrap === "preserve"
+    ? text
+    : text.replace(new RegExp(`(${cjkPattern})\n(${cjkPattern})`, "g"), "$1$2")
+  )
     .split(/([ \t\n]+)/)
     .forEach((token, index, tokens) => {
       // whitespace
@@ -748,21 +745,42 @@ function hasNodeIgnoreComment(node) {
   );
 }
 
-function arrayify(object, keyName) {
-  return Object.keys(object).reduce(
-    (array, key) =>
-      array.concat(Object.assign({ [keyName]: key }, object[key])),
-    []
-  );
+function addCommentHelper(node, comment) {
+  const comments = node.comments || (node.comments = []);
+  comments.push(comment);
+  comment.printed = false;
+
+  // For some reason, TypeScript parses `// x` inside of JSXText as a comment
+  // We already "print" it via the raw text, we don't need to re-print it as a
+  // comment
+  if (node.type === "JSXText") {
+    comment.printed = true;
+  }
+}
+
+function addLeadingComment(node, comment) {
+  comment.leading = true;
+  comment.trailing = false;
+  addCommentHelper(node, comment);
+}
+
+function addDanglingComment(node, comment) {
+  comment.leading = false;
+  comment.trailing = false;
+  addCommentHelper(node, comment);
+}
+
+function addTrailingComment(node, comment) {
+  comment.leading = false;
+  comment.trailing = true;
+  addCommentHelper(node, comment);
 }
 
 module.exports = {
-  arrayify,
   punctuationRegex,
   punctuationCharRange,
   getStringWidth,
   splitText,
-  mapDoc,
   getMaxContinuousCount,
   getPrecedence,
   shouldFlatten,
@@ -785,9 +803,6 @@ module.exports = {
   setLocStart,
   setLocEnd,
   startsWithNoLookaheadToken,
-  hasBlockComments,
-  isBlockComment,
-  hasClosureCompilerTypeCastComment,
   getAlignmentSize,
   getIndentSize,
   printString,
@@ -795,5 +810,8 @@ module.exports = {
   hasIgnoreComment,
   hasNodeIgnoreComment,
   lineColumnToIndex,
-  makeString
+  makeString,
+  addLeadingComment,
+  addDanglingComment,
+  addTrailingComment
 };

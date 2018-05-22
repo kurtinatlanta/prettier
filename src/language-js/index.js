@@ -1,6 +1,8 @@
 "use strict";
 
-const printer = require("./printer-estree");
+const estreePrinter = require("./printer-estree");
+const estreeJsonPrinter = require("./printer-estree-json");
+const hasPragma = require("./pragma").hasPragma;
 const options = require("./options");
 const privateUtil = require("../common/util");
 
@@ -127,6 +129,20 @@ const languages = [
     vscodeLanguageIds: ["typescript", "typescriptreact"]
   },
   {
+    name: "JSON.stringify",
+    since: "1.13.0",
+    parsers: ["json-stringify"],
+    group: "JavaScript",
+    tmScope: "source.json",
+    aceMode: "json",
+    codemirrorMode: "javascript",
+    codemirrorMimeType: "application/json",
+    extensions: [], // .json file defaults to json instead of json-stringify
+    filenames: ["package.json", "package-lock.json"],
+    linguistLanguageId: 174,
+    vscodeLanguageIds: ["json"]
+  },
+  {
     name: "JSON",
     since: "1.5.0",
     parsers: ["json"],
@@ -135,17 +151,10 @@ const languages = [
     aceMode: "json",
     codemirrorMode: "javascript",
     codemirrorMimeType: "application/json",
-    extensions: [
-      ".json",
-      ".json5",
-      ".geojson",
-      ".JSON-tmLanguage",
-      ".topojson"
-    ],
+    extensions: [".json", ".geojson", ".JSON-tmLanguage", ".topojson"],
     filenames: [
       ".arcconfig",
       ".jshintrc",
-      ".babelrc",
       ".eslintrc",
       ".prettierrc",
       "composer.lock",
@@ -153,6 +162,20 @@ const languages = [
     ],
     linguistLanguageId: 174,
     vscodeLanguageIds: ["json", "jsonc"]
+  },
+  {
+    name: "JSON5",
+    since: "1.13.0",
+    parsers: ["json5"],
+    group: "JavaScript",
+    tmScope: "source.json",
+    aceMode: "json",
+    codemirrorMode: "javascript",
+    codemirrorMimeType: "application/json",
+    extensions: [".json5"],
+    filenames: [".babelrc"],
+    linguistLanguageId: 175,
+    vscodeLanguageIds: ["json5"]
   }
 ];
 
@@ -161,6 +184,7 @@ const typescript = {
     return eval("require")("./parser-typescript");
   },
   astFormat: "estree",
+  hasPragma,
   locStart,
   locEnd
 };
@@ -170,18 +194,33 @@ const babylon = {
     return eval("require")("./parser-babylon");
   },
   astFormat: "estree",
+  hasPragma,
   locStart,
   locEnd
 };
 
 const parsers = {
   babylon,
-  json: babylon,
+  json: Object.assign({}, babylon, {
+    hasPragma() {
+      return true;
+    }
+  }),
+  json5: babylon,
+  "json-stringify": {
+    get parse() {
+      return eval("require")("./parser-json-stringify");
+    },
+    astFormat: "estree-json",
+    locStart,
+    locEnd
+  },
   flow: {
     get parse() {
       return eval("require")("./parser-flow");
     },
     astFormat: "estree",
+    hasPragma,
     locStart,
     locEnd
   },
@@ -191,14 +230,13 @@ const parsers = {
 };
 
 const printers = {
-  estree: printer
+  estree: estreePrinter,
+  "estree-json": estreeJsonPrinter
 };
 
 module.exports = {
   languages,
   options,
   parsers,
-  printers,
-  locStart,
-  locEnd
+  printers
 };

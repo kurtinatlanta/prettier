@@ -24,10 +24,22 @@ function genericPrint(path, options, print) {
 
   switch (n.kind) {
     case "Document": {
-      return concat([
-        join(concat([hardline, hardline]), path.map(print, "definitions")),
-        hardline
-      ]);
+      const parts = [];
+      path.map((pathChild, index) => {
+        parts.push(concat([pathChild.call(print)]));
+        parts.push(hardline);
+        if (
+          index !== n.definitions.length - 1 &&
+          sharedUtil.isNextLineEmpty(
+            options.originalText,
+            pathChild.getValue(),
+            options
+          )
+        ) {
+          parts.push(hardline);
+        }
+      }, "definitions");
+      return concat(parts, hardline);
     }
     case "OperationDefinition": {
       const hasOperation = options.originalText[options.locStart(n)] !== "{";
@@ -250,7 +262,18 @@ function genericPrint(path, options, print) {
         "type ",
         path.call(print, "name"),
         n.interfaces.length > 0
-          ? concat([" implements ", join(", ", path.map(print, "interfaces"))])
+          ? concat([
+              " implements ",
+              join(
+                determineInterfaceSeparator(
+                  options.originalText.substr(
+                    options.locStart(n),
+                    options.locEnd(n)
+                  )
+                ),
+                path.map(print, "interfaces")
+              )
+            ])
           : "",
         printDirectives(path, print, n),
         n.fields.length > 0
@@ -620,8 +643,26 @@ function printComment(commentPath) {
   }
 }
 
+function determineInterfaceSeparator(originalSource) {
+  const start = originalSource.indexOf("implements");
+  if (start === -1) {
+    throw new Error("Must implement interfaces: " + originalSource);
+  }
+  let end = originalSource.indexOf("{");
+  if (end === -1) {
+    end = originalSource.length;
+  }
+  return originalSource.substr(start, end).includes("&") ? " & " : ", ";
+}
+
+function clean(node, newNode /*, parent*/) {
+  delete newNode.loc;
+  delete newNode.comments;
+}
+
 module.exports = {
   print: genericPrint,
+  massageAstNode: clean,
   hasPrettierIgnore: privateUtil.hasIgnoreComment,
   printComment,
   canAttachComment

@@ -1,26 +1,13 @@
 "use strict";
 
 const createError = require("../common/parser-create-error");
-const grayMatter = require("gray-matter");
+const parseFrontMatter = require("../utils/front-matter");
 
-function parseSelector(selector) {
-  // If there's a comment inside of a selector, the parser tries to parse
-  // the content of the comment as selectors which turns it into complete
-  // garbage. Better to print the whole selector as-is and not try to parse
-  // and reformat it.
-  if (selector.match(/\/\/|\/\*/)) {
-    return {
-      type: "selector-comment",
-      value: selector.replace(/^ +/, "").replace(/ +$/, "")
-    };
-  }
-  const selectorParser = require("postcss-selector-parser");
-  let result;
-  selectorParser(result_ => {
-    result = result_;
-  }).process(selector);
-  return addTypePrefix(result, "selector-");
-}
+// utils
+const utils = require("./utils");
+
+const isSCSS = utils.isSCSS;
+const isSCSSNestedPropertyNode = utils.isSCSSNestedPropertyNode;
 
 function parseValueNodes(nodes) {
   let parenGroup = {
@@ -54,8 +41,6 @@ function parseValueNodes(nodes) {
 
     if (isUnquotedDataURLCall) {
       node.group.groups = [stringifyGroup(node)];
-
-      return node;
     }
 
     if (node.type === "paren" && node.value === "(") {
@@ -195,15 +180,75 @@ function parseNestedValue(node) {
 
 function parseValue(value) {
   const valueParser = require("postcss-values-parser");
-  const result = valueParser(value, { loose: true }).parse();
+
+  let result = null;
+
+  try {
+    result = valueParser(value, { loose: true }).parse();
+  } catch (e) {
+    return {
+      type: "value-unknown",
+      value: value
+    };
+  }
+
   const parsedResult = parseNestedValue(result);
+
   return addTypePrefix(parsedResult, "value-");
 }
 
-function parseMediaQuery(value) {
+function parseSelector(selector) {
+  // If there's a comment inside of a selector, the parser tries to parse
+  // the content of the comment as selectors which turns it into complete
+  // garbage. Better to print the whole selector as-is and not try to parse
+  // and reformat it.
+  if (selector.match(/\/\/|\/\*/)) {
+    return {
+      type: "selector-unknown",
+      value: selector.replace(/^ +/, "").replace(/ +$/, "")
+    };
+  }
+
+  const selectorParser = require("postcss-selector-parser");
+
+  let result = null;
+
+  try {
+    selectorParser(result_ => {
+      result = result_;
+    }).process(selector);
+  } catch (e) {
+    // Fail silently. It's better to print it as is than to try and parse it
+    // Note: A common failure is for SCSS nested properties. `background:
+    // none { color: red; }` is parsed as a NestedDeclaration by
+    // postcss-scss, while `background: { color: red; }` is parsed as a Rule
+    // with a selector ending with a colon. See:
+    // https://github.com/postcss/postcss-scss/issues/39
+    return {
+      type: "selector-unknown",
+      value: selector
+    };
+  }
+
+  return addTypePrefix(result, "selector-");
+}
+
+function parseMediaQuery(params) {
   const mediaParser = require("postcss-media-query-parser").default;
-  const result = addMissingType(mediaParser(value));
-  return addTypePrefix(result, "media-");
+
+  let result = null;
+
+  try {
+    result = mediaParser(params);
+  } catch (e) {
+    // Ignore bad media queries
+    return {
+      type: "selector-unknown",
+      value: params
+    };
+  }
+
+  return addTypePrefix(addMissingType(result), "media-");
 }
 
 const DEFAULT_SCSS_DIRECTIVE = /(\s*?)(!default).*$/;
@@ -217,103 +262,120 @@ function parseNestedCSS(node) {
       parseNestedCSS(node[key]);
     }
 
-    if (typeof node.selector === "string" && node.selector.trim().length > 0) {
-      let selector = node.raws.selector
-        ? node.raws.selector.raw
-        : node.selector;
+    if (!node.type) {
+      return node;
+    }
 
-      if (node.raws.between && node.raws.between.trim()) {
+    if (!node.raws) {
+      node.raws = {};
+    }
+
+    let selector = "";
+
+    if (typeof node.selector === "string") {
+      selector =
+        node.raws.selector && node.raws.selector.raw
+          ? node.raws.selector.raw
+          : node.selector;
+
+      if (node.raws.between && node.raws.between.trim().length > 0) {
         selector += node.raws.between;
       }
 
-      if (selector.startsWith("@") && selector.endsWith(":")) {
-        return node;
-      }
-
-      try {
-        node.selector = parseSelector(selector);
-      } catch (e) {
-        // Fail silently. It's better to print it as is than to try and parse it
-        // Note: A common failure is for SCSS nested properties. `background:
-        // none { color: red; }` is parsed as a NestedDeclaration by
-        // postcss-scss, while `background: { color: red; }` is parsed as a Rule
-        // with a selector ending with a colon. See:
-        // https://github.com/postcss/postcss-scss/issues/39
-        node.selector = {
-          type: "selector-root-invalid",
-          value: selector
-        };
-      }
-
-      return node;
+      node.raws.selector = selector;
     }
 
-    if (
-      node.type &&
-      node.type !== "css-comment-yaml" &&
-      typeof node.value === "string" &&
-      node.value.trim().length > 0
-    ) {
-      try {
-        let value = node.raws.value ? node.raws.value.raw : node.value;
+    let value = "";
 
-        const defaultSCSSDirectiveIndex = value.match(DEFAULT_SCSS_DIRECTIVE);
+    if (typeof node.value === "string") {
+      value =
+        node.raws.value && node.raws.value.raw
+          ? node.raws.value.raw
+          : node.value;
 
-        if (defaultSCSSDirectiveIndex) {
-          value = value.substring(0, defaultSCSSDirectiveIndex.index);
-          node.scssDefault = true;
+      value = value.trim();
 
-          if (defaultSCSSDirectiveIndex[0].trim() !== "!default") {
-            node.raws.scssDefault = defaultSCSSDirectiveIndex[0];
-          }
-        }
-
-        const globalSCSSDirectiveIndex = value.match(GLOBAL_SCSS_DIRECTIVE);
-
-        if (globalSCSSDirectiveIndex) {
-          value = value.substring(0, globalSCSSDirectiveIndex.index);
-          node.scssGlobal = true;
-
-          if (globalSCSSDirectiveIndex[0].trim() !== "!global") {
-            node.raws.scssGlobal = globalSCSSDirectiveIndex[0];
-          }
-        }
-
-        if (value.startsWith("progid:")) {
-          return node;
-        }
-
-        node.value = parseValue(value);
-      } catch (e) {
-        throw createError(
-          "(postcss-values-parser) " + e.toString(),
-          node.source
-        );
-      }
-
-      return node;
+      node.raws.value = selector;
     }
 
-    if (node.type === "css-atrule" && typeof node.params === "string") {
-      let params =
+    let params = "";
+
+    if (typeof node.params === "string") {
+      params =
         node.raws.params && node.raws.params.raw
           ? node.raws.params.raw
           : node.params;
 
-      if (node.raws.afterName.trim()) {
+      if (node.raws.afterName && node.raws.afterName.trim().length > 0) {
         params = node.raws.afterName + params;
       }
 
-      if (node.raws.between.trim()) {
+      if (node.raws.between && node.raws.between.trim().length > 0) {
         params = params + node.raws.between;
       }
 
       params = params.trim();
 
-      if (params.length === 0) {
+      node.raws.params = params;
+    }
+
+    // Ignore LESS mixin declaration
+    if (selector.trim().length > 0) {
+      if (selector.startsWith("@") && selector.endsWith(":")) {
         return node;
       }
 
+      // Ignore LESS mixins
+      if (node.mixin) {
+        node.selector = parseValue(selector);
+
+        return node;
+      }
+
+      // Check on SCSS nested property
+      if (isSCSSNestedPropertyNode(node)) {
+        node.isSCSSNesterProperty = true;
+      }
+
+      node.selector = parseSelector(selector);
+
+      return node;
+    }
+
+    if (node.type !== "css-comment-yaml" && value.length > 0) {
+      const defaultSCSSDirectiveIndex = value.match(DEFAULT_SCSS_DIRECTIVE);
+
+      if (defaultSCSSDirectiveIndex) {
+        value = value.substring(0, defaultSCSSDirectiveIndex.index);
+        node.scssDefault = true;
+
+        if (defaultSCSSDirectiveIndex[0].trim() !== "!default") {
+          node.raws.scssDefault = defaultSCSSDirectiveIndex[0];
+        }
+      }
+
+      const globalSCSSDirectiveIndex = value.match(GLOBAL_SCSS_DIRECTIVE);
+
+      if (globalSCSSDirectiveIndex) {
+        value = value.substring(0, globalSCSSDirectiveIndex.index);
+        node.scssGlobal = true;
+
+        if (globalSCSSDirectiveIndex[0].trim() !== "!global") {
+          node.raws.scssGlobal = globalSCSSDirectiveIndex[0];
+        }
+      }
+
+      if (value.startsWith("progid:")) {
+        return {
+          type: "value-unknown",
+          value: value
+        };
+      }
+
+      node.value = parseValue(value);
+    }
+
+    if (node.type === "css-atrule" && params.length > 0) {
       const name = node.name;
       const lowercasedName = node.name.toLowerCase();
 
@@ -335,7 +397,7 @@ function parseNestedCSS(node) {
 
       if (name === "at-root") {
         if (/^\(\s*(without|with)\s*:[\s\S]+\)$/.test(params)) {
-          node.params = parseMediaQuery(params);
+          node.params = parseValue(params);
         } else {
           node.selector = parseSelector(params);
           delete node.params;
@@ -344,8 +406,15 @@ function parseNestedCSS(node) {
         return node;
       }
 
+      if (lowercasedName === "import") {
+        node.params = parseValue(params);
+        return node;
+      }
+
       if (
         [
+          "namespace",
+          "supports",
           "if",
           "else",
           "for",
@@ -381,11 +450,7 @@ function parseNestedCSS(node) {
         return node;
       }
 
-      if (
-        ["namespace", "import", "media", "supports", "custom-media"].indexOf(
-          lowercasedName
-        ) !== -1
-      ) {
+      if (["media", "custom-media"].indexOf(lowercasedName) !== -1) {
         if (params.includes("#{")) {
           // Workaround for media at rule with scss interpolation
           return {
@@ -408,8 +473,13 @@ function parseNestedCSS(node) {
   return node;
 }
 
-function parseWithParser(parser, text, frontMatter) {
+function parseWithParser(parser, text) {
+  const parsed = parseFrontMatter(text);
+  const frontMatter = parsed.frontMatter;
+  text = parsed.content;
+
   let result;
+
   try {
     result = parser.parse(text);
   } catch (e) {
@@ -419,20 +489,20 @@ function parseWithParser(parser, text, frontMatter) {
     throw createError("(postcss) " + e.name + " " + e.reason, { start: e });
   }
 
-  if (Object.keys(frontMatter.data).length > 0) {
+  result = parseNestedCSS(addTypePrefix(result, "css-"));
+
+  if (frontMatter) {
     result.nodes.unshift({
-      type: "comment-yaml",
-      value: grayMatter.stringify("", frontMatter.data).replace(/\s$/, "")
+      type: "front-matter",
+      value: frontMatter
     });
   }
 
-  const prefixedResult = addTypePrefix(result, "css-");
-  const parsedResult = parseNestedCSS(prefixedResult);
-  return parsedResult;
+  return result;
 }
 
-function requireParser(isSCSS) {
-  if (isSCSS) {
+function requireParser(isSCSSParser) {
+  if (isSCSSParser) {
     return require("postcss-scss");
   }
 
@@ -449,32 +519,20 @@ function requireParser(isSCSS) {
   return require("postcss-less");
 }
 
-const IS_POSSIBLY_SCSS = /(\w\s*: [^}:]+|#){|@import[^\n]+(url|,)/;
-
 function parse(text, parsers, opts) {
   const hasExplicitParserChoice =
     opts.parser === "less" || opts.parser === "scss";
-
-  const isSCSS = hasExplicitParserChoice
-    ? opts.parser === "scss"
-    : IS_POSSIBLY_SCSS.test(text);
-
-  const frontMatter = grayMatter(text);
-  const normalizedText = frontMatter.content;
+  const isSCSSParser = isSCSS(opts.parser, text);
 
   try {
-    return parseWithParser(requireParser(isSCSS), normalizedText, frontMatter);
+    return parseWithParser(requireParser(isSCSSParser), text);
   } catch (originalError) {
     if (hasExplicitParserChoice) {
       throw originalError;
     }
 
     try {
-      return parseWithParser(
-        requireParser(!isSCSS),
-        normalizedText,
-        frontMatter
-      );
+      return parseWithParser(requireParser(!isSCSSParser), text);
     } catch (_secondError) {
       throw originalError;
     }
