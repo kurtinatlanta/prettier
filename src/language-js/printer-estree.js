@@ -1776,7 +1776,9 @@ function printPathNoParens(path, options, print, args) {
           );
         }
 
+        // Always put else on its own line.
         parts.push(
+          hardline,
           "else",
           group(
             adjustClause(
@@ -1941,11 +1943,12 @@ function printPathNoParens(path, options, print, args) {
         path.call(print, "body")
       ]);
     case "TryStatement":
+      // Always put finally on its own line
       return concat([
         "try ",
         path.call(print, "block"),
         n.handler ? concat([" ", path.call(print, "handler")]) : "",
-        n.finalizer ? concat([" finally ", path.call(print, "finalizer")]) : ""
+        n.finalizer ? concat([hardline, "finally ", path.call(print, "finalizer")]) : ""
       ]);
     case "CatchClause":
       if (n.param) {
@@ -1963,7 +1966,9 @@ function printPathNoParens(path, options, print, args) {
           );
         const param = path.call(print, "param");
 
+        // Always put catch on its own line
         return concat([
+          hardline,
           "catch ",
           hasComments
             ? concat(["(", indent(concat([softline, param])), softline, ") "])
