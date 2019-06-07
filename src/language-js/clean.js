@@ -15,6 +15,10 @@ function clean(ast, newObj, parent) {
     delete newObj[name];
   });
 
+  if (ast.type === "BigIntLiteral") {
+    newObj.value = newObj.value.toLowerCase();
+  }
+
   // We remove extra `;` and add them when needed
   if (ast.type === "EmptyStatement") {
     return null;
@@ -57,11 +61,8 @@ function clean(ast, newObj, parent) {
   }
 
   // (TypeScript) bypass TSParenthesizedType
-  if (
-    ast.type === "TSParenthesizedType" &&
-    ast.typeAnnotation.type === "TSTypeAnnotation"
-  ) {
-    return newObj.typeAnnotation.typeAnnotation;
+  if (ast.type === "TSParenthesizedType") {
+    return newObj.typeAnnotation;
   }
 
   // We convert <div></div> to <div />
@@ -87,6 +88,11 @@ function clean(ast, newObj, parent) {
       ast.key.type === "Identifier")
   ) {
     delete newObj.key;
+  }
+
+  if (ast.type === "OptionalMemberExpression" && ast.optional === false) {
+    newObj.type = "MemberExpression";
+    delete newObj.optional;
   }
 
   // Remove raw and cooked values from TemplateElement when it's CSS
@@ -122,6 +128,37 @@ function clean(ast, newObj, parent) {
     newObj.value.expression.quasis.forEach(q => delete q.value);
   }
 
+  // Angular Components: Inline HTML template and Inline CSS styles
+  const expression = ast.expression || ast.callee;
+  if (
+    ast.type === "Decorator" &&
+    expression.type === "CallExpression" &&
+    expression.callee.name === "Component" &&
+    expression.arguments.length === 1
+  ) {
+    const astProps = ast.expression.arguments[0].properties;
+    newObj.expression.arguments[0].properties.forEach((prop, index) => {
+      let templateLiteral = null;
+
+      switch (astProps[index].key.name) {
+        case "styles":
+          if (prop.value.type === "ArrayExpression") {
+            templateLiteral = prop.value.elements[0];
+          }
+          break;
+        case "template":
+          if (prop.value.type === "TemplateLiteral") {
+            templateLiteral = prop.value;
+          }
+          break;
+      }
+
+      if (templateLiteral) {
+        templateLiteral.quasis.forEach(q => delete q.value);
+      }
+    });
+  }
+
   // styled-components, graphql, markdown
   if (
     ast.type === "TaggedTemplateExpression" &&
@@ -131,7 +168,8 @@ function clean(ast, newObj, parent) {
           ast.tag.name === "graphql" ||
           ast.tag.name === "css" ||
           ast.tag.name === "md" ||
-          ast.tag.name === "markdown")) ||
+          ast.tag.name === "markdown" ||
+          ast.tag.name === "html")) ||
       ast.tag.type === "CallExpression")
   ) {
     newObj.quasi.quasis.forEach(quasi => delete quasi.value);
@@ -142,14 +180,17 @@ function clean(ast, newObj, parent) {
     // we will not trim the comment value and we will expect exactly one space on
     // either side of the GraphQL string
     // Also see ./embed.js
-    const hasGraphQLComment =
+    const hasLanguageComment =
       ast.leadingComments &&
       ast.leadingComments.some(
         comment =>
-          comment.type === "CommentBlock" && comment.value === " GraphQL "
+          comment.type === "CommentBlock" &&
+          ["GraphQL", "HTML"].some(
+            languageName => comment.value === ` ${languageName} `
+          )
       );
     if (
-      hasGraphQLComment ||
+      hasLanguageComment ||
       (parent.type === "CallExpression" && parent.callee.name === "graphql")
     ) {
       newObj.quasis.forEach(quasi => delete quasi.value);

@@ -1,6 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`member-chain.js 1`] = `
+====================================options=====================================
+parsers: ["typescript"]
+printWidth: 80
+                                                                                | printWidth
+=====================================input======================================
 const { somePropThatHasAReallyLongName, anotherPropThatHasALongName } = this.props.imReallySureAboutThis!;
 
 const { somePropThatHasAReallyLongName, anotherPropThatHasALongName } = this.props.imReallySureAboutThis!.anotherObject;
@@ -8,7 +13,8 @@ const { somePropThatHasAReallyLongName, anotherPropThatHasALongName } = this.pro
 this.foo.get("bar")!.doThings().more();
 
 foo!.bar().baz().what();
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+=====================================output=====================================
 const {
   somePropThatHasAReallyLongName,
   anotherPropThatHasALongName
@@ -29,9 +35,15 @@ foo!
   .baz()
   .what();
 
+================================================================================
 `;
 
 exports[`parens.ts 1`] = `
+====================================options=====================================
+parsers: ["typescript"]
+printWidth: 80
+                                                                                | printWidth
+=====================================input======================================
 (a ? b : c) ![tokenKey];
 (a || b) ![tokenKey];
 (void 0)!;
@@ -43,7 +55,16 @@ async function f() {
 function* g() {
     return (yield * foo())!;
 }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+const a = (b()!)(); // parens aren't necessary
+const b = c!();
+
+// parens are necessary if the expression result is called as a constructor
+const c = new (d()!)();
+const c = new (d()!);
+const c = new (d()!.e)();
+
+=====================================output=====================================
 (a ? b : c)![tokenKey];
 (a || b)![tokenKey];
 (void 0)!;
@@ -56,4 +77,13 @@ function* g() {
   return (yield* foo())!;
 }
 
+const a = b()!(); // parens aren't necessary
+const b = c!();
+
+// parens are necessary if the expression result is called as a constructor
+const c = new (d())!();
+const c = new (d())!();
+const c = new (d())!.e();
+
+================================================================================
 `;

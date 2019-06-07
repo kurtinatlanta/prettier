@@ -1,29 +1,32 @@
 "use strict";
 
 const assert = require("assert");
-const docBuilders = require("../doc").builders;
-const concat = docBuilders.concat;
-const hardline = docBuilders.hardline;
-const breakParent = docBuilders.breakParent;
-const indent = docBuilders.indent;
-const lineSuffix = docBuilders.lineSuffix;
-const join = docBuilders.join;
-const cursor = docBuilders.cursor;
-const privateUtil = require("../common/util");
-const sharedUtil = require("../common/util-shared");
+const {
+  concat,
+  hardline,
+  breakParent,
+  indent,
+  lineSuffix,
+  join,
+  cursor
+} = require("../doc").builders;
+const {
+  hasNewline,
+  skipNewline,
+  isPreviousLineEmpty
+} = require("../common/util");
+const {
+  addLeadingComment,
+  addDanglingComment,
+  addTrailingComment
+} = require("../common/util-shared");
 const childNodesCacheKey = Symbol("child-nodes");
-
-const addLeadingComment = sharedUtil.addLeadingComment;
-const addTrailingComment = sharedUtil.addTrailingComment;
-const addDanglingComment = sharedUtil.addDanglingComment;
 
 function getSortedChildNodes(node, options, resultArray) {
   if (!node) {
     return;
   }
-  const printer = options.printer;
-  const locStart = options.locStart;
-  const locEnd = options.locEnd;
+  const { printer, locStart, locEnd } = options;
 
   if (resultArray) {
     if (node && printer.canAttachComment && printer.canAttachComment(node)) {
@@ -83,8 +86,8 @@ function getSortedChildNodes(node, options, resultArray) {
 // .precedingNode, .enclosingNode, and/or .followingNode properties, at
 // least one of which is guaranteed to be defined.
 function decorateComment(node, comment, options) {
-  const locStart = options.locStart;
-  const locEnd = options.locEnd;
+  const { locStart, locEnd } = options;
+
   const childNodes = getSortedChildNodes(node, options);
   let precedingNode;
   let followingNode;
@@ -174,23 +177,27 @@ function attach(comments, ast, text, options) {
   }
 
   const tiesToBreak = [];
-  const locStart = options.locStart;
-  const locEnd = options.locEnd;
+  const { locStart, locEnd } = options;
 
   comments.forEach((comment, i) => {
     if (
-      (options.parser === "json" || options.parser === "json5") &&
-      locStart(comment) - locStart(ast) <= 0
+      options.parser === "json" ||
+      options.parser === "json5" ||
+      options.parser === "__js_expression" ||
+      options.parser === "__vue_expression"
     ) {
-      addLeadingComment(ast, comment);
-      return;
+      if (locStart(comment) - locStart(ast) <= 0) {
+        addLeadingComment(ast, comment);
+        return;
+      }
+      if (locEnd(comment) - locEnd(ast) >= 0) {
+        addTrailingComment(ast, comment);
+        return;
+      }
     }
 
     decorateComment(ast, comment, options);
-
-    const precedingNode = comment.precedingNode;
-    const enclosingNode = comment.enclosingNode;
-    const followingNode = comment.followingNode;
+    const { precedingNode, enclosingNode, followingNode } = comment;
 
     const pluginHandleOwnLineComment =
       options.printer.handleComments && options.printer.handleComments.ownLine
@@ -207,7 +214,7 @@ function attach(comments, ast, text, options) {
 
     const isLastComment = comments.length - 1 === i;
 
-    if (privateUtil.hasNewline(text, locStart(comment), { backwards: true })) {
+    if (hasNewline(text, locStart(comment), { backwards: true })) {
       // If a comment exists on its own line, prefer a leading comment.
       // We also need to check if it's the first line of the file.
       if (
@@ -226,7 +233,7 @@ function attach(comments, ast, text, options) {
         /* istanbul ignore next */
         addDanglingComment(ast, comment);
       }
-    } else if (privateUtil.hasNewline(text, locEnd(comment))) {
+    } else if (hasNewline(text, locEnd(comment))) {
       if (
         pluginHandleEndOfLineComment(comment, text, options, ast, isLastComment)
       ) {
@@ -294,9 +301,8 @@ function breakTies(tiesToBreak, text, options) {
   if (tieCount === 0) {
     return;
   }
+  const { precedingNode, followingNode } = tiesToBreak[0];
 
-  const precedingNode = tiesToBreak[0].precedingNode;
-  const followingNode = tiesToBreak[0].followingNode;
   let gapEndPos = options.locStart(followingNode);
 
   // Iterate backwards through tiesToBreak, examining the gaps
@@ -358,7 +364,7 @@ function findExpressionIndexForComment(quasis, comment, options) {
 
 function getQuasiRange(expr) {
   if (expr.start !== undefined) {
-    // Babylon
+    // Babel
     return { start: expr.start, end: expr.end };
   }
   // Flow
@@ -379,9 +385,7 @@ function printLeadingComment(commentPath, print, options) {
   if (isBlock) {
     return concat([
       contents,
-      privateUtil.hasNewline(options.originalText, options.locEnd(comment))
-        ? hardline
-        : " "
+      hasNewline(options.originalText, options.locEnd(comment)) ? hardline : " "
     ]);
   }
 
@@ -409,7 +413,7 @@ function printTrailingComment(commentPath, print, options) {
     parentParentNode.superClass === parentNode;
 
   if (
-    privateUtil.hasNewline(options.originalText, options.locStart(comment), {
+    hasNewline(options.originalText, options.locStart(comment), {
       backwards: true
     })
   ) {
@@ -425,7 +429,7 @@ function printTrailingComment(commentPath, print, options) {
     // if this a comment on its own line; normal trailing comments are
     // always at the end of another expression.
 
-    const isLineBeforeEmpty = privateUtil.isPreviousLineEmpty(
+    const isLineBeforeEmpty = isPreviousLineEmpty(
       options.originalText,
       comment,
       options.locStart
@@ -439,7 +443,10 @@ function printTrailingComment(commentPath, print, options) {
     return concat([" ", contents]);
   }
 
-  return concat([lineSuffix(" " + contents), !isBlock ? breakParent : ""]);
+  return concat([
+    lineSuffix(concat([" ", contents])),
+    !isBlock ? breakParent : ""
+  ]);
 }
 
 function printDanglingComments(path, options, sameIndent, filter) {
@@ -493,8 +500,7 @@ function printComments(path, print, options, needsSemi) {
 
   path.each(commentPath => {
     const comment = commentPath.getValue();
-    const leading = comment.leading;
-    const trailing = comment.trailing;
+    const { leading, trailing } = comment;
 
     if (leading) {
       const contents = printLeadingComment(commentPath, print, options);
@@ -504,12 +510,7 @@ function printComments(path, print, options, needsSemi) {
       leadingParts.push(contents);
 
       const text = options.originalText;
-      if (
-        privateUtil.hasNewline(
-          text,
-          privateUtil.skipNewline(text, options.locEnd(comment))
-        )
-      ) {
+      if (hasNewline(text, skipNewline(text, options.locEnd(comment)))) {
         leadingParts.push(hardline);
       }
     } else if (trailing) {

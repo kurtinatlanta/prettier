@@ -1,10 +1,7 @@
 "use strict";
 
-const prettier = require("../../tests_config/require_prettier");
+const prettier = require("prettier/local");
 const runPrettier = require("../runPrettier");
-const constant = require("../../src/cli/constant");
-const util = require("../../src/cli/util");
-const arrayify = require("../../src/utils/arrayify");
 
 describe("show version with --version", () => {
   runPrettier("cli/with-shebang", ["--version"]).test({
@@ -47,43 +44,21 @@ describe(`show detailed usage with plugin options (manual resolution)`, () => {
   });
 });
 
-arrayify(
-  Object.assign(
-    {},
-    util.createDetailedOptionMap(
-      prettier.getSupportInfo(null, {
-        showDeprecated: true,
-        showUnreleased: true,
-        showInternal: true
-      }).options
-    ),
-    util.normalizeDetailedOptionMap(constant.options)
-  ),
-  "name"
-).forEach(option => {
-  const optionNames = [
-    option.description ? option.name : null,
-    option.oppositeDescription ? `no-${option.name}` : null
-  ].filter(Boolean);
-
-  optionNames.forEach(optionName => {
-    describe(`show detailed usage with --help ${optionName}`, () => {
-      runPrettier("cli", ["--help", optionName]).test({
-        status: 0
-      });
-    });
-  });
-});
-
-describe("show warning with --help not-found", () => {
+describe("throw error with --help not-found", () => {
   runPrettier("cli", ["--help", "not-found"]).test({
-    status: 0
+    status: 1
   });
 });
 
 describe("show warning with --help not-found (typo)", () => {
   runPrettier("cli", ["--help", "parserr"]).test({
     status: 0
+  });
+});
+
+describe("throw error with --check + --list-different", () => {
+  runPrettier("cli", ["--check", "--list-different"]).test({
+    status: 1
   });
 });
 

@@ -43,10 +43,65 @@ Object {
 This option cannot be used with --range-start and --range-end.",
           "type": "integer",
         },
+        "endOfLine": Object {
+          "default": "auto",
+          "description": "Which end of line characters to apply.",
+          "oneOf": Array [
+            Object {
+              "description": "Maintain existing
+(mixed values within one file are normalised by looking at what's used after the first line)",
+              "enum": Array [
+                "auto",
+              ],
+            },
+            Object {
+              "description": "Line Feed only (\\\\n), common on Linux and macOS as well as inside git repos",
+              "enum": Array [
+                "lf",
+              ],
+            },
+            Object {
+              "description": "Carriage Return + Line Feed characters (\\\\r\\\\n), common on Windows",
+              "enum": Array [
+                "crlf",
+              ],
+            },
+            Object {
+              "description": "Carriage Return character only (\\\\r), used very rarely",
+              "enum": Array [
+                "cr",
+              ],
+            },
+          ],
+        },
         "filepath": Object {
           "default": undefined,
           "description": "Specify the input filepath. This will be used to do parser inference.",
           "type": "string",
+        },
+        "htmlWhitespaceSensitivity": Object {
+          "default": "css",
+          "description": "How to handle whitespaces in HTML.",
+          "oneOf": Array [
+            Object {
+              "description": "Respect the default value of CSS display property.",
+              "enum": Array [
+                "css",
+              ],
+            },
+            Object {
+              "description": "Whitespaces are considered sensitive.",
+              "enum": Array [
+                "strict",
+              ],
+            },
+            Object {
+              "description": "Whitespaces are considered insensitive.",
+              "enum": Array [
+                "ignore",
+              ],
+            },
+          ],
         },
         "insertPragma": Object {
           "default": false,
@@ -58,8 +113,13 @@ This option cannot be used with --range-start and --range-end.",
           "description": "Put > on the last line instead of at a new line.",
           "type": "boolean",
         },
+        "jsxSingleQuote": Object {
+          "default": false,
+          "description": "Use single quotes in JSX.",
+          "type": "boolean",
+        },
         "parser": Object {
-          "default": "babylon",
+          "default": undefined,
           "description": "Which parser to use.",
           "oneOf": Array [
             Object {
@@ -71,7 +131,13 @@ This option cannot be used with --range-start and --range-end.",
             Object {
               "description": "JavaScript",
               "enum": Array [
-                "babylon",
+                "babel",
+              ],
+            },
+            Object {
+              "description": "Flow",
+              "enum": Array [
+                "babel-flow",
               ],
             },
             Object {
@@ -105,6 +171,18 @@ This option cannot be used with --range-start and --range-end.",
               ],
             },
             Object {
+              "description": "JSON5",
+              "enum": Array [
+                "json5",
+              ],
+            },
+            Object {
+              "description": "JSON.stringify",
+              "enum": Array [
+                "json-stringify",
+              ],
+            },
+            Object {
               "description": "GraphQL",
               "enum": Array [
                 "graphql",
@@ -117,12 +195,52 @@ This option cannot be used with --range-start and --range-end.",
               ],
             },
             Object {
+              "description": "MDX",
+              "enum": Array [
+                "mdx",
+              ],
+            },
+            Object {
               "description": "Vue",
               "enum": Array [
                 "vue",
               ],
             },
+            Object {
+              "description": "YAML",
+              "enum": Array [
+                "yaml",
+              ],
+            },
+            Object {
+              "description": "HTML",
+              "enum": Array [
+                "html",
+              ],
+            },
+            Object {
+              "description": "Angular",
+              "enum": Array [
+                "angular",
+              ],
+            },
+            Object {
+              "description": "Lightning Web Components",
+              "enum": Array [
+                "lwc",
+              ],
+            },
           ],
+        },
+        "pluginSearchDirs": Object {
+          "default": Array [],
+          "description": "Custom directory that contains prettier plugins in node_modules subdirectory.
+Overrides default behavior when plugins are searched relatively to the location of Prettier.
+Multiple values are accepted.",
+          "items": Object {
+            "type": "string",
+          },
+          "type": "array",
         },
         "plugins": Object {
           "default": Array [],
@@ -139,7 +257,7 @@ This option cannot be used with --range-start and --range-end.",
         },
         "proseWrap": Object {
           "default": "preserve",
-          "description": "How to wrap prose. (markdown)",
+          "description": "How to wrap prose.",
           "oneOf": Array [
             Object {
               "description": "Wrap prose if it exceeds the print width.",
@@ -155,6 +273,30 @@ This option cannot be used with --range-start and --range-end.",
             },
             Object {
               "description": "Wrap prose as-is.",
+              "enum": Array [
+                "preserve",
+              ],
+            },
+          ],
+        },
+        "quoteProps": Object {
+          "default": "as-needed",
+          "description": "Change when properties in objects are quoted.",
+          "oneOf": Array [
+            Object {
+              "description": "Only add quotes around object properties where required.",
+              "enum": Array [
+                "as-needed",
+              ],
+            },
+            Object {
+              "description": "If at least one property in an object requires quotes, quote all properties.",
+              "enum": Array [
+                "consistent",
+              ],
+            },
+            Object {
+              "description": "Respect the input use of quotes in object properties.",
               "enum": Array [
                 "preserve",
               ],

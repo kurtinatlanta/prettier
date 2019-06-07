@@ -2,6 +2,8 @@
 
 const createError = require("../common/parser-create-error");
 const parseFrontMatter = require("../utils/front-matter");
+const lineColumnToIndex = require("../utils/line-column-to-index");
+const { hasPragma } = require("./pragma");
 
 // utils
 const utils = require("./utils");
@@ -273,10 +275,11 @@ function parseNestedCSS(node) {
     let selector = "";
 
     if (typeof node.selector === "string") {
-      selector =
-        node.raws.selector && node.raws.selector.raw
-          ? node.raws.selector.raw
-          : node.selector;
+      selector = node.raws.selector
+        ? node.raws.selector.scss
+          ? node.raws.selector.scss
+          : node.raws.selector.raw
+        : node.selector;
 
       if (node.raws.between && node.raws.between.trim().length > 0) {
         selector += node.raws.between;
@@ -288,10 +291,11 @@ function parseNestedCSS(node) {
     let value = "";
 
     if (typeof node.value === "string") {
-      value =
-        node.raws.value && node.raws.value.raw
-          ? node.raws.value.raw
-          : node.value;
+      value = node.raws.value
+        ? node.raws.value.scss
+          ? node.raws.value.scss
+          : node.raws.value.raw
+        : node.value;
 
       value = value.trim();
 
@@ -301,10 +305,11 @@ function parseNestedCSS(node) {
     let params = "";
 
     if (typeof node.params === "string") {
-      params =
-        node.raws.params && node.raws.params.raw
-          ? node.raws.params.raw
-          : node.params;
+      params = node.raws.params
+        ? node.raws.params.scss
+          ? node.raws.params.scss
+          : node.raws.params.raw
+        : node.params;
 
       if (node.raws.afterName && node.raws.afterName.trim().length > 0) {
         params = node.raws.afterName + params;
@@ -342,7 +347,7 @@ function parseNestedCSS(node) {
       return node;
     }
 
-    if (node.type !== "css-comment-yaml" && value.length > 0) {
+    if (value.length > 0) {
       const defaultSCSSDirectiveIndex = value.match(DEFAULT_SCSS_DIRECTIVE);
 
       if (defaultSCSSDirectiveIndex) {
@@ -475,7 +480,7 @@ function parseNestedCSS(node) {
 
 function parseWithParser(parser, text) {
   const parsed = parseFrontMatter(text);
-  const frontMatter = parsed.frontMatter;
+  const { frontMatter } = parsed;
   text = parsed.content;
 
   let result;
@@ -492,10 +497,7 @@ function parseWithParser(parser, text) {
   result = parseNestedCSS(addTypePrefix(result, "css-"));
 
   if (frontMatter) {
-    result.nodes.unshift({
-      type: "front-matter",
-      value: frontMatter
-    });
+    result.nodes.unshift(frontMatter);
   }
 
   return result;
@@ -539,4 +541,33 @@ function parse(text, parsers, opts) {
   }
 }
 
-module.exports = parse;
+const parser = {
+  parse,
+  astFormat: "postcss",
+  hasPragma,
+  locStart(node) {
+    if (node.source) {
+      return lineColumnToIndex(node.source.start, node.source.input.css) - 1;
+    }
+    return null;
+  },
+  locEnd(node) {
+    const endNode = node.nodes && node.nodes[node.nodes.length - 1];
+    if (endNode && node.source && !node.source.end) {
+      node = endNode;
+    }
+    if (node.source && node.source.end) {
+      return lineColumnToIndex(node.source.end, node.source.input.css);
+    }
+    return null;
+  }
+};
+
+// Export as a plugin so we can reuse the same bundle for UMD loading
+module.exports = {
+  parsers: {
+    css: parser,
+    less: parser,
+    scss: parser
+  }
+};

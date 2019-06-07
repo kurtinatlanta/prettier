@@ -6,6 +6,8 @@ const globby = require("globby");
 const path = require("path");
 const resolve = require("resolve");
 const thirdParty = require("./third-party");
+const internalPlugins = require("./internal-plugins");
+const partition = require("../utils/partition");
 
 function loadPlugins(plugins, pluginSearchDirs) {
   if (!plugins) {
@@ -17,26 +19,18 @@ function loadPlugins(plugins, pluginSearchDirs) {
   }
   // unless pluginSearchDirs are provided, auto-load plugins from node_modules that are parent to Prettier
   if (!pluginSearchDirs.length) {
-    const autoLoadDir = thirdParty.findParentDir(
-      thirdParty.findParentDir(__dirname, "prettier"),
-      "node_modules"
-    );
+    const autoLoadDir = thirdParty.findParentDir(__dirname, "node_modules");
     if (autoLoadDir) {
       pluginSearchDirs = [autoLoadDir];
     }
   }
 
-  const internalPlugins = [
-    require("../language-js"),
-    require("../language-css"),
-    require("../language-handlebars"),
-    require("../language-graphql"),
-    require("../language-markdown"),
-    require("../language-html"),
-    require("../language-vue")
-  ];
+  const [externalPluginNames, externalPluginInstances] = partition(
+    plugins,
+    plugin => typeof plugin === "string"
+  );
 
-  const externalManualLoadPluginInfos = plugins.map(pluginName => {
+  const externalManualLoadPluginInfos = externalPluginNames.map(pluginName => {
     let requirePath;
     try {
       // try local files
@@ -58,16 +52,22 @@ function loadPlugins(plugins, pluginSearchDirs) {
         pluginSearchDir
       );
 
-      if (!isDirectory(resolvedPluginSearchDir)) {
-        throw new Error(
-          `${pluginSearchDir} does not exist or is not a directory`
-        );
-      }
-
       const nodeModulesDir = path.resolve(
         resolvedPluginSearchDir,
         "node_modules"
       );
+
+      // In some fringe cases (ex: files "mounted" as virtual directories), the
+      // isDirectory(resolvedPluginSearchDir) check might be false even though
+      // the node_modules actually exists.
+      if (
+        !isDirectory(nodeModulesDir) &&
+        !isDirectory(resolvedPluginSearchDir)
+      ) {
+        throw new Error(
+          `${pluginSearchDir} does not exist or is not a directory`
+        );
+      }
 
       return findPluginsInNodeModules(nodeModulesDir).map(pluginName => ({
         name: pluginName,
@@ -81,19 +81,25 @@ function loadPlugins(plugins, pluginSearchDirs) {
   const externalPlugins = uniqBy(
     externalManualLoadPluginInfos.concat(externalAutoLoadPluginInfos),
     "requirePath"
-  ).map(externalPluginInfo =>
-    Object.assign(
-      { name: externalPluginInfo.name },
-      eval("require")(externalPluginInfo.requirePath)
+  )
+    .map(externalPluginInfo =>
+      Object.assign(
+        { name: externalPluginInfo.name },
+        eval("require")(externalPluginInfo.requirePath)
+      )
     )
-  );
+    .concat(externalPluginInstances);
 
   return internalPlugins.concat(externalPlugins);
 }
 
 function findPluginsInNodeModules(nodeModulesDir) {
   const pluginPackageJsonPaths = globby.sync(
-    ["prettier-plugin-*/package.json", "@prettier/plugin-*/package.json"],
+    [
+      "prettier-plugin-*/package.json",
+      "@*/prettier-plugin-*/package.json",
+      "@prettier/plugin-*/package.json"
+    ],
     { cwd: nodeModulesDir }
   );
   return pluginPackageJsonPaths.map(path.dirname);

@@ -1,16 +1,18 @@
 "use strict";
 
-const docBuilders = require("../doc").builders;
-const concat = docBuilders.concat;
-const join = docBuilders.join;
-const hardline = docBuilders.hardline;
-const line = docBuilders.line;
-const softline = docBuilders.softline;
-const group = docBuilders.group;
-const indent = docBuilders.indent;
-const ifBreak = docBuilders.ifBreak;
-const privateUtil = require("../common/util");
-const sharedUtil = require("../common/util-shared");
+const {
+  concat,
+  join,
+  hardline,
+  line,
+  softline,
+  group,
+  indent,
+  ifBreak
+} = require("../doc").builders;
+const { hasIgnoreComment } = require("../common/util");
+const { isNextLineEmpty } = require("../common/util-shared");
+const { insertPragma } = require("./pragma");
 
 function genericPrint(path, options, print) {
   const n = path.getValue();
@@ -27,19 +29,16 @@ function genericPrint(path, options, print) {
       const parts = [];
       path.map((pathChild, index) => {
         parts.push(concat([pathChild.call(print)]));
-        parts.push(hardline);
-        if (
-          index !== n.definitions.length - 1 &&
-          sharedUtil.isNextLineEmpty(
-            options.originalText,
-            pathChild.getValue(),
-            options
-          )
-        ) {
+        if (index !== n.definitions.length - 1) {
           parts.push(hardline);
+          if (
+            isNextLineEmpty(options.originalText, pathChild.getValue(), options)
+          ) {
+            parts.push(hardline);
+          }
         }
       }, "definitions");
-      return concat(parts, hardline);
+      return concat([concat(parts), hardline]);
     }
     case "OperationDefinition": {
       const hasOperation = options.originalText[options.locStart(n)] !== "{";
@@ -74,6 +73,24 @@ function genericPrint(path, options, print) {
       return concat([
         "fragment ",
         path.call(print, "name"),
+        n.variableDefinitions && n.variableDefinitions.length
+          ? group(
+              concat([
+                "(",
+                indent(
+                  concat([
+                    softline,
+                    join(
+                      concat([ifBreak("", ", "), softline]),
+                      path.map(print, "variableDefinitions")
+                    )
+                  ])
+                ),
+                softline,
+                ")"
+              ])
+            )
+          : "",
         " on ",
         path.call(print, "typeCondition"),
         printDirectives(path, print, n),
@@ -145,7 +162,11 @@ function genericPrint(path, options, print) {
           '"""'
         ]);
       }
-      return concat(['"', n.value.replace(/["\\]/g, "\\$&"), '"']);
+      return concat([
+        '"',
+        n.value.replace(/["\\]/g, "\\$&").replace(/\n/g, "\\n"),
+        '"'
+      ]);
     }
     case "IntValue":
     case "FloatValue":
@@ -245,7 +266,8 @@ function genericPrint(path, options, print) {
         path.call(print, "variable"),
         ": ",
         path.call(print, "type"),
-        n.defaultValue ? concat([" = ", path.call(print, "defaultValue")]) : ""
+        n.defaultValue ? concat([" = ", path.call(print, "defaultValue")]) : "",
+        printDirectives(path, print, n)
       ]);
     }
 
@@ -614,11 +636,7 @@ function printSequence(sequencePath, options, print) {
     const printed = print(path);
 
     if (
-      sharedUtil.isNextLineEmpty(
-        options.originalText,
-        path.getValue(),
-        options
-      ) &&
+      isNextLineEmpty(options.originalText, path.getValue(), options) &&
       i < count - 1
     ) {
       return concat([printed, hardline]);
@@ -634,13 +652,11 @@ function canAttachComment(node) {
 
 function printComment(commentPath) {
   const comment = commentPath.getValue();
-
-  switch (comment.kind) {
-    case "Comment":
-      return "#" + comment.value.trimRight();
-    default:
-      throw new Error("Not a comment: " + JSON.stringify(comment));
+  if (comment.kind === "Comment") {
+    return "#" + comment.value.trimRight();
   }
+
+  throw new Error("Not a comment: " + JSON.stringify(comment));
 }
 
 function determineInterfaceSeparator(originalSource) {
@@ -663,7 +679,8 @@ function clean(node, newNode /*, parent*/) {
 module.exports = {
   print: genericPrint,
   massageAstNode: clean,
-  hasPrettierIgnore: privateUtil.hasIgnoreComment,
+  hasPrettierIgnore: hasIgnoreComment,
+  insertPragma,
   printComment,
   canAttachComment
 };

@@ -1,6 +1,7 @@
 "use strict";
 
 const React = require("react");
+const PropTypes = require("prop-types");
 
 const CompLibrary = require("../../core/CompLibrary.js");
 const MarkdownBlock = CompLibrary.MarkdownBlock;
@@ -14,7 +15,7 @@ const ButtonGroup = props => (
 );
 
 ButtonGroup.propTypes = {
-  children: React.PropTypes.node
+  children: PropTypes.node
 };
 
 class Button extends React.Component {
@@ -34,14 +35,23 @@ Button.defaultProps = {
 };
 
 Button.propTypes = {
-  href: React.PropTypes.string,
-  target: React.PropTypes.string,
-  children: React.PropTypes.any
+  href: PropTypes.string,
+  target: PropTypes.string,
+  children: PropTypes.any
 };
+
+function Tidelift() {
+  return (
+    <a className="tidelift" href={siteConfig.tideliftUrl}>
+      GET PROFESSIONALLY SUPPORTED PRETTIER
+    </a>
+  );
+}
 
 const HomeSplash = props => {
   return (
     <div className="homeContainer">
+      <Tidelift />
       <div className="homeSplashFade">
         <div className="wrapper homeWrapper">
           <div className="animatedLogoWrapper">
@@ -69,7 +79,7 @@ const HomeSplash = props => {
 };
 
 HomeSplash.propTypes = {
-  language: React.PropTypes.string
+  language: PropTypes.string
 };
 
 const TldrSection = ({ language }) => (
@@ -108,10 +118,10 @@ const TldrSection = ({ language }) => (
 );
 
 TldrSection.propTypes = {
-  language: React.PropTypes.string
+  language: PropTypes.string
 };
 
-const Language = ({ name, showName, image, variants }) => (
+const Language = ({ name, nameLink, showName, image, variants }) => (
   <div
     className="languageCategory"
     style={{
@@ -121,22 +131,27 @@ const Language = ({ name, showName, image, variants }) => (
     }}
   >
     <img src={image} style={{ width: "50px", padding: "0 20px" }} />
-    <div>
-      {showName && <p className="accented">{name}</p>}
+    <ul>
+      {showName && (
+        <li className="accented">
+          {nameLink ? <a href={nameLink}>{name}</a> : name}
+        </li>
+      )}
       {variants.map(variant => (
-        <code key={variant}>
+        <li key={variant}>
           <MarkdownBlock>{variant}</MarkdownBlock>
-        </code>
+        </li>
       ))}
-    </div>
+    </ul>
   </div>
 );
 
 Language.propTypes = {
-  name: React.PropTypes.string,
-  showName: React.PropTypes.boolean,
-  image: React.PropTypes.string,
-  variants: React.PropTypes.array
+  name: PropTypes.string,
+  nameLink: PropTypes.string,
+  showName: PropTypes.bool,
+  image: PropTypes.string,
+  variants: PropTypes.array
 };
 
 const LanguagesSection = () => {
@@ -148,7 +163,7 @@ const LanguagesSection = () => {
         last.length < 2 &&
         last.reduce((sum, lang) => sum + lang.variants.length, 0) +
           language.variants.length <
-          5
+          9
       ) {
         last.push(language);
       } else {
@@ -190,16 +205,16 @@ const Editor = ({ content = "", image, name }) => (
   <div className="editor">
     <img className="editorImage" src={image} />
     <div className="editorInfo">
-      <h3 style={{ marginBottom: "-16px" }}>{name}</h3>
+      <h3 className="editorName">{name}</h3>
       <MarkdownBlock>{content.replace(/\n/g, "  \n")}</MarkdownBlock>
     </div>
   </div>
 );
 
 Editor.propTypes = {
-  content: React.PropTypes.string,
-  image: React.PropTypes.string.isRequired,
-  name: React.PropTypes.string.isRequired
+  content: PropTypes.string,
+  image: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired
 };
 
 const EditorSupportSection = () => (
@@ -297,11 +312,13 @@ class GetStartedSection extends React.Component {
                       {bash`npm install pretty-quick husky --save-dev`}
                     </MarkdownBlock>
                   </div>
-                  Then edit <code>package.json</code>:
+                  Then add this config to <code>package.json</code>:
                   <MarkdownBlock>
                     {json({
-                      scripts: {
-                        precommit: "pretty-quick --staged"
+                      husky: {
+                        hooks: {
+                          "pre-commit": "pretty-quick --staged"
+                        }
                       }
                     })}
                   </MarkdownBlock>
@@ -400,7 +417,7 @@ const UsersSection = ({ language }) => {
               <img src="/images/npm_grey.svg" style={{ height: "100px" }} />
             </a>
             <div style={{ marginLeft: ".7em", width: "260px" }}>
-              <p>More than 900 tools and integrations on npm</p>
+              <p>More than 2000 tools and integrations on npm</p>
               <Button href="https://www.npmjs.com/browse/depended/prettier">
                 Install Them
               </Button>
@@ -415,7 +432,7 @@ const UsersSection = ({ language }) => {
               <img src="/images/github_grey.svg" style={{ height: "100px" }} />
             </a>
             <div style={{ marginLeft: ".7em", width: "260px" }}>
-              <p>More than 150,000 dependent repositories on GitHub</p>
+              <p>More than 400,000 dependent repositories on GitHub</p>
               <Button href="https://github.com/prettier/prettier/network/dependents">
                 Check Them Out
               </Button>
@@ -428,7 +445,7 @@ const UsersSection = ({ language }) => {
 };
 
 UsersSection.propTypes = {
-  language: React.PropTypes.string
+  language: PropTypes.string
 };
 
 class Index extends React.Component {
@@ -439,7 +456,7 @@ class Index extends React.Component {
       <div>
         <script src="landing.js" />
         <HomeSplash language={language} />
-        <div className="mainContainer">
+        <div className="mainContainer landingContainer">
           <TldrSection language={language} />
           <LanguagesSection />
           <EditorSupportSection />
@@ -452,7 +469,7 @@ class Index extends React.Component {
 }
 
 Index.propTypes = {
-  language: React.PropTypes.string
+  language: PropTypes.string
 };
 
 module.exports = Index;

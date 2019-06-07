@@ -1,26 +1,34 @@
 "use strict";
 
-const doc = require("../doc");
-const docUtils = doc.utils;
-const docBuilders = doc.builders;
-const indent = docBuilders.indent;
-const join = docBuilders.join;
-const hardline = docBuilders.hardline;
-const softline = docBuilders.softline;
-const literalline = docBuilders.literalline;
-const concat = docBuilders.concat;
-const dedentToRoot = docBuilders.dedentToRoot;
+const { isBlockComment, hasLeadingComment } = require("./comments");
 
-function embed(path, print, textToDoc /*, options */) {
+const {
+  builders: {
+    indent,
+    join,
+    hardline,
+    softline,
+    literalline,
+    concat,
+    group,
+    dedentToRoot
+  },
+  utils: { mapDoc, stripTrailingHardline }
+} = require("../doc");
+
+function embed(path, print, textToDoc, options) {
   const node = path.getValue();
   const parent = path.getParentNode();
   const parentParent = path.getParentNode(1);
 
   switch (node.type) {
     case "TemplateLiteral": {
-      const isCss = [isStyledJsx, isStyledComponents, isCssProp].some(isIt =>
-        isIt(path)
-      );
+      const isCss = [
+        isStyledJsx,
+        isStyledComponents,
+        isCssProp,
+        isAngularComponentStyles
+      ].some(isIt => isIt(path));
 
       if (isCss) {
         // Get full template literal with expressions replaced by placeholders
@@ -98,13 +106,11 @@ function embed(path, print, textToDoc /*, options */) {
           if (commentsAndWhitespaceOnly) {
             doc = printGraphqlComments(lines);
           } else {
-            doc = docUtils.stripTrailingHardline(
-              textToDoc(text, { parser: "graphql" })
-            );
+            doc = stripTrailingHardline(textToDoc(text, { parser: "graphql" }));
           }
 
           if (doc) {
-            doc = escapeBackticks(doc);
+            doc = escapeTemplateCharacters(doc, false);
             if (!isFirst && startsWithBlankLine) {
               parts.push("");
             }
@@ -127,6 +133,22 @@ function embed(path, print, textToDoc /*, options */) {
           hardline,
           "`"
         ]);
+      }
+
+      const htmlParser = isHtml(path)
+        ? "html"
+        : isAngularComponentTemplate(path)
+        ? "angular"
+        : undefined;
+
+      if (htmlParser) {
+        return printHtmlTemplateLiteral(
+          path,
+          print,
+          textToDoc,
+          htmlParser,
+          options.embeddedInHtml
+        );
       }
 
       break;
@@ -172,7 +194,7 @@ function embed(path, print, textToDoc /*, options */) {
 
   function printMarkdown(text) {
     const doc = textToDoc(text, { parser: "markdown", __inJsTemplate: true });
-    return docUtils.stripTrailingHardline(escapeBackticks(doc));
+    return stripTrailingHardline(escapeTemplateCharacters(doc, true));
   }
 }
 
@@ -181,8 +203,12 @@ function getIndentation(str) {
   return firstMatchedIndent === null ? "" : firstMatchedIndent[1];
 }
 
-function escapeBackticks(doc) {
-  return docUtils.mapDoc(doc, currentDoc => {
+function uncook(cookedValue) {
+  return cookedValue.replace(/([\\`]|\$\{)/g, "\\$1");
+}
+
+function escapeTemplateCharacters(doc, raw) {
+  return mapDoc(doc, currentDoc => {
     if (!currentDoc.parts) {
       return currentDoc;
     }
@@ -191,7 +217,7 @@ function escapeBackticks(doc) {
 
     currentDoc.parts.forEach(part => {
       if (typeof part === "string") {
-        parts.push(part.replace(/(\\*)`/g, "$1$1\\`"));
+        parts.push(raw ? part.replace(/(\\*)`/g, "$1$1\\`") : uncook(part));
       } else {
         parts.push(part);
       }
@@ -220,7 +246,7 @@ function transformCssDoc(quasisDoc, path, print) {
   }
   return concat([
     "`",
-    indent(concat([hardline, docUtils.stripTrailingHardline(newDoc)])),
+    indent(concat([hardline, stripTrailingHardline(newDoc)])),
     softline,
     "`"
   ]);
@@ -237,7 +263,7 @@ function replacePlaceholders(quasisDoc, expressionDocs) {
 
   const expressions = expressionDocs.slice();
   let replaceCounter = 0;
-  const newDoc = docUtils.mapDoc(quasisDoc, doc => {
+  const newDoc = mapDoc(quasisDoc, doc => {
     if (!doc || !doc.parts || !doc.parts.length) {
       return doc;
     }
@@ -292,46 +318,114 @@ function printGraphqlComments(lines) {
   const parts = [];
   let seenComment = false;
 
-  lines.map(textLine => textLine.trim()).forEach((textLine, i, array) => {
-    // Lines are either whitespace only, or a comment (with poential whitespace
-    // around it). Drop whitespace-only lines.
-    if (textLine === "") {
-      return;
-    }
+  lines
+    .map(textLine => textLine.trim())
+    .forEach((textLine, i, array) => {
+      // Lines are either whitespace only, or a comment (with poential whitespace
+      // around it). Drop whitespace-only lines.
+      if (textLine === "") {
+        return;
+      }
 
-    if (array[i - 1] === "" && seenComment) {
-      // If a non-first comment is preceded by a blank (whitespace only) line,
-      // add in a blank line.
-      parts.push(concat([hardline, textLine]));
-    } else {
-      parts.push(textLine);
-    }
+      if (array[i - 1] === "" && seenComment) {
+        // If a non-first comment is preceded by a blank (whitespace only) line,
+        // add in a blank line.
+        parts.push(concat([hardline, textLine]));
+      } else {
+        parts.push(textLine);
+      }
 
-    seenComment = true;
-  });
+      seenComment = true;
+    });
 
   // If `lines` was whitespace only, return `null`.
   return parts.length === 0 ? null : join(hardline, parts);
 }
 
 /**
- * Template literal in this context:
+ * Template literal in these contexts:
  * <style jsx>{`div{color:red}`}</style>
+ * css``
+ * css.global``
+ * css.resolve``
  */
 function isStyledJsx(path) {
   const node = path.getValue();
   const parent = path.getParentNode();
   const parentParent = path.getParentNode(1);
   return (
-    parentParent &&
-    node.quasis &&
-    parent.type === "JSXExpressionContainer" &&
-    parentParent.type === "JSXElement" &&
-    parentParent.openingElement.name.name === "style" &&
-    parentParent.openingElement.attributes.some(
-      attribute => attribute.name.name === "jsx"
-    )
+    (parentParent &&
+      node.quasis &&
+      parent.type === "JSXExpressionContainer" &&
+      parentParent.type === "JSXElement" &&
+      parentParent.openingElement.name.name === "style" &&
+      parentParent.openingElement.attributes.some(
+        attribute => attribute.name.name === "jsx"
+      )) ||
+    (parent &&
+      parent.type === "TaggedTemplateExpression" &&
+      parent.tag.type === "Identifier" &&
+      parent.tag.name === "css") ||
+    (parent &&
+      parent.type === "TaggedTemplateExpression" &&
+      parent.tag.type === "MemberExpression" &&
+      parent.tag.object.name === "css" &&
+      (parent.tag.property.name === "global" ||
+        parent.tag.property.name === "resolve"))
   );
+}
+
+/**
+ * Angular Components can have:
+ * - Inline HTML template
+ * - Inline CSS styles
+ *
+ * ...which are both within template literals somewhere
+ * inside of the Component decorator factory.
+ *
+ * E.g.
+ * @Component({
+ *  template: `<div>...</div>`,
+ *  styles: [`h1 { color: blue; }`]
+ * })
+ */
+function isAngularComponentStyles(path) {
+  return isPathMatch(
+    path,
+    [
+      node => node.type === "TemplateLiteral",
+      (node, name) => node.type === "ArrayExpression" && name === "elements",
+      (node, name) =>
+        node.type === "Property" &&
+        node.key.type === "Identifier" &&
+        node.key.name === "styles" &&
+        name === "value"
+    ].concat(getAngularComponentObjectExpressionPredicates())
+  );
+}
+function isAngularComponentTemplate(path) {
+  return isPathMatch(
+    path,
+    [
+      node => node.type === "TemplateLiteral",
+      (node, name) =>
+        node.type === "Property" &&
+        node.key.type === "Identifier" &&
+        node.key.name === "template" &&
+        name === "value"
+    ].concat(getAngularComponentObjectExpressionPredicates())
+  );
+}
+function getAngularComponentObjectExpressionPredicates() {
+  return [
+    (node, name) => node.type === "ObjectExpression" && name === "properties",
+    (node, name) =>
+      node.type === "CallExpression" &&
+      node.callee.type === "Identifier" &&
+      node.callee.name === "Component" &&
+      name === "arguments",
+    (node, name) => node.type === "Decorator" && name === "expression"
+  ];
 }
 
 /**
@@ -416,20 +510,8 @@ function isGraphQL(path) {
   const node = path.getValue();
   const parent = path.getParentNode();
 
-  // This checks for a leading comment that is exactly `/* GraphQL */`
-  // In order to be in line with other implementations of this comment tag
-  // we will not trim the comment value and we will expect exactly one space on
-  // either side of the GraphQL string
-  // Also see ./clean.js
-  const hasGraphQLComment =
-    node.leadingComments &&
-    node.leadingComments.some(
-      comment =>
-        comment.type === "CommentBlock" && comment.value === " GraphQL "
-    );
-
   return (
-    hasGraphQLComment ||
+    hasLanguageComment(node, "GraphQL") ||
     (parent &&
       ((parent.type === "TaggedTemplateExpression" &&
         ((parent.tag.type === "MemberExpression" &&
@@ -440,6 +522,138 @@ function isGraphQL(path) {
         (parent.type === "CallExpression" &&
           parent.callee.type === "Identifier" &&
           parent.callee.name === "graphql")))
+  );
+}
+
+function hasLanguageComment(node, languageName) {
+  // This checks for a leading comment that is exactly `/* GraphQL */`
+  // In order to be in line with other implementations of this comment tag
+  // we will not trim the comment value and we will expect exactly one space on
+  // either side of the GraphQL string
+  // Also see ./clean.js
+  return hasLeadingComment(
+    node,
+    comment => isBlockComment(comment) && comment.value === ` ${languageName} `
+  );
+}
+
+function isPathMatch(path, predicateStack) {
+  const stack = path.stack.slice();
+
+  let name = null;
+  let node = stack.pop();
+
+  for (const predicate of predicateStack) {
+    if (node === undefined) {
+      return false;
+    }
+
+    // skip index/array
+    if (typeof name === "number") {
+      name = stack.pop();
+      node = stack.pop();
+    }
+
+    if (!predicate(node, name)) {
+      return false;
+    }
+
+    name = stack.pop();
+    node = stack.pop();
+  }
+
+  return true;
+}
+
+/**
+ *     - html`...`
+ *     - HTML comment block
+ */
+function isHtml(path) {
+  const node = path.getValue();
+  return (
+    hasLanguageComment(node, "HTML") ||
+    isPathMatch(path, [
+      node => node.type === "TemplateLiteral",
+      (node, name) =>
+        node.type === "TaggedTemplateExpression" &&
+        node.tag.type === "Identifier" &&
+        node.tag.name === "html" &&
+        name === "quasi"
+    ])
+  );
+}
+
+// The counter is needed to distinguish nested embeds.
+let htmlTemplateLiteralCounter = 0;
+
+function printHtmlTemplateLiteral(
+  path,
+  print,
+  textToDoc,
+  parser,
+  escapeClosingScriptTag
+) {
+  const node = path.getValue();
+
+  const counter = htmlTemplateLiteralCounter;
+  htmlTemplateLiteralCounter = (htmlTemplateLiteralCounter + 1) >>> 0;
+
+  const composePlaceholder = index =>
+    `PRETTIER_HTML_PLACEHOLDER_${index}_${counter}_IN_JS`;
+
+  const text = node.quasis
+    .map((quasi, index, quasis) =>
+      index === quasis.length - 1
+        ? quasi.value.cooked
+        : quasi.value.cooked + composePlaceholder(index)
+    )
+    .join("");
+
+  const expressionDocs = path.map(print, "expressions");
+
+  if (expressionDocs.length === 0 && text.trim().length === 0) {
+    return "``";
+  }
+
+  const placeholderRegex = RegExp(composePlaceholder("(\\d+)"), "g");
+
+  const contentDoc = mapDoc(
+    stripTrailingHardline(textToDoc(text, { parser })),
+    doc => {
+      if (typeof doc !== "string") {
+        return doc;
+      }
+
+      const parts = [];
+
+      const components = doc.split(placeholderRegex);
+      for (let i = 0; i < components.length; i++) {
+        let component = components[i];
+
+        if (i % 2 === 0) {
+          if (component) {
+            component = uncook(component);
+            if (escapeClosingScriptTag) {
+              component = component.replace(/<\/(script)\b/gi, "<\\/$1");
+            }
+            parts.push(component);
+          }
+          continue;
+        }
+
+        const placeholderIndex = +component;
+        parts.push(
+          concat(["${", group(expressionDocs[placeholderIndex]), "}"])
+        );
+      }
+
+      return concat(parts);
+    }
+  );
+
+  return group(
+    concat(["`", indent(concat([hardline, group(contentDoc)])), softline, "`"])
   );
 }
 

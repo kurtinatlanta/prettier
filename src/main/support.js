@@ -17,7 +17,9 @@ function getSupportInfo(version, opts) {
   );
 
   if (!version) {
-    version = currentVersion;
+    // pre-release version is smaller than the normal version in semver,
+    // we need to treat it as the normal one so as to test new features.
+    version = currentVersion.split("-", 1)[0];
   }
 
   const plugins = opts.plugins;
@@ -73,15 +75,11 @@ function getSupportInfo(version, opts) {
     });
 
   const usePostCssParser = semver.lt(version, "1.7.1");
+  const useBabylonParser = semver.lt(version, "1.16.0");
 
   const languages = plugins
-    .reduce((all, plugin) => all.concat(plugin.languages), [])
-    .filter(
-      language =>
-        language.since
-          ? semver.gte(version, language.since)
-          : language.since !== null
-    )
+    .reduce((all, plugin) => all.concat(plugin.languages || []), [])
+    .filter(filterSince)
     .map(language => {
       // Prevent breaking changes
       if (language.name === "Markdown") {
@@ -95,7 +93,19 @@ function getSupportInfo(version, opts) {
         });
       }
 
-      if (usePostCssParser && language.group === "CSS") {
+      // "babylon" was renamed to "babel" in 1.16.0
+      if (useBabylonParser && language.parsers.indexOf("babel") !== -1) {
+        return Object.assign({}, language, {
+          parsers: language.parsers.map(parser =>
+            parser === "babel" ? "babylon" : parser
+          )
+        });
+      }
+
+      if (
+        usePostCssParser &&
+        (language.name === "CSS" || language.group === "CSS")
+      ) {
         return Object.assign({}, language, {
           parsers: ["postcss"]
         });

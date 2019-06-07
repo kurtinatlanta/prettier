@@ -1,9 +1,18 @@
 "use strict";
 
 const runPrettier = require("../runPrettier");
-const EOL = require("os").EOL;
+const EOL = "\n";
 
 describe("automatically loads 'prettier-plugin-*'", () => {
+  runPrettier("plugins/automatic", ["file.txt", "--parser=bar"]).test({
+    stdout: "bar+contents" + EOL,
+    stderr: "",
+    status: 0,
+    write: []
+  });
+});
+
+describe("automatically loads '@prettier/plugin-*'", () => {
   runPrettier("plugins/automatic", ["file.txt", "--parser=foo"]).test({
     stdout: "foo+contents" + EOL,
     stderr: "",
@@ -12,9 +21,9 @@ describe("automatically loads 'prettier-plugin-*'", () => {
   });
 });
 
-describe("automatically loads '@prettier/plugin-*'", () => {
-  runPrettier("plugins/automatic", ["file.txt", "--parser=bar"]).test({
-    stdout: "bar+contents" + EOL,
+describe("automatically loads '@<name>/prettier-plugin-*'", () => {
+  runPrettier("plugins/automatic", ["file.txt", "--parser=foobar"]).test({
+    stdout: "foobar+contents" + EOL,
     stderr: "",
     status: 0,
     write: []
@@ -41,6 +50,19 @@ describe("automatically loads '@prettier/plugin-*' from --plugin-search-dir (sam
     "--plugin-search-dir=."
   ]).test({
     stdout: "bar+contents" + EOL,
+    stderr: "",
+    status: 0,
+    write: []
+  });
+});
+
+describe("automatically loads '@<name>/prettier-plugin-*' from --plugin-search-dir (same as autoload dir)", () => {
+  runPrettier("plugins/automatic", [
+    "file.txt",
+    "--parser=foobar",
+    "--plugin-search-dir=."
+  ]).test({
+    stdout: "foobar+contents" + EOL,
     stderr: "",
     status: 0,
     write: []
@@ -74,11 +96,17 @@ describe("automatically loads '@prettier/plugin-*' from --plugin-search-dir (dif
 });
 
 describe("does not crash when --plugin-search-dir does not contain node_modules", () => {
-  runPrettier("plugins/extensions", [
-    "file.foo",
-    "--plugin=./plugin",
-    "--plugin-search-dir=."
-  ]).test({
+  runPrettier(
+    "plugins/extensions",
+    [
+      "file.foo",
+      "--end-of-line",
+      "lf",
+      "--plugin=./plugin",
+      "--plugin-search-dir=."
+    ],
+    { ignoreLineEndings: true }
+  ).test({
     stdout: "!contents" + EOL,
     stderr: "",
     status: 0,

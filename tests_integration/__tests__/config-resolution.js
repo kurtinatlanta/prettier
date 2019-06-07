@@ -3,24 +3,30 @@
 const path = require("path");
 
 const runPrettier = require("../runPrettier");
-const prettier = require("../../tests_config/require_prettier");
+const prettier = require("prettier/local");
 
 expect.addSnapshotSerializer(require("../path-serializer"));
 
 describe("resolves configuration from external files", () => {
-  runPrettier("cli/config/", ["**/*.js"]).test({
+  runPrettier("cli/config/", ["--end-of-line", "lf", "**/*.js"]).test({
     status: 0
   });
 });
 
 describe("resolves configuration from external files and overrides by extname", () => {
-  runPrettier("cli/config/", ["**/*.ts"]).test({
+  runPrettier("cli/config/", ["--end-of-line", "lf", "**/*.ts"]).test({
     status: 0
   });
 });
 
 describe("accepts configuration from --config", () => {
   runPrettier("cli/config/", ["--config", ".prettierrc", "./js/file.js"]).test({
+    status: 0
+  });
+});
+
+describe("resolves external configuration from package.json", () => {
+  runPrettier("cli/config/", ["external-config/index.js"]).test({
     status: 0
   });
 });
@@ -43,27 +49,44 @@ describe("resolves yaml configuration file with --find-config-path file", () => 
   });
 });
 
+describe("resolves toml configuration file with --find-config-path file", () => {
+  runPrettier("cli/config/", ["--find-config-path", "rc-toml/file.js"]).test({
+    status: 0
+  });
+});
+
 describe("prints nothing when no file found with --find-config-path", () => {
-  runPrettier("cli/config/", ["--find-config-path", ".."]).test({
+  runPrettier("cli/config/", [
+    "--end-of-line",
+    "lf",
+    "--find-config-path",
+    ".."
+  ]).test({
     stdout: "",
     status: 1
   });
 });
 
 describe("CLI overrides take precedence", () => {
-  runPrettier("cli/config/", ["--print-width", "1", "**/*.js"]).test({
+  runPrettier("cli/config/", [
+    "--end-of-line",
+    "lf",
+    "--print-width",
+    "1",
+    "**/*.js"
+  ]).test({
     status: 0
   });
 });
 
 test("API resolveConfig with no args", () => {
   return prettier.resolveConfig().then(result => {
-    expect(result).toBeNull();
+    expect(result).toEqual({});
   });
 });
 
 test("API resolveConfig.sync with no args", () => {
-  expect(prettier.resolveConfig.sync()).toBeNull();
+  expect(prettier.resolveConfig.sync()).toEqual({});
 });
 
 test("API resolveConfig with file arg", () => {
@@ -133,6 +156,16 @@ test("API resolveConfig.sync with file arg and .editorconfig", () => {
   });
 });
 
+test("API resolveConfig.sync with file arg and .editorconfig (key = unset)", () => {
+  const file = path.resolve(
+    path.join(__dirname, "../cli/config/editorconfig/tab_width=unset.js")
+  );
+
+  expect(
+    prettier.resolveConfig.sync(file, { editorconfig: true })
+  ).not.toMatchObject({ tabWidth: "unset" });
+});
+
 test("API resolveConfig with nested file arg and .editorconfig", () => {
   const file = path.resolve(
     path.join(__dirname, "../cli/config/editorconfig/lib/file.js")
@@ -199,6 +232,15 @@ test("API clearConfigCache", () => {
   expect(() => prettier.clearConfigCache()).not.toThrowError();
 });
 
+test("API resolveConfig overrides work with dotfiles", () => {
+  const folder = path.join(__dirname, "../cli/config/dot-overrides");
+  return expect(
+    prettier.resolveConfig(path.join(folder, ".foo.json"))
+  ).resolves.toMatchObject({
+    tabWidth: 4
+  });
+});
+
 test("API resolveConfig.sync overrides work with absolute paths", () => {
   // Absolute path
   const file = path.join(__dirname, "../cli/config/filepath/subfolder/file.js");
@@ -224,5 +266,22 @@ test("API resolveConfig.sync removes $schema option", () => {
   );
   expect(prettier.resolveConfig.sync(file)).toEqual({
     tabWidth: 42
+  });
+});
+
+test("API resolveConfig resolves relative path values based on config filepath", () => {
+  const currentDir = path.join(__dirname, "../cli/config/resolve-relative");
+  const parentDir = path.resolve(currentDir, "..");
+  expect(prettier.resolveConfig.sync(`${currentDir}/index.js`)).toMatchObject({
+    plugins: [path.join(parentDir, "path-to-plugin")],
+    pluginSearchDirs: [path.join(parentDir, "path-to-plugin-search-dir")]
+  });
+});
+
+test("API resolveConfig de-references to an external module", () => {
+  const currentDir = path.join(__dirname, "../cli/config/external-config");
+  expect(prettier.resolveConfig.sync(`${currentDir}/index.js`)).toEqual({
+    printWidth: 77,
+    semi: false
   });
 });
