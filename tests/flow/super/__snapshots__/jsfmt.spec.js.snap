@@ -216,6 +216,7 @@ class H extends A {
   y: number;
   constructor() {
     if (Math.random() < 0.5) super();
+
     else super();
     this.y; // OK
     this.x; // OK

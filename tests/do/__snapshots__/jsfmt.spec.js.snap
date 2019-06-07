@@ -65,6 +65,7 @@ function foo() {
 const envSpecific = {
   domain: do {
     if (env === "production") "https://abc.mno.com/";
+
     else if (env === "development") "http://localhost:4000";
   }
 };
@@ -77,9 +78,11 @@ let x = do {
 let x = do {
   if (foo()) {
     f();
-  } else if (bar()) {
+  }
+  else if (bar()) {
     g();
-  } else {
+  }
+  else {
     h();
   }
 };
@@ -91,7 +94,8 @@ function foo() {
       {do {
         if (loggedIn) {
           <LogoutButton />;
-        } else {
+        }
+        else {
           <LoginButton />;
         }
       }}

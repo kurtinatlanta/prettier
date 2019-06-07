@@ -25,7 +25,8 @@ function foo(x: ?string): $NonMaybeType<?string> {
 function foo(x: ?string): $NonMaybeType<?string> {
   if (x != null) {
     return x;
-  } else return 0; // this should be an error
+  }
+  else return 0; // this should be an error
 }
 
 //(foo(): string); // should not be necessary to expose the error above
@@ -65,6 +66,7 @@ type Obj_Prop_x = $PropertyType<Obj, "x">;
 
 function foo(o: Obj): $PropertyType<Obj, "x"> {
   if (false) return o.x;
+
   else return 0;
 }
 

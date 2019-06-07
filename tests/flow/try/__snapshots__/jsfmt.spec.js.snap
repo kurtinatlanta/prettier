@@ -32,7 +32,8 @@ function foo() {
  */
 function foo() {
   try {
-  } catch (error) {
+  }
+  catch (error) {
     if (error.foo === 4) {
       throw error;
     }
@@ -218,13 +219,15 @@ function f() {
   try {
     var x: number = 0;
     var y: number = x;
-  } catch (e) {}
+  }
+  catch (e) {}
 }
 
 // and within catch
 function f() {
   try {
-  } catch (e) {
+  }
+  catch (e) {
     var x: number = 0;
     var y: number = x;
   }
@@ -235,7 +238,8 @@ function f() {
   try {
     might_throw();
     var x: number = 0;
-  } catch (e) {
+  }
+  catch (e) {
     var y: number = x; // error
   }
 }
@@ -245,7 +249,8 @@ function f() {
   try {
     might_throw();
     var x: number = 0;
-  } finally {
+  }
+  finally {
     var y: number = x; // error
   }
 }
@@ -253,9 +258,11 @@ function f() {
 // or catch/finally
 function f() {
   try {
-  } catch (e) {
+  }
+  catch (e) {
     var x: number = 0;
-  } finally {
+  }
+  finally {
     var y: number = x; // error
   }
 }
@@ -264,10 +271,12 @@ function f() {
 function f() {
   try {
     var x: number = 0;
-  } catch (e) {
+  }
+  catch (e) {
     might_throw();
     var x: number = 0;
-  } finally {
+  }
+  finally {
     var y: number = x; // error
   }
 }
@@ -276,7 +285,8 @@ function f() {
 function f() {
   try {
     var x: number = 0;
-  } catch (e) {
+  }
+  catch (e) {
     might_throw(); // ...but if so, suffix is not reached
     var x: number = 0;
   }
@@ -286,8 +296,10 @@ function f() {
 // and here
 function f() {
   try {
-  } catch (e) {
-  } finally {
+  }
+  catch (e) {
+  }
+  finally {
     might_throw(); // ...but if so, suffix is not reached
     var x: number = 0;
   }
@@ -298,8 +310,10 @@ function f() {
 function f() {
   try {
     var x: number;
-  } catch (e) {
-  } finally {
+  }
+  catch (e) {
+  }
+  finally {
     might_throw(); // ...but if so, suffix is not reached
     x = 0;
   }
@@ -309,9 +323,11 @@ function f() {
 // and here, thank you JS for the wonder that is hoisting
 function f() {
   try {
-  } catch (e) {
+  }
+  catch (e) {
     var x: number;
-  } finally {
+  }
+  finally {
     might_throw(); // ...but if so, suffix is not reached
     x = 0;
   }
@@ -323,21 +339,24 @@ function f() {
   var y: number = x; // error
   try {
     var x: number = 0;
-  } catch (e) {}
+  }
+  catch (e) {}
 }
 
 // another non-dominated post
 function f() {
   try {
     var x: number = 0;
-  } catch (e) {}
+  }
+  catch (e) {}
   var y: number = x; // error
 }
 
 // ditto
 function f() {
   try {
-  } catch (e) {
+  }
+  catch (e) {
     var x: number = 0;
   }
   var y: number = x; // error
@@ -351,7 +370,8 @@ function f(b) {
       throw new Error();
     }
     x = 0;
-  } catch (e) {}
+  }
+  catch (e) {}
   var y: number = x; // error
 }
 
@@ -437,7 +457,8 @@ function corge(): string {
 
 function foo(x: ?number): string {
   try {
-  } catch (e) {
+  }
+  catch (e) {
     return "bar";
   }
   console.log();
@@ -447,7 +468,8 @@ function foo(x: ?number): string {
 function bar(): string {
   try {
     return "foo";
-  } catch (e) {
+  }
+  catch (e) {
     return "bar";
   }
 }
@@ -455,7 +477,8 @@ function bar(): string {
 function baz(): string {
   try {
     throw new Error("foo");
-  } catch (e) {
+  }
+  catch (e) {
     return "foo";
   }
   return "bar"; // unreachable
@@ -464,7 +487,8 @@ function baz(): string {
 function qux(): string {
   try {
     throw new Error("foo");
-  } catch (e) {}
+  }
+  catch (e) {}
   console.log();
   return "bar";
 }
@@ -472,16 +496,19 @@ function qux(): string {
 function quux(): string {
   try {
     return qux();
-  } catch (e) {}
+  }
+  catch (e) {}
   return "bar";
 }
 
 function bliffl(): string {
   try {
     throw new Error("foo");
-  } catch (e) {
+  }
+  catch (e) {
     return "foo";
-  } finally {
+  }
+  finally {
     return "bar";
   }
 }
@@ -489,7 +516,8 @@ function bliffl(): string {
 function corge(): string {
   try {
     return "foo";
-  } catch (e) {
+  }
+  catch (e) {
     throw new Error("bar");
   }
   bar(); // unreachable
@@ -558,10 +586,12 @@ function foo() {
   var y;
   try {
     x = "";
-  } catch (e) {
+  }
+  catch (e) {
     x = false;
     throw -1;
-  } finally {
+  }
+  finally {
     y = {};
   }
   // here via [try; finally] only.
@@ -573,7 +603,8 @@ function bar(response) {
   var payload;
   try {
     payload = JSON.parse(response);
-  } catch (e) {
+  }
+  catch (e) {
     throw new Error("...");
   }
   // here via [try] only.
@@ -587,7 +618,8 @@ function qux() {
   var x = 5;
   try {
     throw -1;
-  } finally {
+  }
+  finally {
   }
   x(); // unreachable
 }
