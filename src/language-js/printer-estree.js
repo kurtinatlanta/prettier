@@ -4404,11 +4404,8 @@ function printFunctionDeclaration(path, print, options) {
     parts.push("*");
   }
 
-  // Always put a space after the function keyword
-  parts.push(" ");
-
   if (n.id) {
-    parts.push(path.call(print, "id"));
+    parts.push(" ", path.call(print, "id"));
   }
 
   parts.push(
