@@ -1740,6 +1740,7 @@ function printPathNoParens(path, options, print, args) {
         ])
       );
     case "IfStatement": {
+      console.log(`if statement consequent ${JSON.stringify(n.consequent)}`);
       const con = adjustClause(n.consequent, path.call(print, "consequent"));
       const opening = group(
         concat([
@@ -1948,7 +1949,9 @@ function printPathNoParens(path, options, print, args) {
         "try ",
         path.call(print, "block"),
         n.handler ? concat([" ", path.call(print, "handler")]) : "",
-        n.finalizer ? concat([hardline, "finally ", path.call(print, "finalizer")]) : ""
+        n.finalizer
+          ? concat([hardline, "finally ", path.call(print, "finalizer")])
+          : ""
       ]);
     case "CatchClause":
       if (n.param) {
