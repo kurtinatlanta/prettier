@@ -90,7 +90,8 @@ var tests = [
 
   function () {
     if (x == null) {
-    } else {
+    }
+    else {
       var y: string = x; // ok
     }
   },
@@ -102,7 +103,8 @@ var tests = [
 
   function () {
     if (!(x != null)) {
-    } else {
+    }
+    else {
       var y: string = x; // ok
     }
   },
@@ -124,7 +126,8 @@ var tests = [
 
   function () {
     if (x != null) {
-    } else {
+    }
+    else {
       var y: string = x; // not ok
     }
   },
@@ -402,7 +405,8 @@ var tests = [
   function () {
     var x: { p: ?string } = { p: "xxx" };
     if (x.p == null) {
-    } else {
+    }
+    else {
       var y: string = x.p; // ok
     }
   },
@@ -416,7 +420,8 @@ var tests = [
   function () {
     var x: { p: ?string } = { p: "xxx" };
     if (!(x.p != null)) {
-    } else {
+    }
+    else {
       var y: string = x.p; // ok
     }
   },
@@ -447,7 +452,8 @@ var tests = [
   function () {
     var x: { p: ?string } = { p: "xxx" };
     if (x.p != null) {
-    } else {
+    }
+    else {
       var y: string = x.p; // not ok
     }
   },
@@ -466,7 +472,8 @@ var tests = [
     var x: { p: string | string[] } = { p: ["xxx"] };
     if (Array.isArray(x.p)) {
       var y: string[] = x.p; // ok
-    } else {
+    }
+    else {
       var z: string = x.p; // ok
     }
   },
@@ -482,7 +489,8 @@ var tests = [
   function () {
     var x: { y: ?string } = { y: null };
     if (x.y) {
-    } else {
+    }
+    else {
       x.y = "foo";
     }
     (x.y: string);
@@ -500,7 +508,8 @@ var tests = [
     var x: { y: ?string } = { y: null };
     if (x.y) {
       x.y = "foo";
-    } else {
+    }
+    else {
       x.y = "bar";
     }
     (x.y: string);
@@ -518,7 +527,8 @@ var tests = [
     var x: { y: string | number | boolean } = { y: false };
     if (typeof x.y == "number") {
       x.y = "foo";
-    } else if (typeof x.y == "boolean") {
+    }
+    else if (typeof x.y == "boolean") {
       x.y = "bar";
     }
     (x.y: boolean); // error, string
@@ -566,7 +576,8 @@ var tests = [
     var z: string = "foo";
     if (x.y) {
       x.y = z;
-    } else {
+    }
+    else {
       x.y = z;
     }
     (x.y: string);
@@ -696,7 +707,8 @@ function try_scope(x: string | number) {
   try {
     let x;
     x = ""; // doesn't refine outer x
-  } catch (e) {
+  }
+  catch (e) {
     x = ""; // refinement would only escape if both sides refined
   }
   (x: string); // error: number ~> string
@@ -705,7 +717,8 @@ function try_scope(x: string | number) {
 function try_scope_catch(x: string | number) {
   try {
     x = ""; // refinement would only escape if both sides refined
-  } catch (e) {
+  }
+  catch (e) {
     let x;
     x = ""; // doesn't refine outer x
   }
@@ -823,7 +836,8 @@ var paths = [
   function () {
     var x: ?string = "xxx";
     if (x == null) {
-    } else {
+    }
+    else {
       var y: string = x; // ok
     }
   },
@@ -837,7 +851,8 @@ var paths = [
   function () {
     var x: ?string = "xxx";
     if (!(x != null)) {
-    } else {
+    }
+    else {
       var y: string = x; // ok
     }
   },
@@ -860,7 +875,8 @@ var paths = [
   function () {
     var x: ?string = "xxx";
     if (x != null) {
-    } else {
+    }
+    else {
       var y: string = x; // not ok
     }
   },
@@ -879,7 +895,8 @@ var paths = [
     var x: string | string[] = ["xxx"];
     if (Array.isArray(x)) {
       var y: string[] = x; // ok
-    } else {
+    }
+    else {
       var z: string = x; // ok
     }
   },
@@ -1092,7 +1109,8 @@ var null_tests = [
   function () {
     var x: ?string = "xxx";
     if (x == null) {
-    } else {
+    }
+    else {
       var y: string = x; // ok
     }
   },
@@ -1100,7 +1118,8 @@ var null_tests = [
   function () {
     var x: { p: ?string } = { p: "xxx" };
     if (x.p == null) {
-    } else {
+    }
+    else {
       var y: string = x.p; // ok
     }
   },
@@ -1108,7 +1127,8 @@ var null_tests = [
   function () {
     var x: { p: { q: ?string } } = { p: { q: "xxx" } };
     if (x.p.q == null) {
-    } else {
+    }
+    else {
       var y: string = x.p.q; // ok
     }
   },
@@ -1139,7 +1159,8 @@ var null_tests = [
   function () {
     var x: ?string = "xxx";
     if (x === null) {
-    } else {
+    }
+    else {
       var y: string | void = x; // ok
     }
   },
@@ -1147,7 +1168,8 @@ var null_tests = [
   function () {
     var x: { p: ?string } = { p: "xxx" };
     if (x.p === null) {
-    } else {
+    }
+    else {
       var y: string | void = x.p; // ok
     }
   },
@@ -1155,7 +1177,8 @@ var null_tests = [
   function () {
     var x: { p: { q: ?string } } = { p: { q: "xxx" } };
     if (x.p.q === null) {
-    } else {
+    }
+    else {
       var y: string | void = x.p.q; // ok
     }
   },
@@ -1167,6 +1190,7 @@ class C {
 
   ensure0(): string {
     if (this.p != null) return this.p;
+
     else return "";
   }
 
@@ -1177,6 +1201,7 @@ class C {
 
   ensure2(): string | void {
     if (this.p !== null) return this.p;
+
     else return "";
   }
 
@@ -1190,11 +1215,13 @@ class C {
 class D extends C {
   ensure100(): string {
     if (super.p != null) return super.p;
+
     else return "";
   }
 
   ensure101(): string {
     if (super.p == null) return "";
+
     else return super.p;
   }
 
@@ -1520,7 +1547,8 @@ var null_tests = [
   function () {
     var x: ?string = "xxx";
     if (typeof x != "string") {
-    } else {
+    }
+    else {
       var y: string = x; // ok
     }
   },
@@ -1528,7 +1556,8 @@ var null_tests = [
   function () {
     var x: { p: ?string } = { p: "xxx" };
     if (typeof x.p != "string") {
-    } else {
+    }
+    else {
       var y: string = x.p; // ok
     }
   },
@@ -1536,7 +1565,8 @@ var null_tests = [
   function () {
     var x: { p: { q: ?string } } = { p: { q: "xxx" } };
     if (typeof x.p.q != "string") {
-    } else {
+    }
+    else {
       var y: string = x.p.q; // ok
     }
   },
@@ -1567,7 +1597,8 @@ var null_tests = [
   function () {
     var x: ?string = "xxx";
     if (typeof x !== "string") {
-    } else {
+    }
+    else {
       var y: string = x; // ok
     }
   },
@@ -1575,7 +1606,8 @@ var null_tests = [
   function () {
     var x: { p: ?string } = { p: "xxx" };
     if (typeof x.p !== "string") {
-    } else {
+    }
+    else {
       var y: string = x.p; // ok
     }
   },
@@ -1583,7 +1615,8 @@ var null_tests = [
   function () {
     var x: { p: { q: ?string } } = { p: { q: "xxx" } };
     if (typeof x.p.q !== "string") {
-    } else {
+    }
+    else {
       var y: string = x.p.q; // ok
     }
   },
@@ -1595,21 +1628,25 @@ class A {
 
   ensure0(): string {
     if (typeof this.p == "string") return this.p;
+
     else return "";
   }
 
   ensure1(): string {
     if (typeof this.p != "string") return "";
+
     else return this.p;
   }
 
   ensure2(): string | void {
     if (typeof this.p === "string") return this.p;
+
     else return "";
   }
 
   ensure3(): string | void {
     if (typeof this.p !== "string") return "";
+
     else return this.p;
   }
 }
@@ -1735,7 +1772,8 @@ var undef_tests = [
   function () {
     var x: ?string = "xxx";
     if (x === undefined || x === null) {
-    } else {
+    }
+    else {
       var y: string = x; // ok
     }
   },
@@ -1743,7 +1781,8 @@ var undef_tests = [
   function () {
     var x: { p: ?string } = { p: "xxx" };
     if (x.p === undefined || x.p === null) {
-    } else {
+    }
+    else {
       var y: string = x.p; // ok
     }
   },
@@ -1751,7 +1790,8 @@ var undef_tests = [
   function () {
     var x: { p: { q: ?string } } = { p: { q: "xxx" } };
     if (x.p.q === undefined || x.p.q === null) {
-    } else {
+    }
+    else {
       var y: string = x.p.q; // ok
     }
   },
@@ -1763,11 +1803,13 @@ class A {
 
   ensure0(): string {
     if (this.p !== undefined && this.p !== null) return this.p;
+
     else return "";
   }
 
   ensure1(): string {
     if (this.p === undefined || this.p === null) return "";
+
     else return this.p;
   }
 }
@@ -1893,7 +1935,8 @@ var void_tests = [
   function () {
     var x: ?string = "xxx";
     if (x === void 0 || x === null) {
-    } else {
+    }
+    else {
       var y: string = x; // ok
     }
   },
@@ -1901,7 +1944,8 @@ var void_tests = [
   function () {
     var x: { p: ?string } = { p: "xxx" };
     if (x.p === void 0 || x.p === null) {
-    } else {
+    }
+    else {
       var y: string = x.p; // ok
     }
   },
@@ -1909,7 +1953,8 @@ var void_tests = [
   function () {
     var x: { p: { q: ?string } } = { p: { q: "xxx" } };
     if (x.p.q === void 0 || x.p.q === null) {
-    } else {
+    }
+    else {
       var y: string = x.p.q; // ok
     }
   },
@@ -1921,11 +1966,13 @@ class A {
 
   ensure0(): string {
     if (this.p !== void 0 && this.p !== null) return this.p;
+
     else return "";
   }
 
   ensure1(): string {
     if (this.p === void 0 || this.p === null) return "";
+
     else return this.p;
   }
 }

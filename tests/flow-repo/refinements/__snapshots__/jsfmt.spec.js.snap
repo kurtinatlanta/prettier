@@ -360,7 +360,8 @@ let tests = [
     function testAlwaysTruthyProp(t: T) {
       if (t.foo) {
         (t.bar: string); // error, consider { baz: "x", quux: "y", foo: "boom" }
-      } else {
+      }
+      else {
         (t.quux: string); // ok. since foo is an object (always truthy), the
         // else case completely rules out the first branch of
         // the union.
@@ -370,7 +371,8 @@ let tests = [
     function testSometimesTruthyProp(t: T) {
       if (t.bar) {
         (t.foo: Object); // error, consider { baz: "x", quux: "y", bar: "boom" }
-      } else {
+      }
+      else {
         (t.quux: string); // error, consider { foo: {}, bar: "" }
       }
     }
@@ -740,10 +742,12 @@ function def_assign_within_try(b: boolean, obj: Obj) {
   try {
     f(); // clears refi and might throw
     obj.p = "hey";
-  } catch (e) {
+  }
+  catch (e) {
     f(); // clears refi and might throw
     obj.p = "hey";
-  } finally {
+  }
+  finally {
     // NOTE: the values understood to flow to obj.p at this point
     // include the number 42 written downstream;
     // so if we did y:string, we would get at least a spurious error
@@ -887,7 +891,8 @@ function foo4(o: $Exact<{ x: number }>) {
   if (o.p4) {
     // OK
     o.p4.x; // currently OK, should be unreachable
-  } else {
+  }
+  else {
     o.p4.x; // error
   }
 }
@@ -1554,7 +1559,8 @@ let tests = [
   function (x: { kind: 0, foo: number } | { kind: 1, bar: number }): number {
     if (x.kind === 0) {
       return x.foo;
-    } else {
+    }
+    else {
       return x.bar;
     }
   },
@@ -1581,7 +1587,8 @@ let tests = [
   function (s: number): ?Mode {
     if (s === 0) {
       return s;
-    } else if (s === 3) {
+    }
+    else if (s === 3) {
       return s; // error
     }
   },
@@ -1602,7 +1609,8 @@ let tests = [
   function (x: number): 0 {
     if (x) {
       return x; // error
-    } else {
+    }
+    else {
       return x; // no error, inferred to be 0
     }
   },
@@ -1900,10 +1908,12 @@ function qux() {
   try {
     maybe_throw();
     x = "hello";
-  } catch (e) {
+  }
+  catch (e) {
     maybe_throw();
     x = "hello";
-  } finally {
+  }
+  finally {
     // NOTE: the values understood to flow to x at this point
     // include the number 42 written downstream;
     // so if we did y:string, we would get at least a spurious error
@@ -2171,7 +2181,8 @@ let tests = [
   ): string {
     if (x.kind === "foo") {
       return x.foo;
-    } else {
+    }
+    else {
       return x.bar;
     }
   },
@@ -2199,7 +2210,8 @@ let tests = [
   function (s: string): ?Mode {
     if (s === "a") {
       return s;
-    } else if (s === "d") {
+    }
+    else if (s === "d") {
       return s; // error
     }
   },
@@ -2220,7 +2232,8 @@ let tests = [
   function (x: string): "" {
     if (x) {
       return x; // error
-    } else {
+    }
+    else {
       return x; // no error, inferred to be ""
     }
   },
@@ -2712,7 +2725,8 @@ type ListType = { kind: "ListType", name: string };
 function getTypeASTName(typeAST: Type): string {
   if (typeAST.kind === "Name") {
     return typeAST.value; // OK, since typeAST: Name
-  } else {
+  }
+  else {
     return typeAST.name; // OK, since typeAST: ListType
   }
 }
@@ -2739,6 +2753,7 @@ function bar(x: Breakfast) {
   if (x.kind === "Fruit") {
     (x.taste: "Good");
   } // error, Apple.taste = Bad
+
   else (x.raw: "No"); // error, Carrot.raw = Maybe
 }
 
@@ -2790,6 +2805,7 @@ type Citizen = { citizen: true };
 type NonCitizen = { citizen: false, nationality: string };
 function nationality(x: Citizen | NonCitizen) {
   if (x.citizen) return "Shire";
+
   else return x.nationality;
 }
 
@@ -2902,14 +2918,16 @@ let tests = [
     if (x.foo === 123) {
       (x.y: string);
       x.z; // error
-    } else {
+    }
+    else {
       (x.z: string);
       x.y; // error
     }
     if (x.foo === "foo") {
       (x.z: string);
       x.y; // error
-    } else {
+    }
+    else {
       (x.y: string);
       x.z; // error
     }
@@ -2920,7 +2938,8 @@ let tests = [
     if (x.foo === 123) {
       (x.y: string); // ok, because 123 !== 'foo'
       x.z; // error
-    } else {
+    }
+    else {
       x.y; // error: x.foo could be a string
       x.z; // error: could still be either case (if foo was a different number)
     }
@@ -2928,7 +2947,8 @@ let tests = [
     if (x.foo === "foo") {
       (x.z: string);
       x.y; // error
-    } else {
+    }
+    else {
       (x.y: string);
       x.z; // error
     }
@@ -2939,7 +2959,8 @@ let tests = [
     if (x.foo === 123) {
       (x.y: string); // ok, because 123 !== string
       x.z; // error
-    } else {
+    }
+    else {
       x.y; // error: x.foo could be a string
       x.z; // error: could still be either case (if foo was a different number)
     }
@@ -2947,7 +2968,8 @@ let tests = [
     if (x.foo === "foo") {
       (x.z: string);
       x.y; // error
-    } else {
+    }
+    else {
       x.y; // error: x.foo could be a different string
       x.z; // error: x.foo could be a number
     }
@@ -2969,14 +2991,16 @@ let tests = [
     if (x.foo === null) {
       (x.y: string);
       x.z; // error
-    } else {
+    }
+    else {
       (x.z: string);
       x.y; // error
     }
     if (x.foo === "foo") {
       (x.z: string);
       x.y; // error
-    } else {
+    }
+    else {
       (x.y: string);
       x.z; // error
     }
@@ -2987,14 +3011,16 @@ let tests = [
     if (x.foo === undefined) {
       (x.y: string);
       x.z; // error
-    } else {
+    }
+    else {
       (x.z: string);
       x.y; // error
     }
     if (x.foo === "foo") {
       (x.z: string);
       x.y; // error
-    } else {
+    }
+    else {
       (x.y: string);
       x.z; // error
     }
@@ -3300,7 +3326,8 @@ function undef_var(x: ?number) {
 
 function undef_var_rev(x: ?number) {
   if (x === null || x === undefined) {
-  } else {
+  }
+  else {
     var y = x * 1000;
   }
 }
@@ -3313,7 +3340,8 @@ function undef_prop(x: { x: ?number }) {
 
 function undef_prop_rev(x: { x: ?number }) {
   if (x.x === null || x.x === undefined) {
-  } else {
+  }
+  else {
     var y = x.x * 1000;
   }
 }
@@ -3326,7 +3354,8 @@ function undef_var_fail(x: ?number) {
 
 function undef_var_fail_rev(x: ?number) {
   if (x === undefined) {
-  } else {
+  }
+  else {
     var y = x * 1000;
   }
 }
@@ -3339,7 +3368,8 @@ function undef_prop_fail(x: { x: ?number }) {
 
 function undef_prop_fail_rev(x: { x: ?number }) {
   if (x.x === undefined) {
-  } else {
+  }
+  else {
     var y = x.x * 1000;
   }
 }
@@ -3541,7 +3571,8 @@ function void_var(x: ?number) {
 
 function void_var_rev(x: ?number) {
   if (x === null || x === void 0) {
-  } else {
+  }
+  else {
     var y = x * 1000;
   }
 }
@@ -3554,7 +3585,8 @@ function void_pro(x: { x: ?number }) {
 
 function void_pro_rev(x: { x: ?number }) {
   if (x.x === null || x.x === void 0) {
-  } else {
+  }
+  else {
     var y = x.x * 1000;
   }
 }
@@ -3567,7 +3599,8 @@ function void_var_fail(x: ?number) {
 
 function void_var_fail_rev(x: ?number) {
   if (x === void 0) {
-  } else {
+  }
+  else {
     var y = x * 1000;
   }
 }
@@ -3580,7 +3613,8 @@ function void_pro_fail(x: { x: ?number }) {
 
 function void_pro_fail_rev(x: { x: ?number }) {
   if (x.x === void 0) {
-  } else {
+  }
+  else {
     var y = x.x * 1000;
   }
 }
@@ -3593,7 +3627,8 @@ function void_var_side_effect(x: ?number) {
 
 function void_var_side_effect_rev(x: ?number) {
   if (x === null || x === void (x * 1000)) {
-  } else {
+  }
+  else {
     var y = x * 1000;
   }
 }
@@ -3606,7 +3641,8 @@ function void_prop_side_effect(x: { x: ?number }) {
 
 function void_prop_side_effect_rev(x: { x: ?number }) {
   if (x.x === null || x.x === void (x.x * 1000)) {
-  } else {
+  }
+  else {
     var y = x.x * 1000;
   }
 }

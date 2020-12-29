@@ -112,6 +112,7 @@ function x(b) {
 function consumer1(b) {
   var g = x(b);
   if (g instanceof X2) g.foo = "1337";
+
   else g.foo = 1337;
 }
 
@@ -135,6 +136,7 @@ function y(b) {
 function consumer3(b) {
   var g = y(b);
   if (g.bar instanceof X2) g.bar.foo = "1337";
+
   else g.bar.foo = 1337;
 }
 
@@ -158,6 +160,7 @@ function z(b) {
 function consumer5(b) {
   var g = z(b);
   if (g.baz.bar instanceof X2) g.baz.bar.foo = "1337";
+
   else g.baz.bar.foo = 1337;
 }
 
@@ -170,6 +173,7 @@ function consumer6(b) {
 class C {
   m() {
     if (this instanceof D) alert(this.s);
+
     else alert("nope");
   }
 }
@@ -185,7 +189,8 @@ class D extends C {
 function foo0(x: Array<number> | number) {
   if (x instanceof Array) {
     x[0] = 123;
-  } else {
+  }
+  else {
     x++;
   }
 }
@@ -193,7 +198,8 @@ function foo0(x: Array<number> | number) {
 function foo1(x: Array<number> | number) {
   if (x instanceof Array) {
     x++; // error
-  } else {
+  }
+  else {
     x[0] = 123; // error
   }
 }

@@ -640,9 +640,11 @@ function try_scope() {
   let a: number = 0;
   try {
     let a = ""; // ok
-  } catch (e) {
+  }
+  catch (e) {
     let a = ""; // ok
-  } finally {
+  }
+  finally {
     let a = ""; // ok
   }
 }
