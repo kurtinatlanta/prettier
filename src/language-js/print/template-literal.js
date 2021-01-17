@@ -3,7 +3,6 @@
 const { getStringWidth, getIndentSize } = require("../../common/util");
 const {
   builders: {
-    concat,
     join,
     hardline,
     softline,
@@ -93,7 +92,7 @@ function printTemplateLiteral(path, print, options) {
           expression.type === "TSAsExpression" ||
           isBinaryish(expression)
         ) {
-          printed = concat([indent(concat([softline, printed])), softline]);
+          printed = [indent([softline, printed]), softline];
         }
       }
 
@@ -102,13 +101,13 @@ function printTemplateLiteral(path, print, options) {
           ? align(Number.NEGATIVE_INFINITY, printed)
           : addAlignmentToDoc(printed, indentSize, tabWidth);
 
-      parts.push(group(concat(["${", aligned, lineSuffixBoundary, "}"])));
+      parts.push(group(["${", aligned, lineSuffixBoundary, "}"]));
     }
   }, "quasis");
 
   parts.push("`");
 
-  return concat(parts);
+  return parts;
 }
 
 function printJestEachTemplateLiteral(path, options, print) {
@@ -122,7 +121,7 @@ function printJestEachTemplateLiteral(path, options, print) {
   const headerNames = node.quasis[0].value.raw.trim().split(/\s*\|\s*/);
   if (
     headerNames.length > 1 ||
-    headerNames.some((headerName) => headerName.length !== 0)
+    headerNames.some((headerName) => headerName.length > 0)
   ) {
     options.__inJestEach = true;
     const expressions = path.map(print, "expressions");
@@ -162,7 +161,7 @@ function printJestEachTemplateLiteral(path, options, print) {
     const maxColumnWidths = Array.from({ length: maxColumnCount }).fill(0);
     const table = [
       { cells: headerNames },
-      ...tableBody.filter((row) => row.cells.length !== 0),
+      ...tableBody.filter((row) => row.cells.length > 0),
     ];
     for (const { cells } of table.filter((row) => !row.hasLineBreak)) {
       cells.forEach((cell, index) => {
@@ -176,29 +175,27 @@ function printJestEachTemplateLiteral(path, options, print) {
     parts.push(
       lineSuffixBoundary,
       "`",
-      indent(
-        concat([
+      indent([
+        hardline,
+        join(
           hardline,
-          join(
-            hardline,
-            table.map((row) =>
-              join(
-                " | ",
-                row.cells.map((cell, index) =>
-                  row.hasLineBreak
-                    ? cell
-                    : cell +
-                      " ".repeat(maxColumnWidths[index] - getStringWidth(cell))
-                )
+          table.map((row) =>
+            join(
+              " | ",
+              row.cells.map((cell, index) =>
+                row.hasLineBreak
+                  ? cell
+                  : cell +
+                    " ".repeat(maxColumnWidths[index] - getStringWidth(cell))
               )
             )
-          ),
-        ])
-      ),
+          )
+        ),
+      ]),
       hardline,
       "`"
     );
-    return concat(parts);
+    return parts;
   }
 }
 
@@ -206,9 +203,9 @@ function printTemplateExpression(path, print) {
   const node = path.getValue();
   let printed = print(path);
   if (hasComment(node)) {
-    printed = group(concat([indent(concat([softline, printed])), softline]));
+    printed = group([indent([softline, printed]), softline]);
   }
-  return concat(["${", printed, lineSuffixBoundary, "}"]);
+  return ["${", printed, lineSuffixBoundary, "}"];
 }
 
 function printTemplateExpressions(path, print) {

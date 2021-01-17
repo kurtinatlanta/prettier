@@ -4,7 +4,6 @@
 
 const {
   builders: {
-    concat,
     dedent,
     dedentToRoot,
     fill,
@@ -14,6 +13,7 @@ const {
     literalline,
     markAsRoot,
   },
+  utils: { getDocParts },
 } = require("../../document");
 const {
   getAncestorCount,
@@ -55,7 +55,7 @@ function printBlock(path, print, options) {
     if (index === 0) {
       contentsParts.push(hardline);
     }
-    contentsParts.push(fill(join(line, lineWords).parts));
+    contentsParts.push(fill(getDocParts(join(line, lineWords))));
     if (index !== lineContents.length - 1) {
       contentsParts.push(
         lineWords.length === 0 ? hardline : markAsRoot(literalline)
@@ -67,18 +67,16 @@ function printBlock(path, print, options) {
     }
   }
   if (node.indent === null) {
-    parts.push(
-      dedent(alignWithSpaces(options.tabWidth, concat(contentsParts)))
-    );
+    parts.push(dedent(alignWithSpaces(options.tabWidth, contentsParts)));
   } else {
     parts.push(
       dedentToRoot(
-        alignWithSpaces(node.indent - 1 + parentIndent, concat(contentsParts))
+        alignWithSpaces(node.indent - 1 + parentIndent, contentsParts)
       )
     );
   }
 
-  return concat(parts);
+  return parts;
 }
 
 module.exports = printBlock;

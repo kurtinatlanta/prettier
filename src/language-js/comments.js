@@ -459,7 +459,7 @@ function handleMethodNameComments({
     precedingNode.type === "Decorator" &&
     (enclosingNode.type === "ClassMethod" ||
       enclosingNode.type === "ClassProperty" ||
-      enclosingNode.type === "FieldDefinition" ||
+      enclosingNode.type === "PropertyDefinition" ||
       enclosingNode.type === "TSAbstractClassProperty" ||
       enclosingNode.type === "TSAbstractMethodDefinition" ||
       enclosingNode.type === "TSDeclareMethod" ||
@@ -582,7 +582,7 @@ function handleLastFunctionArgComments({
   ) {
     const functionParamRightParenIndex = (() => {
       const parameters = getFunctionParameters(enclosingNode);
-      if (parameters.length !== 0) {
+      if (parameters.length > 0) {
         return getNextNonSpaceNonCommentCharacterIndexWithStartIndex(
           text,
           locEnd(getLast(parameters))
