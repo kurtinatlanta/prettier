@@ -61,16 +61,13 @@ tabWidth: 4
                                                                                 | printWidth
 =====================================input======================================
 key1: &default
-
   subkey1: value1
-
 key2:
   <<: *default
 
 =====================================output=====================================
 key1: &default
     subkey1: value1
-
 key2:
     <<: *default
 
@@ -84,16 +81,13 @@ printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
 key1: &default
-
   subkey1: value1
-
 key2:
   <<: *default
 
 =====================================output=====================================
 key1: &default
   subkey1: value1
-
 key2:
   <<: *default
 
@@ -108,17 +102,14 @@ tabWidth: 4
                                                                                 | printWidth
 =====================================input======================================
 key1: &default
-
   # This key ...
   subkey1: value1
-
 key2:
   <<: *default
 
 =====================================output=====================================
 key1: &default # This key ...
     subkey1: value1
-
 key2:
     <<: *default
 
@@ -132,17 +123,14 @@ printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
 key1: &default
-
   # This key ...
   subkey1: value1
-
 key2:
   <<: *default
 
 =====================================output=====================================
 key1: &default # This key ...
   subkey1: value1
-
 key2:
   <<: *default
 
@@ -157,16 +145,14 @@ tabWidth: 4
                                                                                 | printWidth
 =====================================input======================================
 key1: &default
-# This key
+  # This key
   subkey1: value1
-
 key2:
   <<: *default
 
 =====================================output=====================================
 key1: &default # This key
     subkey1: value1
-
 key2:
     <<: *default
 
@@ -180,16 +166,14 @@ printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
 key1: &default
-# This key
+  # This key
   subkey1: value1
-
 key2:
   <<: *default
 
 =====================================output=====================================
 key1: &default # This key
   subkey1: value1
-
 key2:
   <<: *default
 
