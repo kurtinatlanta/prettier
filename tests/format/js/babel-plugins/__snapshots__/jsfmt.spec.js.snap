@@ -254,7 +254,8 @@ mixed.sort();
 
 if (0n) {
   console.log("Hello from the if!");
-} else {
+}
+else {
   console.log("Hello from the else!");
 }
 
@@ -788,7 +789,8 @@ let a = x > 10 ? 'big' : 'small';
 let a = do {
   if (x > 10) {
     ("big");
-  } else {
+  }
+  else {
     ("small");
   }
 };
@@ -1486,7 +1488,8 @@ try {
   throw 0;
 } catch {
   doSomethingWhichDoesNotCareAboutTheValueThrown();
-} finally {
+}
+finally {
   doSomeCleanup();
 }
 

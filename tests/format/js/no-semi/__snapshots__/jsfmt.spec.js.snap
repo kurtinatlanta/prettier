@@ -762,6 +762,7 @@ if (true)
   while (false)
 
 if (true) 1
+
 else 2
 for (;;);
 for (x of y);
@@ -945,6 +946,7 @@ if (true)
   while (false);
 
 if (true) 1;
+
 else 2;
 for (;;);
 for (x of y);

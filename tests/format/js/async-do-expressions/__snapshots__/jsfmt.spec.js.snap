@@ -70,9 +70,11 @@ let x = async do {
 let x = async do {
   if (foo()) {
     f();
-  } else if (bar()) {
+  }
+  else if (bar()) {
     g();
-  } else {
+  }
+  else {
     h();
   }
 };

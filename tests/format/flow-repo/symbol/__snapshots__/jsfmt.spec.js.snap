@@ -105,7 +105,8 @@ declare var s: symbol;
   if (typeof x === "symbol") {
     (x: symbol); // OK
     (x: boolean); // Error
-  } else {
+  }
+  else {
     (x: boolean); // OK
     (x: symbol); // Error
   }
