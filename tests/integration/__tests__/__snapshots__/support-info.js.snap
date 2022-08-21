@@ -1,40 +1,40 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`API getSupportInfo() 1`] = `
-Object {
-  "languages": Object {
-    "Angular": Array [
+{
+  "languages": {
+    "Angular": [
       "angular",
     ],
-    "CSS": Array [
+    "CSS": [
       "css",
     ],
-    "Flow": Array [
+    "Flow": [
       "flow",
       "babel-flow",
     ],
-    "GraphQL": Array [
+    "GraphQL": [
       "graphql",
     ],
-    "HTML": Array [
+    "HTML": [
       "html",
     ],
-    "Handlebars": Array [
+    "Handlebars": [
       "glimmer",
     ],
-    "JSON": Array [
+    "JSON": [
       "json",
     ],
-    "JSON with Comments": Array [
+    "JSON with Comments": [
       "json",
     ],
-    "JSON.stringify": Array [
+    "JSON.stringify": [
       "json-stringify",
     ],
-    "JSON5": Array [
+    "JSON5": [
       "json5",
     ],
-    "JSX": Array [
+    "JSX": [
       "babel",
       "babel-flow",
       "babel-ts",
@@ -43,7 +43,7 @@ Object {
       "espree",
       "meriyah",
     ],
-    "JavaScript": Array [
+    "JavaScript": [
       "babel",
       "acorn",
       "espree",
@@ -53,75 +53,75 @@ Object {
       "flow",
       "typescript",
     ],
-    "Less": Array [
+    "Less": [
       "less",
     ],
-    "Lightning Web Components": Array [
+    "Lightning Web Components": [
       "lwc",
     ],
-    "MDX": Array [
+    "MDX": [
       "mdx",
     ],
-    "Markdown": Array [
+    "Markdown": [
       "markdown",
     ],
-    "PostCSS": Array [
+    "PostCSS": [
       "css",
     ],
-    "SCSS": Array [
+    "SCSS": [
       "scss",
     ],
-    "TSX": Array [
+    "TSX": [
       "typescript",
       "babel-ts",
     ],
-    "TypeScript": Array [
+    "TypeScript": [
       "typescript",
       "babel-ts",
     ],
-    "Vue": Array [
+    "Vue": [
       "vue",
     ],
-    "YAML": Array [
+    "YAML": [
       "yaml",
     ],
   },
-  "options": Object {
-    "arrowParens": Object {
-      "choices": Array [
+  "options": {
+    "arrowParens": {
+      "choices": [
         "always",
         "avoid",
       ],
       "default": "always",
       "type": "choice",
     },
-    "bracketSameLine": Object {
+    "bracketSameLine": {
       "default": false,
       "type": "boolean",
     },
-    "bracketSpacing": Object {
+    "bracketSpacing": {
       "default": true,
       "type": "boolean",
     },
-    "cursorOffset": Object {
+    "cursorOffset": {
       "default": -1,
-      "range": Object {
+      "range": {
         "end": Infinity,
         "start": -1,
         "step": 1,
       },
       "type": "int",
     },
-    "embeddedLanguageFormatting": Object {
-      "choices": Array [
+    "embeddedLanguageFormatting": {
+      "choices": [
         "auto",
         "off",
       ],
       "default": "auto",
       "type": "choice",
     },
-    "endOfLine": Object {
-      "choices": Array [
+    "endOfLine": {
+      "choices": [
         "lf",
         "crlf",
         "cr",
@@ -130,12 +130,12 @@ Object {
       "default": "lf",
       "type": "choice",
     },
-    "filepath": Object {
+    "filepath": {
       "default": undefined,
       "type": "path",
     },
-    "htmlWhitespaceSensitivity": Object {
-      "choices": Array [
+    "htmlWhitespaceSensitivity": {
+      "choices": [
         "css",
         "strict",
         "ignore",
@@ -143,16 +143,16 @@ Object {
       "default": "css",
       "type": "choice",
     },
-    "insertPragma": Object {
+    "insertPragma": {
       "default": false,
       "type": "boolean",
     },
-    "jsxSingleQuote": Object {
+    "jsxSingleQuote": {
       "default": false,
       "type": "boolean",
     },
-    "parser": Object {
-      "choices": Array [
+    "parser": {
+      "choices": [
         "flow",
         "babel",
         "babel-flow",
@@ -180,25 +180,25 @@ Object {
       "default": undefined,
       "type": "choice",
     },
-    "pluginSearchDirs": Object {
-      "default": Array [],
+    "pluginSearchDirs": {
+      "default": [],
       "type": "path",
     },
-    "plugins": Object {
-      "default": Array [],
+    "plugins": {
+      "default": [],
       "type": "path",
     },
-    "printWidth": Object {
+    "printWidth": {
       "default": 80,
-      "range": Object {
+      "range": {
         "end": Infinity,
         "start": 0,
         "step": 1,
       },
       "type": "int",
     },
-    "proseWrap": Object {
-      "choices": Array [
+    "proseWrap": {
+      "choices": [
         "always",
         "never",
         "preserve",
@@ -206,8 +206,8 @@ Object {
       "default": "preserve",
       "type": "choice",
     },
-    "quoteProps": Object {
-      "choices": Array [
+    "quoteProps": {
+      "choices": [
         "as-needed",
         "consistent",
         "preserve",
@@ -215,51 +215,51 @@ Object {
       "default": "as-needed",
       "type": "choice",
     },
-    "rangeEnd": Object {
+    "rangeEnd": {
       "default": Infinity,
-      "range": Object {
+      "range": {
         "end": Infinity,
         "start": 0,
         "step": 1,
       },
       "type": "int",
     },
-    "rangeStart": Object {
+    "rangeStart": {
       "default": 0,
-      "range": Object {
+      "range": {
         "end": Infinity,
         "start": 0,
         "step": 1,
       },
       "type": "int",
     },
-    "requirePragma": Object {
+    "requirePragma": {
       "default": false,
       "type": "boolean",
     },
-    "semi": Object {
+    "semi": {
       "default": true,
       "type": "boolean",
     },
-    "singleAttributePerLine": Object {
+    "singleAttributePerLine": {
       "default": false,
       "type": "boolean",
     },
-    "singleQuote": Object {
+    "singleQuote": {
       "default": false,
       "type": "boolean",
     },
-    "tabWidth": Object {
+    "tabWidth": {
       "default": 2,
-      "range": Object {
+      "range": {
         "end": Infinity,
         "start": 0,
         "step": 1,
       },
       "type": "int",
     },
-    "trailingComma": Object {
-      "choices": Array [
+    "trailingComma": {
+      "choices": [
         "es5",
         "none",
         "all",
@@ -267,11 +267,11 @@ Object {
       "default": "es5",
       "type": "choice",
     },
-    "useTabs": Object {
+    "useTabs": {
       "default": false,
       "type": "boolean",
     },
-    "vueIndentScriptAndStyle": Object {
+    "vueIndentScriptAndStyle": {
       "default": false,
       "type": "boolean",
     },
@@ -300,10 +300,13 @@ exports[`CLI --support-info (stdout) 1`] = `
         ".frag",
         ".gs",
         ".jake",
+        ".javascript",
         ".jsb",
         ".jscad",
         ".jsfl",
+        ".jslib",
         ".jsm",
+        ".jspre",
         ".jss",
         ".mjs",
         ".njs",
@@ -400,8 +403,8 @@ exports[`CLI --support-info (stdout) 1`] = `
       "aliases": ["ts"],
       "codemirrorMimeType": "application/typescript",
       "codemirrorMode": "javascript",
-      "color": "#2b7489",
-      "extensions": [".ts", ".mts", ".cts"],
+      "color": "#3178c6",
+      "extensions": [".ts", ".cts", ".mts"],
       "interpreters": ["deno", "ts-node"],
       "linguistLanguageId": 378,
       "name": "TypeScript",
@@ -415,6 +418,7 @@ exports[`CLI --support-info (stdout) 1`] = `
       "aceMode": "javascript",
       "codemirrorMimeType": "text/jsx",
       "codemirrorMode": "jsx",
+      "color": "#3178c6",
       "extensions": [".tsx"],
       "group": "TypeScript",
       "linguistLanguageId": 94901924,
@@ -427,8 +431,10 @@ exports[`CLI --support-info (stdout) 1`] = `
     },
     {
       "aceMode": "json",
+      "aliases": ["geojson", "jsonl", "topojson"],
       "codemirrorMimeType": "application/json",
       "codemirrorMode": "javascript",
+      "color": "#292929",
       "extensions": [".importmap"],
       "filenames": ["package.json", "package-lock.json", "composer.json"],
       "linguistLanguageId": 174,
@@ -441,10 +447,14 @@ exports[`CLI --support-info (stdout) 1`] = `
     },
     {
       "aceMode": "json",
+      "aliases": ["geojson", "jsonl", "topojson"],
       "codemirrorMimeType": "application/json",
       "codemirrorMode": "javascript",
+      "color": "#292929",
       "extensions": [
         ".json",
+        ".4DForm",
+        ".4DProject",
         ".avsc",
         ".geojson",
         ".gltf",
@@ -462,8 +472,11 @@ exports[`CLI --support-info (stdout) 1`] = `
       ],
       "filenames": [
         ".arcconfig",
+        ".auto-changelog",
+        ".c8rc",
         ".htmlhintrc",
         ".imgbotconfig",
+        ".nycrc",
         ".tern-config",
         ".tern-project",
         ".watchmanconfig",
@@ -484,8 +497,10 @@ exports[`CLI --support-info (stdout) 1`] = `
       "aliases": ["jsonc"],
       "codemirrorMimeType": "text/javascript",
       "codemirrorMode": "javascript",
+      "color": "#292929",
       "extensions": [
         ".jsonc",
+        ".code-snippets",
         ".sublime-build",
         ".sublime-commands",
         ".sublime-completions",
@@ -502,6 +517,7 @@ exports[`CLI --support-info (stdout) 1`] = `
       ],
       "filenames": [
         ".babelrc",
+        ".devcontainer.json",
         ".eslintrc.json",
         ".jscsrc",
         ".jshintrc",
@@ -528,6 +544,7 @@ exports[`CLI --support-info (stdout) 1`] = `
       "aceMode": "javascript",
       "codemirrorMimeType": "application/json",
       "codemirrorMode": "javascript",
+      "color": "#267CB9",
       "extensions": [".json5"],
       "linguistLanguageId": 175,
       "name": "JSON5",
@@ -553,6 +570,7 @@ exports[`CLI --support-info (stdout) 1`] = `
     },
     {
       "aceMode": "text",
+      "color": "#dc3a0c",
       "extensions": [".pcss", ".postcss"],
       "group": "CSS",
       "linguistLanguageId": 262764437,
@@ -565,6 +583,7 @@ exports[`CLI --support-info (stdout) 1`] = `
     },
     {
       "aceMode": "less",
+      "aliases": ["less-css"],
       "codemirrorMimeType": "text/css",
       "codemirrorMode": "css",
       "color": "#1d365d",
@@ -624,6 +643,7 @@ exports[`CLI --support-info (stdout) 1`] = `
       "color": "#083fa1",
       "extensions": [
         ".md",
+        ".livemd",
         ".markdown",
         ".mdown",
         ".mdwn",
@@ -685,6 +705,7 @@ exports[`CLI --support-info (stdout) 1`] = `
       "color": "#e34c26",
       "extensions": [
         ".html",
+        ".hta",
         ".htm",
         ".html.hl",
         ".inc",
@@ -750,9 +771,11 @@ exports[`CLI --support-info (stdout) 1`] = `
         ".clang-format",
         ".clang-tidy",
         ".gemrc",
+        "CITATION.cff",
         "glide.lock",
         ".prettierrc",
-        ".stylelintrc"
+        ".stylelintrc",
+        ".lintstagedrc"
       ],
       "linguistLanguageId": 407,
       "name": "YAML",
@@ -1145,4 +1168,4 @@ exports[`CLI --support-info (stdout) 1`] = `
 "
 `;
 
-exports[`CLI --support-info (write) 1`] = `Array []`;
+exports[`CLI --support-info (write) 1`] = `[]`;

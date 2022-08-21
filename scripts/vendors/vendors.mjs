@@ -1,5 +1,6 @@
 const vendors = [
   "chalk",
+  "css-units-list",
   "escape-string-regexp",
   "execa",
   "html-element-attributes",
@@ -7,6 +8,7 @@ const vendors = [
   "html-void-elements",
   "leven",
   "mem",
+  "sdbm",
   "string-width",
   "strip-ansi",
   "tempy",

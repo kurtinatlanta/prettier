@@ -415,7 +415,7 @@ function genericPrint(path, options, print) {
           ? [node.namespace === true ? "" : node.namespace.trim(), "|"]
           : "",
         node.attribute.trim(),
-        node.operator ? node.operator : "",
+        node.operator ?? "",
         node.value
           ? quoteAttributeValue(
               adjustStrings(node.value.trim(), options),
@@ -822,6 +822,14 @@ function genericPrint(path, options, print) {
 
         if (iNode.value === "with" && isParenGroupNode(iNextNode)) {
           parts.push(" ");
+          continue;
+        }
+
+        if (
+          iNode.value?.endsWith("#") &&
+          iNextNode.value === "{" &&
+          isParenGroupNode(iNextNode.group)
+        ) {
           continue;
         }
 
