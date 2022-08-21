@@ -437,7 +437,6 @@ type X = ({ a: true } & { b: string }) | ({ a: false } & { c: string });
 
 function hello(x: X): string {
   if (x.a === true) return x.b;
-
   else return x.c;
 }
 
@@ -1459,7 +1458,6 @@ type Cons = { kind: "cons", next: List };
 
 function length(list: List) {
   if (list.kind === "cons") return length(list.next) + 1;
-
   else return 0;
 }
 
@@ -1928,7 +1926,6 @@ export type T = Success | Error;
 
 function foo(x: T) {
   if (x.type === "SUCCESS") return x.result;
-
   else return x.result;
 }
 
@@ -2170,13 +2167,11 @@ type X = ({ a: true } & { b: string }) | ({ a: false } & { c: string });
 
 function hello1(x: X): string {
   if (x.a === true) return x.b;
-
   else return x.c;
 }
 
 function hello2(x: X): string {
   if (x.a === false) return x.c;
-
   else return x.b;
 }
 

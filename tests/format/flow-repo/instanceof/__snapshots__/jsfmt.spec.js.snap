@@ -112,7 +112,6 @@ function x(b) {
 function consumer1(b) {
   var g = x(b);
   if (g instanceof X2) g.foo = "1337";
-
   else g.foo = 1337;
 }
 
@@ -136,7 +135,6 @@ function y(b) {
 function consumer3(b) {
   var g = y(b);
   if (g.bar instanceof X2) g.bar.foo = "1337";
-
   else g.bar.foo = 1337;
 }
 
@@ -160,7 +158,6 @@ function z(b) {
 function consumer5(b) {
   var g = z(b);
   if (g.baz.bar instanceof X2) g.baz.bar.foo = "1337";
-
   else g.baz.bar.foo = 1337;
 }
 
@@ -173,7 +170,6 @@ function consumer6(b) {
 class C {
   m() {
     if (this instanceof D) alert(this.s);
-
     else alert("nope");
   }
 }

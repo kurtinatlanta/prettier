@@ -2125,22 +2125,18 @@ if (1) {
   false
 }
 // comment
-
 else if (2) true
 // multi
 // ple
 // lines
-
 else if (3)
   // existing comment
   true
 // okay?
-
 else if (4) {
   // empty with existing comment
 }
 // comment
-
 else {
 }
 
@@ -2156,7 +2152,6 @@ else if (7)
   // comment
   true
 // comment
-
 else {
   true
 }
@@ -2172,7 +2167,6 @@ else if (9)
   true
 // comment
 // comment
-
 else {
   true
 }
@@ -2182,16 +2176,13 @@ if (10) {
   true
 }
 else if (11) /* comment */ true
-
 else if (12)
   // comment /* comment */ // comment
   true
-
 else if (13)
   /* comment */ /* comment */ // comment
   true
-/* comment */
-else {
+/* comment */ else {
   true
 }
 
@@ -2284,22 +2275,18 @@ if (1) {
   false;
 }
 // comment
-
 else if (2) true;
 // multi
 // ple
 // lines
-
 else if (3)
   // existing comment
   true;
 // okay?
-
 else if (4) {
   // empty with existing comment
 }
 // comment
-
 else {
 }
 
@@ -2315,7 +2302,6 @@ else if (7)
   // comment
   true;
 // comment
-
 else {
   true;
 }
@@ -2331,7 +2317,6 @@ else if (9)
   true;
 // comment
 // comment
-
 else {
   true;
 }
@@ -2341,16 +2326,13 @@ if (10) {
   true;
 }
 else if (11) /* comment */ true;
-
 else if (12)
   // comment /* comment */ // comment
   true;
-
 else if (13)
   /* comment */ /* comment */ // comment
   true;
-/* comment */
-else {
+/* comment */ else {
   true;
 }
 
@@ -2784,7 +2766,6 @@ if (1) {
 if (1) {
 }
 // Comment
-
 else {
 }
 
@@ -2936,7 +2917,6 @@ if (1) {
 if (1) {
 }
 // Comment
-
 else {
 }
 
