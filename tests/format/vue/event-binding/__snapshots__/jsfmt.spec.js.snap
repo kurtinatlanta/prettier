@@ -30,7 +30,8 @@ function log(...args) {
     @click="
       if (x === (1 as number)) {
         log('hello');
-      } else {
+      }
+      else {
         log('nonhello');
       }
     "

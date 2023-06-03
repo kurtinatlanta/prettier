@@ -2242,7 +2242,8 @@ if (5)
 if (6) {
   // comment
   true
-} else if (7)
+}
+else if (7)
   // comment
   true
 // comment
@@ -2254,7 +2255,8 @@ if (8) {
   // comment
   // comment
   true
-} else if (9)
+}
+else if (9)
   // comment
   // comment
   true
@@ -2267,7 +2269,8 @@ else {
 if (10) {
   /* comment */ // comment
   true
-} else if (11) /* comment */ true
+}
+else if (11) /* comment */ true
 else if (12)
   // comment /* comment */ // comment
   true
@@ -2283,7 +2286,8 @@ if (14) {
   /* comment */
   // comment
   true
-} else if (15)
+}
+else if (15)
   // comment
   /* comment */
   /* comment */ // comment
@@ -2388,7 +2392,8 @@ if (5)
 if (6) {
   // comment
   true;
-} else if (7)
+}
+else if (7)
   // comment
   true;
 // comment
@@ -2400,7 +2405,8 @@ if (8) {
   // comment
   // comment
   true;
-} else if (9)
+}
+else if (9)
   // comment
   // comment
   true;
@@ -2413,7 +2419,8 @@ else {
 if (10) {
   /* comment */ // comment
   true;
-} else if (11) /* comment */ true;
+}
+else if (11) /* comment */ true;
 else if (12)
   // comment /* comment */ // comment
   true;
@@ -2429,7 +2436,8 @@ if (14) {
   /* comment */
   // comment
   true;
-} else if (15)
+}
+else if (15)
   // comment
   /* comment */
   /* comment */ // comment
@@ -3105,7 +3113,8 @@ const issues = {
 function value(type, value) {
   if (arguments.length === 2) {
     return new ConcreteValue(type, value)
-  } else {
+  }
+  else {
     return new Value(type)
   }
 }
@@ -3173,7 +3182,8 @@ const issues = {
 function value(type, value) {
   if (arguments.length === 2) {
     return new ConcreteValue(type, value);
-  } else {
+  }
+  else {
     return new Value(type);
   }
 }
@@ -6045,11 +6055,13 @@ finally { // Comment 8
 try {
   // Comment 2
   // Comment 3
-} catch (e) {
+}
+catch (e) {
   // Comment 4
   // Comment 5
   // Comment 6
-} finally {
+}
+finally {
   // Comment 7
   // Comment 8
   // Comment 9
@@ -6084,11 +6096,13 @@ finally { // Comment 8
 try {
   // Comment 2
   // Comment 3
-} catch (e) {
+}
+catch (e) {
   // Comment 4
   // Comment 5
   // Comment 6
-} finally {
+}
+finally {
   // Comment 7
   // Comment 8
   // Comment 9

@@ -249,9 +249,11 @@ let x = do {
 let y = do {
   if (foo()) {
     f();
-  } else if (bar()) {
+  }
+  else if (bar()) {
     g();
-  } else {
+  }
+  else {
     h();
   }
 };
@@ -263,7 +265,8 @@ function foo() {
       {do {
         if (loggedIn) {
           <LogoutButton />;
-        } else {
+        }
+        else {
           <LoginButton />;
         }
       }}
