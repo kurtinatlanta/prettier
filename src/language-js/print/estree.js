@@ -387,9 +387,11 @@ function printEstree(path, options, print, args) {
             node.consequent,
             CommentCheckFlags.Trailing | CommentCheckFlags.Line,
           ) || needsHardlineAfterDanglingComment(node);
-        const elseOnSameLine =
-          node.consequent.type === "BlockStatement" && !commentOnOwnLine;
-        parts.push(elseOnSameLine ? " " : hardline);
+        // Always put else on its own line
+        // const elseOnSameLine =
+        //   node.consequent.type === "BlockStatement" && !commentOnOwnLine;
+        // parts.push(elseOnSameLine ? " " : hardline);
+        parts.push(hardline);
 
         if (hasComment(node, CommentCheckFlags.Dangling)) {
           parts.push(
@@ -515,11 +517,12 @@ function printEstree(path, options, print, args) {
 
       return [print("label"), ": ", print("body")];
     case "TryStatement":
+      // Always put finally on its own line
       return [
         "try ",
         print("block"),
         node.handler ? [" ", print("handler")] : "",
-        node.finalizer ? [" finally ", print("finalizer")] : "",
+        node.finalizer ? [hardline, "finally ", print("finalizer")] : "",
       ];
     case "CatchClause":
       if (node.param) {
@@ -536,7 +539,9 @@ function printEstree(path, options, print, args) {
         );
         const param = print("param");
 
+        // Always put catch on its own line
         return [
+          hardline,
           "catch ",
           parameterHasComments
             ? ["(", indent([softline, param]), softline, ") "]
