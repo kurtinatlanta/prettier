@@ -62,6 +62,8 @@
 
 Prettier is an opinionated code formatter. It enforces a consistent style by parsing your code and re-printing it with its own rules that take the maximum line length into account, wrapping code when necessary.
 
+This particular instance of Prettier includes one of my opinions for formatting JavaScript: Stroustrup-style block formatting, which vertically aligns all the keywords used in if-then-else, try-catch-finally, and do-while statements.
+
 ### Input
 
 <!-- prettier-ignore -->
