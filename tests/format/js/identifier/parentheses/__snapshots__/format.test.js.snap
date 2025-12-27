@@ -187,7 +187,8 @@ if ((let[0] = 1));
 
 while ((let[0] = 1));
 
-do {} while ((let[0] = 1))
+do {}
+while ((let[0] = 1))
 
 var a = (let[0] = 1)
 
@@ -412,7 +413,8 @@ if ((let[0] = 1));
 
 while ((let[0] = 1));
 
-do {} while ((let[0] = 1));
+do {}
+while ((let[0] = 1));
 
 var a = (let[0] = 1);
 

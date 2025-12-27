@@ -385,11 +385,13 @@ while (true) {
 
 do {
   continue; // comment
-} while (true);
+}
+while (true);
 
 do {
   break; // comment
-} while (true);
+}
+while (true);
 
 label1: for (;;) {
   continue label1; // comment
@@ -433,11 +435,13 @@ while (true) {
 
 do {
   continue; /* comment */
-} while (true);
+}
+while (true);
 
 do {
   break; /* comment */
-} while (true);
+}
+while (true);
 
 label1: for (;;) {
   continue label1; /* comment */
@@ -646,12 +650,14 @@ while (true) {
 do {
   continue;
   // comment
-} while (true);
+}
+while (true);
 
 do {
   break;
   // comment
-} while (true);
+}
+while (true);
 
 label1: for (;;) {
   continue label1;
@@ -706,12 +712,14 @@ while (true) {
 do {
   continue;
   /* comment */
-} while (true);
+}
+while (true);
 
 do {
   break;
   /* comment */
-} while (true);
+}
+while (true);
 
 label1: for (;;) {
   continue label1;
