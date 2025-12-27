@@ -19,9 +19,10 @@ function printDoWhileStatement(path, options, print) {
   const clause = adjustClause(body, print("body"));
   const doBody = group(["do", clause]);
 
+  // Always put while on its own line
   return [
     doBody,
-    body.type === "BlockStatement" ? " " : hardline,
+    hardline,
     "while (",
     printDoWhileStatementCondition(path, options, print),
     ")",
