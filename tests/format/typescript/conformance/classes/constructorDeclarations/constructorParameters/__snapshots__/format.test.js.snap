@@ -485,6 +485,7 @@ new F(1).x;
 class C {
   constructor(readonly x: number) {}
 }
+
 new C(1).x = 2;
 
 class E {
@@ -494,6 +495,7 @@ class E {
 class F {
   constructor(private readonly x: number) {}
 }
+
 new F(1).x;
 
 ================================================================================

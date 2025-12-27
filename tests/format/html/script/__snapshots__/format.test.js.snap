@@ -33,11 +33,13 @@ alert(1)
 =====================================output=====================================
 <script type="text/babel" data-presets="react" data-type="module">
   import { h, render } from "https://unpkg.com/preact?module";
+
   render(<h1>Hello World!</h1>, document.body);
 </script>
 
 <script type="text/jsx" data-presets="react" data-type="module">
   import { h, render } from "https://unpkg.com/preact?module";
+
   render(<h1>Hello World!</h1>, document.body);
 </script>
 
@@ -123,7 +125,9 @@ async function foo() {
 <script type="module">
   async function foo() {
     let x = 10;
+
     while (x-- > 0) console.log(x);
+
     await import("mod");
   }
 </script>

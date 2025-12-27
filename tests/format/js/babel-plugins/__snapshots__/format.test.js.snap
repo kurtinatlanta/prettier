@@ -230,6 +230,7 @@ const mod = multi % 10n;
 // ↪ 2n
 
 const bigN = 2n ** 54n;
+
 // ↪ 18014398509481984n
 
 bigN * -1n;
@@ -254,12 +255,15 @@ bigN * -1n;
 // ↪ false
 
 2n >= 2;
+
 // ↪ true
 
 const mixed = [4n, 6, -12n, 10, 4, 0, 0n];
+
 // ↪  [4n, 6, -12n, 10, 4, 0, 0n]
 
 mixed.sort();
+
 // ↪ [-12n, 0, 0n, 10, 4n, 4, 6]
 
 if (0n) {
@@ -287,9 +291,11 @@ Boolean(12n);
 // ↪ false
 
 !0n;
+
 // ↪ true
 
 const view = new BigInt64Array(4);
+
 // ↪ [0n, 0n, 0n, 0n]
 view.length;
 // ↪ 4
@@ -297,11 +303,13 @@ view[0];
 // ↪ 0n
 view[0] = 42n;
 view[0];
+
 // ↪ 42n
 
 // Highest possible BigInt value that can be represented as a
 // signed 64-bit integer.
 const max = 2n ** (64n - 1n) - 1n;
+
 view[0] = max;
 view[0];
 // ↪ 9_223_372_036_854_775_807n
@@ -326,6 +334,7 @@ Number(1n);
 // ↪ "12"
 
 "2" + 1n;
+
 // ↪ "21"
 
 const badPrecision = BigInt(9007199254740993);
@@ -680,7 +689,9 @@ class Foo {
   #x = 1;
   constructor() {
     console.log(this.#x); // => 1
+
     const { #x: x } = this;
+
     console.log(x); // => 1
   }
   equals({ #x: otherX }) {
@@ -884,6 +895,7 @@ function* g() {
 
 {
   using obj = g(); // block-scoped declaration
+
   const r = obj.next();
 } // calls finally blocks in \`g\`
 
@@ -1230,6 +1242,7 @@ function* generator() {
 }
 
 const iterator = generator();
+
 iterator.next(1); // Logs "Sent 1"
 iterator.next(2); // Logs "Yield 2"
 
@@ -1317,6 +1330,7 @@ printWidth: 80
   const size = import.meta.scriptElement.dataset.size || 300;
 
   const image = new Image();
+
   image.src = URL.createObjectURL(blob);
   image.width = image.height = size;
 
@@ -1540,16 +1554,19 @@ let message = 0xa0_b0_c0;
 // What's the value of the upper most byte? It's A0, or 160.
 // We can confirm that:
 let a = (message >> 16) & 0xff;
+
 console.log(a.toString(16), a); // a0, 160
 
 // What's the value of the middle byte? It's B0, or 176.
 // Let's just make sure...
 let b = (message >> 8) & 0xff;
+
 console.log(b.toString(16), b); // b0, 176
 
 // What's the value of the lower most byte? It's C0, or 192.
 // Again, let's prove that:
 let c = message & 0xff;
+
 console.log(c.toString(16), b); // c0, 192
 
 ================================================================================
@@ -1575,11 +1592,13 @@ console.log(n); // { x: 1, y: 2, a: 3, b: 4 }
 // https://babeljs.io/docs/babel-plugin-transform-object-rest-spread
 
 let { x, y, ...z } = { x: 1, y: 2, a: 3, b: 4 };
+
 console.log(x); // 1
 console.log(y); // 2
 console.log(z); // { a: 3, b: 4 }
 
 let n = { x, y, ...z };
+
 console.log(n); // { x: 1, y: 2, a: 3, b: 4 }
 
 ================================================================================
@@ -1742,6 +1761,7 @@ const willThrow = obj?.foo.bar.qux(); // Error: not a function
 function test() {
   return 42;
 }
+
 test?.(); // 42
 
 exists?.(); // undefined
@@ -1893,9 +1913,11 @@ function add(x, y) {
 }
 
 const addOne = add(1, ?); // apply from the left
+
 addOne(2); // 3
 
 const addTen = add(?, 10); // apply from the right
+
 addTen(2); // 12
 
 let newScore = player.score |> add(7, ?) |> clamp(0, 100, ?); // shallow stack, the pipe to \`clamp\` is the same frame as the pipe to \`add\`.
@@ -2014,6 +2036,7 @@ promise
   |> console.log;
 
 const result = exclaim(capitalize(doubleSay("hello")));
+
 result; //=> "Hello, hello!"
 
 const result = "hello" |> doubleSay |> capitalize |> exclaim;
@@ -2177,6 +2200,7 @@ result //=> "Hello, hello!"
 // https://github.com/tc39/proposal-pipeline-operator/
 
 let result = exclaim(capitalize(doubleSay("hello")));
+
 result; //=> "Hello, hello!"
 
 let result = "hello" |> doubleSay |> capitalize |> exclaim;
@@ -2272,6 +2296,7 @@ class C2 {
     if (!this.#data) {
       throw new Error("no data yet!");
     }
+
     return this.#data;
   }
 
@@ -2427,6 +2452,7 @@ import.source("x");
 
 =====================================output=====================================
 import source fooSource from "foo";
+
 import.source("x");
 
 ================================================================================

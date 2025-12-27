@@ -486,6 +486,7 @@ class ClassAnnotated<T> {
 }
 
 var o1 = new ClassAnnotated();
+
 o1.p = 42;
 (o1.p: number);
 (o1.p: string); // Error: number ~> string

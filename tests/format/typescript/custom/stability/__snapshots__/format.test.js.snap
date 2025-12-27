@@ -34,6 +34,7 @@ module m2 {
   function fn() {
     return 1;
   }
+
   export function exports() {
     return 1;
   }

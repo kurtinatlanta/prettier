@@ -13,6 +13,7 @@ function bar<X:number, Y:X>(x:X, y:Y): number { return y*0; }
 
 =====================================output=====================================
 function foo<X, Y: X>(x: X, y: Y): void {}
+
 foo(0, "");
 
 function bar<X: number, Y: X>(x: X, y: Y): number {
@@ -76,6 +77,7 @@ function example<T: { x: number }>(o: T): T {
   o.x = 0;
   return o;
 }
+
 var obj1: { x: number, y: string } = example({ x: 0, y: "" });
 var obj2: { x: number } = example({ x: 0 });
 

@@ -100,6 +100,7 @@ class C {
 class D extends C {}
 
 var d = new D();
+
 (d: C).next = new C();
 (d.next: D); // sneaky
 
@@ -228,6 +229,7 @@ class Implicit<X> {
   arg: X;
   val: X;
 }
+
 class ImplicitNumber extends Implicit {
   arg: number;
 }
@@ -316,18 +318,22 @@ function bar(c: C): J { return c; }
 interface I {
   xs: Array<this>;
 }
+
 interface J {
   f(): J;
 }
+
 class C {
   xs: Array<C>;
   f(): C {
     return this;
   }
 }
+
 function foo(c: C): I {
   return c;
 }
+
 function bar(c: C): J {
   return c;
 }
@@ -357,6 +363,7 @@ class C {
 (new DoublyLinkedList().next(): DoublyLinkedList);
 
 var MiniImmutable = require("mini-immutable");
+
 class C {
   map: MiniImmutable.OrderedMap<number, string>;
   update() {
@@ -434,6 +441,7 @@ class A {
     // the class, instead of instances of the class
   }
 }
+
 class B extends A {} // inherits statics method too, with \`this\` bound to the class
 
 (A.make(): A); // OK
@@ -565,6 +573,7 @@ class InheritOverride extends Override {}
 ((new Override(): Base).foo(): Base);
 
 (new InheritOverride().bar_caller(): InheritOverride); // error
+
 // blame flips below
 
 // Examples with \`this\` types (compare with examples above)

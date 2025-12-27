@@ -101,6 +101,7 @@ function takes_string(_: string) {}
 var global_x = "hello";
 
 function global_f() {}
+
 function global_g() {
   global_x = 42;
 }
@@ -120,6 +121,7 @@ function local_func() {
   var local_x = "hello";
 
   function local_f() {}
+
   function local_g() {
     local_x = 42;
   }
@@ -206,12 +208,15 @@ function example(b: bool): number {
 //
 function example(b: boolean): number {
   var x = 0;
+
   function f() {
     x = "";
   }
+
   if (b) {
     f();
   }
+
   return x; // error, string ~/~> number (return type anno) TODO
 }
 
@@ -283,6 +288,7 @@ var call_me: () => void = () => {};
 
 function g(x: ?number) {
   const const_x = x;
+
   if (const_x) {
     // ok: if const_x is truthy here, it's truthy everywhere
     call_me = () => {
@@ -291,17 +297,20 @@ function g(x: ?number) {
   }
 
   var var_x = x;
+
   if (var_x) {
     // error: var_x might no longer be truthy when call_me is called
     call_me = () => {
       var y: number = var_x;
     }; // error
   }
+
   var_x = null;
 }
 
 function h(x: number | string | boolean) {
   const const_x = x;
+
   if (typeof const_x == "number") {
     call_me = () => {
       var y: number = const_x;
@@ -319,6 +328,7 @@ function h(x: number | string | boolean) {
   }
 
   var var_x = x;
+
   if (typeof var_x == "number") {
     call_me = () => {
       var y: number = var_x;

@@ -75,6 +75,7 @@ class A {
   static foo(x: number) {}
   static bar(y: string) {}
 }
+
 A.qux = function (x: string) {}; // error?
 
 class B extends A {
@@ -115,6 +116,7 @@ class D extends C<string> {
 }
 
 var d: C<*> = D.create();
+
 (new A(): typeof A);
 (B: typeof A);
 

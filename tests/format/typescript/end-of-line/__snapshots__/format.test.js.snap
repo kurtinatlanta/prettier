@@ -33,7 +33,9 @@ export const IAmIncredibleLongFunctionName = IAmAnotherFunctionName(<LF>
 
 =====================================output=====================================
 type IAmIncredibleLongParameterType = {};<CR>
+<CR>
 const IAmAnotherFunctionName = (_0: IAmIncredibleLongParameterType) => {};<CR>
+<CR>
 export const IAmIncredibleLongFunctionName = IAmAnotherFunctionName(<CR>
   (_0: IAmIncredibleLongParameterType) => {<CR>
     setTimeout(() => {<CR>
@@ -92,7 +94,9 @@ export const IAmIncredibleLongFunctionName = IAmAnotherFunctionName(<LF>
 
 =====================================output=====================================
 type IAmIncredibleLongParameterType = {};<CRLF>
+<CRLF>
 const IAmAnotherFunctionName = (_0: IAmIncredibleLongParameterType) => {};<CRLF>
+<CRLF>
 export const IAmIncredibleLongFunctionName = IAmAnotherFunctionName(<CRLF>
   (_0: IAmIncredibleLongParameterType) => {<CRLF>
     setTimeout(() => {<CRLF>
@@ -151,7 +155,9 @@ export const IAmIncredibleLongFunctionName = IAmAnotherFunctionName(<LF>
 
 =====================================output=====================================
 type IAmIncredibleLongParameterType = {};<LF>
+<LF>
 const IAmAnotherFunctionName = (_0: IAmIncredibleLongParameterType) => {};<LF>
+<LF>
 export const IAmIncredibleLongFunctionName = IAmAnotherFunctionName(<LF>
   (_0: IAmIncredibleLongParameterType) => {<LF>
     setTimeout(() => {<LF>

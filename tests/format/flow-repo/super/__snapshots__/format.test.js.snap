@@ -196,6 +196,7 @@ function leak(f) {
   f.y; // error
   f.x; // error
 }
+
 class F extends A {
   y: number;
   constructor() {
@@ -217,6 +218,7 @@ class H extends A {
   constructor() {
     if (Math.random() < 0.5) super();
     else super();
+
     this.y; // OK
     this.x; // OK
   }
@@ -228,6 +230,7 @@ class I_ {
   }
   foo() {}
 }
+
 class I extends I_ {
   constructor() {
     super(this); // error (no super call yet)
@@ -235,6 +238,7 @@ class I extends I_ {
 }
 
 class J__ {}
+
 class J_ extends J__ {
   constructor(closure_leaking_this) {
     closure_leaking_this();
@@ -242,6 +246,7 @@ class J_ extends J__ {
   }
   foo() {}
 }
+
 class J extends J_ {
   constructor() {
     super(() => this.foo()); // error (no super call yet)
@@ -260,12 +265,15 @@ class K_ {
   }
   foo() {}
 }
+
 class K extends K_ {
   constructor() {
     super(() => {
       if (_this) _this.foo();
     }); // OK
+
     var _this = this;
+
     this.closure_leaking_this();
   }
 }
@@ -279,12 +287,14 @@ class L_ {
     return false;
   }
 }
+
 class L extends L_ {
   constructor() {
     let x: boolean = super();
     return x;
   }
 }
+
 (new L_(): L_);
 (new L(): L);
 
@@ -295,11 +305,13 @@ class M_ {
     return { foo: "foo" };
   }
 }
+
 class M extends M_ {
   constructor() {
     return super();
   }
 }
+
 (new M_(): { foo: string });
 (new M(): { foo: string });
 
@@ -311,11 +323,13 @@ class N_ {
     return x;
   }
 }
+
 class N extends N_ {
   constructor() {
     return super();
   }
 }
+
 (new N_(): N_);
 (new N(): N);
 
@@ -339,6 +353,7 @@ class D {
     return 0;
   }
 }
+
 module.exports = D;
 
 ================================================================================
@@ -416,6 +431,7 @@ module.exports = C;
 
 =====================================output=====================================
 var D = require("./import");
+
 class C extends D {
   constructor() {
     return super();
@@ -424,6 +440,7 @@ class C extends D {
     return super.foo();
   }
 }
+
 module.exports = C;
 
 ================================================================================

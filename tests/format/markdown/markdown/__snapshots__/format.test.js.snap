@@ -1475,6 +1475,7 @@ If \`options.useCache\` is \`false\`, all caching will be bypassed.
 
 \`\`\`js
 const text = fs.readFileSync(filePath, 'utf8');
+
 prettier.resolveConfig(filePath).then((options) => {
   const formatted = prettier.format(text, options);
 });
@@ -1506,6 +1507,7 @@ Prettier's built-in parsers are exposed as properties on the \`parsers\` argumen
 prettier.format('lodash ( )', {
   parser(text, { babylon }) {
     const ast = babylon(text);
+
     ast.program.body[0].expression.callee.name = '_';
     return ast;
   },
@@ -3447,6 +3449,7 @@ If \`options.useCache\` is \`false\`, all caching will be bypassed.
 
 \`\`\`js
 const text = fs.readFileSync(filePath, "utf8");
+
 prettier.resolveConfig(filePath).then((options) => {
   const formatted = prettier.format(text, options);
 });
@@ -3478,6 +3481,7 @@ Prettier's built-in parsers are exposed as properties on the \`parsers\` argumen
 prettier.format("lodash ( )", {
   parser(text, { babylon }) {
     const ast = babylon(text);
+
     ast.program.body[0].expression.callee.name = "_";
     return ast;
   },

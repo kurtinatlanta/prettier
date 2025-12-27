@@ -183,7 +183,9 @@ var g: (_: number | string) => void = f;
 // intersection of function types satisfies union of param types
 
 type F = (_: ObjA) => void;
+
 type G = (_: ObjB) => void;
+
 type FG = (_: ObjA | ObjB) => void;
 
 declare var fun1: F & G;
@@ -194,6 +196,7 @@ var fun2: FG = fun1;
 
 // simpler variation
 declare var f: ((_: number) => void) & ((_: string) => void);
+
 var g: (_: number | string) => void = f;
 
 ================================================================================
@@ -256,14 +259,17 @@ var e: E = c; // error
 
 // intersection of object types satisfies union of properties
 declare var a: A;
+
 var b: B = a;
 
 // intersection of dictionary types:
 declare var c: C;
+
 var d: D = c; // ok
 
 // dict type mismatch
 type E = { [key: string]: string };
+
 var e: E = c; // error
 
 ================================================================================

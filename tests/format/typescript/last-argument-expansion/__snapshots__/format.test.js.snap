@@ -111,6 +111,7 @@ const Counter = decorator("my-counter")((props: {
   });
 
   const [s, set] = useState({ count: p.initialCount });
+
   const onClick = () => set("count", (it) => it + 1);
 
   return () => (

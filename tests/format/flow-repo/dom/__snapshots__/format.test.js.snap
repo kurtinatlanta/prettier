@@ -61,6 +61,7 @@ let tests = [
   // CustomEvent
   function (document: Document) {
     const event = document.createEvent("CustomEvent");
+
     event.initCustomEvent("butts", true, false, { nice: 42 });
   },
 ];
@@ -359,6 +360,7 @@ let tests = [
   // attachEvent
   function () {
     let target = new EventTarget();
+
     (target.attachEvent("foo", listener): void); // invalid, may be undefined
     (target.attachEvent && target.attachEvent("foo", listener): void); // valid
   },
@@ -366,6 +368,7 @@ let tests = [
   // detachEvent
   function () {
     let target = new EventTarget();
+
     (target.detachEvent("foo", listener): void); // invalid, may be undefined
     (target.detachEvent && target.detachEvent("foo", listener): void); // valid
   },
@@ -405,6 +408,7 @@ let tests = [
   // arcTo
   function () {
     let path = new Path2D();
+
     (path.arcTo(0, 0, 0, 0, 10): void); // valid
     (path.arcTo(0, 0, 0, 0, 10, 20, 5): void); // valid
     (path.arcTo(0, 0, 0, 0, 10, "20", 5): void); // invalid

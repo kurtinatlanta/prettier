@@ -612,6 +612,7 @@ const a = 1;
 
 \`\`\`jsx
 const a = 1
+
 ;<div>foo</div>
 \`\`\`
 
@@ -640,6 +641,7 @@ const a = 1;
 
 \`\`\`jsx
 const a = 1;
+
 <div>foo</div>;
 \`\`\`
 

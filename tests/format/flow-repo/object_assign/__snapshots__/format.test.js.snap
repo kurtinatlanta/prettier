@@ -52,6 +52,7 @@ var bad: number = Bad.foo();
 
 // Doesn't repro if I extend the class myself
 class MyEventEmitter extends events$EventEmitter {}
+
 var Good = Object.assign({}, MyEventEmitter.prototype, {
   foo: function (): string {
     return "hi";

@@ -149,6 +149,7 @@ const {
   fitsIn,
   oneLine,
 } = {};
+
 export {
   runTaskForChanged,
   description,
@@ -203,6 +204,7 @@ const {
   fitsIn,
   oneLine,
 } = {};
+
 export {
   runTaskForChanged,
   description,
