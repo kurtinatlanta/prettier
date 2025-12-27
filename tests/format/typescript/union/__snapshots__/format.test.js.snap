@@ -112,6 +112,7 @@ type T8 = number | (((((arg: any) => void))));
 interface RelayProps {
   articles: a | null;
 }
+
 interface RelayProps {
   articles: Array<{
     __id: string;
@@ -170,12 +171,19 @@ type window = Window & {
 };
 
 type T1 = (number | string)["toString"];
+
 type T2 = (number | string)["toString"];
+
 type T3 = (number | string)["toString"];
+
 type T4 = (number | string)["toString"];
+
 type T5 = number | ((arg: any) => void);
+
 type T6 = number | ((arg: any) => void);
+
 type T7 = number | ((arg: any) => void);
+
 type T8 = number | ((arg: any) => void);
 
 ================================================================================
@@ -383,28 +391,47 @@ let aa2: /*1*/ /*2*/ C | /*3*/ D;
 let aa3: /*1*/ /*2*/ C | /*3*/ D; /*4*/
 
 type A1 = C;
+
 type A2 = C;
+
 type A3 = C;
+
 type A4 = C;
+
 type A5 = C;
+
 type A6 /*1*/ = C;
+
 type A7 /*1*/ = C;
+
 type A8 /*1*/ = C;
+
 type A9 /*1*/ = C;
+
 type A10 /*1*/ = /*2*/ C;
+
 type A11 /*1*/ = /*2*/ C;
+
 type A12 /*1*/ = C;
+
 type A13 = /*1*/ C;
 
 type Aa1 = /*1*/ /*2*/ C | D;
+
 type Aa2 = /*1*/ /*2*/ C | /*3*/ D;
+
 type Aa3 = /*1*/ /*2*/ C | /*3*/ D /*4*/;
 
 type C1 = /*1*/ a | b;
+
 type C2 = /*1*/ a | b;
+
 type C3 = /*1*/ a | b;
+
 type C4 /*1*/ = a | b;
+
 type C5 = /*1*/ a | b;
+
 type C6 /*0*/ = /*1*/ a | b;
 
 type Ctor = (new () => X) | Y;

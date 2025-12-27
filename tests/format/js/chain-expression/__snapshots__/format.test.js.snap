@@ -572,6 +572,7 @@ export default (params) => {
           const index2 = data.data.data.data.data[resource].findIndex(
             (record) => record.id == id,
           );
+
           data[resource][index] = {
             ...data[resource][index],
             ...params.data,

@@ -88,6 +88,7 @@ var g: talias3 = 42;
 var h: talias3 = "asdf"; // Error: string ~> number
 
 import type { talias4 } from "./cjs_with_types";
+
 var i: talias4 = 42;
 var j: talias4 = "asdf"; // Error: string ~> number
 
@@ -128,13 +129,16 @@ export interface IFoo { prop: number };
 /* @flow */
 
 export type inlinedType1 = number;
+
 var a: inlinedType1 = 42;
 var b: inlinedType1 = "asdf"; // Error: string ~> number
 
 type standaloneType1 = number;
+
 export type { standaloneType1 };
 
 type standaloneType2 = number;
+
 export { standaloneType2 }; // Error: Missing \`type\` keyword
 
 export type { talias1, talias2 as talias3, IFoo2 } from "./types_only2";

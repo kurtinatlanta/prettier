@@ -107,6 +107,7 @@ const b = new Headers(["Content-Type", "image/jpeg"]); // not correct
 const c = new Headers({ "Content-Type": "image/jpeg" }); // correct
 const d = new Headers(c); // correct
 const e: Headers = new Headers(); // correct
+
 e.append("Content-Type", "image/jpeg"); // correct
 e.append("Content-Type"); // not correct
 e.append({ "Content-Type": "image/jpeg" }); // not correct
@@ -216,6 +217,7 @@ const e: Request = new Request(b, c); // incorrect
 
 const f: Request = new Request({}); // incorrect
 const g: Request = new Request("http://example.org", {}); // correct
+
 new Request(new URL("http://example.org")); // correct
 
 const h: Request = new Request("http://example.org", {
@@ -422,6 +424,7 @@ const b = new URLSearchParams(["key1", "value1"]); // not correct
 const c = new URLSearchParams({ key1: "value1" }); // not correct
 const d = new URLSearchParams(c); // correct
 const e: URLSearchParams = new URLSearchParams(); // correct
+
 e.append("key1", "value1"); // correct
 e.append("key1"); // not correct
 e.append({ key1: "value1" }); // not correct

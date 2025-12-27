@@ -77,6 +77,7 @@ module.exports = ColorIdToNumber;
 
 =====================================output=====================================
 var { ColorId, ColorNumber } = require("./test");
+
 var ColorIdToNumber = {
   [ColorId.RED]: ColorNumber.RED,
   [ColorId.GREEN]: ColorNumber.GREEN,
@@ -103,6 +104,7 @@ var ColorIdToNumber = require('./test2');
 
 =====================================output=====================================
 var { ColorId } = require("./test");
+
 var ColorIdToNumber = require("./test2");
 
 (ColorIdToNumber[ColorId.BLUE]: "ffffff"); // oops
@@ -141,6 +143,7 @@ module.exports = {
 =====================================output=====================================
 var hello = require("./test4");
 var dummy = require("./test");
+
 module.exports = {
   ...dummy,
   [hello]: "world",
@@ -161,6 +164,7 @@ var o = require('./test5');
 
 =====================================output=====================================
 var o = require("./test5");
+
 (o.hello: "nothing"); // oops
 
 ================================================================================

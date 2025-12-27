@@ -26,10 +26,12 @@ var y: { foo?: string } = x; // OK in TypeScript, not OK in Flow
 var z: string = y.foo || "";
 
 var o = {};
+
 y = o; // OK; we know that narrowing could not have happened
 o.foo = 0; // future widening is constrained
 
 function bar(config: { foo?: number }) {}
+
 bar({});
 bar({ foo: "" });
 
@@ -58,10 +60,12 @@ var f: { foo?: ?string } = { foo: null }; // Also fine
 
 =====================================output=====================================
 var a: { foo?: string } = {};
+
 a.foo = undefined; // This is not an error
 a.foo = null; // But this is an error
 
 var b: { foo?: ?string } = {};
+
 b.foo = undefined; // This is fine
 b.foo = null; // Also fine
 
@@ -218,6 +222,7 @@ b.b = 0; // because subsequent writes would widen the exact object
 
 const a: {| a: number |} = { a: 1 };
 const b: { a: number, b?: number } = a; // error: property \`b\` not found
+
 b.b = 0; // because subsequent writes would widen the exact object
 (a.b: number); // error: property \`b\` not found
 

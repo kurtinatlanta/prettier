@@ -159,12 +159,14 @@ const a2 =
 )
 
 const b1 = []
+
 ;(
   @deco
   class Foo {}
 )
 
 const b2 = []
+
 ;(
   @deco
   class {}
@@ -257,12 +259,14 @@ const a2 =
 );
 
 const b1 = [];
+
 (
   @deco
   class Foo {}
 );
 
 const b2 = [];
+
 (
   @deco
   class {}

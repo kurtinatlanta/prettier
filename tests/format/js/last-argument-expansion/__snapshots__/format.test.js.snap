@@ -338,10 +338,12 @@ foo(/* GraphQL */ \`
 foo(/* ... */ css\`
   color: magenta;
 \`);
+
 const a = (b) =>
   /* HTML */ \`<!-- bar1 -->
     bar
     <!-- bar2 -->\`;
+
 const c = (b) => /* HTML */ \`
   <!-- bar1 -->
   bar

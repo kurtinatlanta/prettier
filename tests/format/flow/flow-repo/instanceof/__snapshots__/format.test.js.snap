@@ -101,6 +101,7 @@ function foo1(x: Array<number> | number) {
 class X1 {
   foo: number;
 }
+
 class X2 {
   foo: string;
 }
@@ -111,12 +112,14 @@ function x(b) {
 
 function consumer1(b) {
   var g = x(b);
+
   if (g instanceof X2) g.foo = "1337";
   else g.foo = 1337;
 }
 
 function consumer2(b) {
   var g = x(b);
+
   if (g instanceof X1) g.foo = "1337"; // oops
 }
 
@@ -124,6 +127,7 @@ function consumer2(b) {
 class Y1 {
   bar: X1;
 }
+
 class Y2 {
   bar: X2;
 }
@@ -134,12 +138,14 @@ function y(b) {
 
 function consumer3(b) {
   var g = y(b);
+
   if (g.bar instanceof X2) g.bar.foo = "1337";
   else g.bar.foo = 1337;
 }
 
 function consumer4(b) {
   var g = y(b);
+
   if (g.bar instanceof X1) g.bar.foo = "1337"; // oops
 }
 
@@ -147,6 +153,7 @@ function consumer4(b) {
 class Z1 {
   baz: Y1;
 }
+
 class Z2 {
   baz: Y2;
 }
@@ -157,12 +164,14 @@ function z(b) {
 
 function consumer5(b) {
   var g = z(b);
+
   if (g.baz.bar instanceof X2) g.baz.bar.foo = "1337";
   else g.baz.bar.foo = 1337;
 }
 
 function consumer6(b) {
   var g = z(b);
+
   if (g.baz.bar instanceof X1) g.baz.bar.foo = "1337"; // oops
 }
 

@@ -43,6 +43,7 @@ var A = require("./A");
 class B extends A {}
 
 let b = new B();
+
 (b.foo: number); // error, number !~> function
 
 module.exports = B;
@@ -75,6 +76,7 @@ class C extends B {
 }
 
 let c = new C();
+
 (c.foo: number); // error, number !~> function
 
 module.exports = C;
@@ -94,7 +96,9 @@ new E().x
 
 =====================================output=====================================
 class D {}
+
 class E {}
+
 new E().x;
 
 ================================================================================
@@ -165,6 +169,7 @@ x.c; // ok
 x.d; // error, TestClass has no d
 
 var y: Foo = x;
+
 y.b; // error, doesn't exist in TestClass
 y.d; // ok, it's optional
 
@@ -172,6 +177,7 @@ class Test2Superclass {
   a: number; // conflicts with cast to Foo
   c: ?number; // conflicts with cast to Foo
 }
+
 class Test2Class extends Test2Superclass {
   b: number; // conflicts with cast to Foo
 }
@@ -244,6 +250,7 @@ var Anon = class {};
 var anon: Anon = new Anon();
 
 class Alias {}
+
 var _Alias = class Alias {
   static factory(): Alias {
     return new Alias();
@@ -269,7 +276,9 @@ class Derived2 extends Derived1 {
 
 =====================================output=====================================
 const Base: any = class {};
+
 class Derived1 extends Base {}
+
 class Derived2 extends Derived1 {
   m() {}
 }
@@ -325,6 +334,7 @@ declare var o: {p:number};
 class C {
   static p: string;
 }
+
 C.p = "hi";
 
 // Class static fields are compatible with object types

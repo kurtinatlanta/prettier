@@ -37,6 +37,7 @@ C.foo("");
 (C.name: number); // error, it's a string
 
 declare class D extends C {}
+
 new D(123); // error, number ~> string
 
 ================================================================================

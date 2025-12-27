@@ -865,9 +865,11 @@ function logical10c(x: number, y: string): Array<any> {
  */
 function logical11a(): number {
   var y = 1;
+
   for (var x = 0; x < 5; x++) {
     y = y || true;
   }
+
   return y;
 }
 
@@ -878,6 +880,7 @@ function logical11b(y: number): number {
   for (var x = 0; x < 5; x++) {
     y = y || true; // expected a number
   }
+
   return y;
 }
 
@@ -887,10 +890,12 @@ function logical11b(y: number): number {
 function logical12a(): number {
   var y = 1;
   var z = true;
+
   for (var x = 0; x < 5; x++) {
     y = z && y;
     z = false;
   }
+
   return y;
 }
 
@@ -901,6 +906,7 @@ function logical12b(y: number): number {
   for (var x = 0; x < 5; x++) {
     y = y && true; // expected a number
   }
+
   return y;
 }
 
@@ -1040,6 +1046,7 @@ function logical18b(x: { a: number }, y: { b: number }): number {
 function logical19a(x: { y: string, z: boolean }): boolean {
   return x.y && x.z; // error: x.y is a string
 }
+
 function logical19b(x: { y: string, z: boolean }): boolean {
   return x.y || x.z; // error: x.y is a string
 }

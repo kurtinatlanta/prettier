@@ -57,15 +57,19 @@ class A {
 class C {
   constructor(override a: number) {}
 }
+
 class D {
   constructor(private a: number) {}
 }
+
 class E {
   constructor(protected a: number) {}
 }
+
 class F {
   constructor(public a: number) {}
 }
+
 class G {
   constructor(readonly a: number) {}
 }
@@ -321,10 +325,12 @@ class Foo<
   FOOOOOOOOOOOOOOOOOOOOOOOOOOO,
   FOOOOOOOOOOOOOOOOOOOOOOOOOOO,
 > implements Foo {}
+
 class Foo___<
   FOOOOOOOOOOOOOOOOOOOOOOOOOOO,
   FOOOOOOOOOOOOOOOOOOOOOOOOOOO,
 > extends Foo {}
+
 interface Foo<
   FOOOOOOOOOOOOOOOOOOOOOOOOOOO,
   FOOOOOOOOOOOOOOOOOOOOOOOOOO,
@@ -637,6 +643,7 @@ class Square {
   constructor(sideLength: number, unit?: string) {
     this.#sideLength = sideLength;
     this.#area = this.#sideLength ** 2;
+
     if (unit) {
       this.#unit = unit;
     }

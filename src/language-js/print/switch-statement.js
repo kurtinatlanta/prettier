@@ -6,11 +6,7 @@ import {
   softline,
 } from "../../document/index.js";
 import { printDanglingComments } from "../../main/comments/print.js";
-import {
-  CommentCheckFlags,
-  hasComment,
-  isNextLineEmpty,
-} from "../utilities/index.js";
+import { CommentCheckFlags, hasComment } from "../utilities/index.js";
 import { printStatementSequence } from "./statement-sequence.js";
 
 function printSwitchStatement(path, options, print) {
@@ -26,14 +22,9 @@ function printSwitchStatement(path, options, print) {
       ? indent([
           hardline,
           join(
-            hardline,
-            path.map(
-              ({ node, isLast }) => [
-                print(),
-                !isLast && isNextLineEmpty(node, options) ? hardline : "",
-              ],
-              "cases",
-            ),
+            // Always add blank line between cases for better readability
+            [hardline, hardline],
+            path.map(() => print(), "cases"),
           ),
         ])
       : "",

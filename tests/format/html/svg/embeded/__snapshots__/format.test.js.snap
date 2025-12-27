@@ -118,6 +118,7 @@ element.fillStyle = 'currentColor'
       <script>
         document.addEventListener("DOMContentLoaded", () => {
           const element = document.getElementById("foo");
+
           if (element) {
             element.fillStyle = "currentColor";
           }
@@ -230,6 +231,7 @@ element.fillStyle = 'currentColor'
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const element = document.getElementById("foo");
+
       if (element) {
         element.fillStyle = "currentColor";
       }

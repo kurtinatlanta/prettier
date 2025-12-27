@@ -19,9 +19,11 @@ let newScore = player.score
 
 =====================================output=====================================
 const addOne = add(1, ?); // apply from the left
+
 addOne(2); // 3
 
 const addTen = add(?, 10); // apply from the right
+
 addTen(2); // 12
 
 // with pipeline

@@ -33,6 +33,7 @@ type A = { [key: string] };
 type TwoParams = {
   [a: string, b: string]: string;
 };
+
 type ThreeParams = {
   [a: string, b: string, c: string]: string;
 };
@@ -43,12 +44,14 @@ type TooLong = {
     looooooooooooooooooooooooooooooooooooooong: string,
   ]: string;
 };
+
 type TooLong81 = {
   [
     loooooooooooooooooooooooooong: string,
     loooooooooooooooooong: string,
   ]: string;
 };
+
 type TooLong80 = {
   [loooooooooooooooooooooooooong: string, looooooooooooooooong: string]: string;
 };
@@ -117,6 +120,7 @@ type A = { [key: string] };
 type TwoParams = {
   [a: string, b: string]: string;
 };
+
 type ThreeParams = {
   [a: string, b: string, c: string]: string;
 };
@@ -127,12 +131,14 @@ type TooLong = {
     looooooooooooooooooooooooooooooooooooooong: string,
   ]: string;
 };
+
 type TooLong81 = {
   [
     loooooooooooooooooooooooooong: string,
     loooooooooooooooooong: string,
   ]: string;
 };
+
 type TooLong80 = {
   [loooooooooooooooooooooooooong: string, looooooooooooooooong: string]: string;
 };
@@ -200,6 +206,7 @@ type A = { [key: string] };
 type TwoParams = {
   [a: string, b: string]: string;
 };
+
 type ThreeParams = {
   [a: string, b: string, c: string]: string;
 };
@@ -210,12 +217,14 @@ type TooLong = {
     looooooooooooooooooooooooooooooooooooooong: string,
   ]: string;
 };
+
 type TooLong81 = {
   [
     loooooooooooooooooooooooooong: string,
     loooooooooooooooooong: string,
   ]: string;
 };
+
 type TooLong80 = {
   [loooooooooooooooooooooooooong: string, looooooooooooooooong: string]: string;
 };
@@ -269,7 +278,9 @@ let h: !(string | number);
 
 =====================================output=====================================
 let a: *;
+
 function b(x: ?) {}
+
 let c: ?string;
 let d: string?;
 let e: ?(string | number);
@@ -317,7 +328,9 @@ let h: !(string | number);
 
 =====================================output=====================================
 let a: *;
+
 function b(x: ?) {}
+
 let c: ?string;
 let d: string?;
 let e: ?(string | number);
@@ -364,7 +377,9 @@ let h: !(string | number);
 
 =====================================output=====================================
 let a: *;
+
 function b(x: ?) {}
+
 let c: ?string;
 let d: string?;
 let e: ?(string | number);

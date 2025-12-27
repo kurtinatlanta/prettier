@@ -230,7 +230,9 @@ declare function Mix<T, U>(c1: T, c2: U): T & U;
 // Can't derive from type with inaccessible properties
 
 class C1 extends Mix(Private, Private2) {}
+
 class C2 extends Mix(Private, Protected) {}
+
 class C3 extends Mix(Private, Public) {}
 
 class C4 extends Mix(Protected, Protected2) {
@@ -384,21 +386,25 @@ function Tagged<T extends Constructor<{}>>(
       this._tag = "hello";
     }
   }
+
   return C;
 }
 
 const Thing1 = Tagged(Derived);
 const Thing2 = Tagged(Printable(Derived));
+
 Thing2.message;
 
 function f1() {
   const thing = new Thing1(1, 2, 3);
+
   thing.x;
   thing._tag;
 }
 
 function f2() {
   const thing = new Thing2(1, 2, 3);
+
   thing.x;
   thing._tag;
   thing.print();
@@ -524,21 +530,25 @@ function Tagged<T extends Constructor<{}>>(superClass: T) {
       this._tag = "hello";
     }
   }
+
   return C;
 }
 
 const Thing1 = Tagged(Derived);
 const Thing2 = Tagged(Printable(Derived));
+
 Thing2.message;
 
 function f1() {
   const thing = new Thing1(1, 2, 3);
+
   thing.x;
   thing._tag;
 }
 
 function f2() {
   const thing = new Thing2(1, 2, 3);
+
   thing.x;
   thing._tag;
   thing.print();
@@ -714,6 +724,7 @@ function f1() {
 
 function f2() {
   let x = new Mixed1("hello");
+
   x.a;
   x.p;
   Mixed1.p;
@@ -721,6 +732,7 @@ function f2() {
 
 function f3() {
   let x = new Mixed2("hello");
+
   x.a;
   x.p;
   Mixed2.p;
@@ -728,6 +740,7 @@ function f3() {
 
 function f4() {
   let x = new Mixed3("hello");
+
   x.a;
   x.p;
   x.f();
@@ -737,6 +750,7 @@ function f4() {
 
 function f5() {
   let x = new Mixed4("hello");
+
   x.a;
   x.p;
   x.f();
@@ -746,6 +760,7 @@ function f5() {
 
 function f6() {
   let x = new Mixed5();
+
   x.p;
   x.f();
   Mixed5.p;

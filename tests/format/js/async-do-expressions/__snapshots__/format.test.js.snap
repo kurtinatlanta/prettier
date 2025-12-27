@@ -52,6 +52,7 @@ let x = async do {
 
 let x = async do {
   let tmp = f();
+
   tmp * tmp + 1;
 };
 

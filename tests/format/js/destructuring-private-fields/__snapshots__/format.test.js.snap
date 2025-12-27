@@ -82,6 +82,7 @@ class C {
   #x = 1;
   m() {
     let x;
+
     ({ #x: x } = this);
   }
 }
@@ -289,6 +290,7 @@ class C {
   #x = 1;
   m() {
     let x;
+
     for ({ #x: x } of [this]);
   }
 }
