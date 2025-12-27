@@ -42,7 +42,8 @@ class C {
   static {
     try {
       this.y = doSomethingWith(this.#x);
-    } catch {
+    }
+    catch {
       this.y = "unknown";
     }
   }
