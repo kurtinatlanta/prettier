@@ -264,7 +264,8 @@ mixed.sort();
 
 if (0n) {
   console.log("Hello from the if!");
-} else {
+}
+else {
   console.log("Hello from the else!");
 }
 
@@ -428,7 +429,8 @@ class C {
   static {
     try {
       this.y = doSomethingWith(this.#x);
-    } catch {
+    }
+    catch {
       this.y = "unknown";
     }
   }
@@ -806,7 +808,8 @@ let a = x > 10 ? 'big' : 'small';
 let a = do {
   if (x > 10) {
     ("big");
-  } else {
+  }
+  else {
     ("small");
   }
 };
@@ -1609,15 +1612,18 @@ try {
 
 try {
   throw 0;
-} catch {
+}
+catch {
   doSomethingWhichDoesNotCareAboutTheValueThrown();
 }
 
 try {
   throw 0;
-} catch {
+}
+catch {
   doSomethingWhichDoesNotCareAboutTheValueThrown();
-} finally {
+}
+finally {
   doSomeCleanup();
 }
 
@@ -2252,7 +2258,8 @@ class C {
     try {
       obj.#brand;
       return true;
-    } catch {
+    }
+    catch {
       return false;
     }
   }
@@ -2272,7 +2279,8 @@ class C2 {
     try {
       obj.#getter;
       return true;
-    } catch {
+    }
+    catch {
       return false; // oops! might have gotten here because \`#getter\` threw :-(
     }
   }
