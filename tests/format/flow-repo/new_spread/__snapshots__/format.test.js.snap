@@ -105,15 +105,18 @@ declare var o13: O13;
 
 =====================================output=====================================
 declare class T {}
+
 declare var x: T;
 
 declare class U {}
+
 declare var y: U;
 
 declare var nil: {||};
 
 // inexact: \`p\` may be non-own
 type O1 = { ...{ p: T } };
+
 declare var o1: O1;
 (o1: { p?: T }); // ok
 (o1: { p: T }); // error: o1.p is optional
@@ -124,6 +127,7 @@ declare var o1: O1;
 
 // inexact: optional \`p\`, if own, must be \`T\`
 type O2 = { ...{ p?: T } };
+
 declare var o2: O2;
 (o2: { p?: T }); // ok
 (o2: { p: T }); // error: o2.p is optional
@@ -134,10 +138,12 @@ declare var o2: O2;
 
 // can't make exact from inexact (TODO: force EvalT eagerly)
 type O3 = {| ...{ p: T } |};
+
 ({ p: x }: O3); // error: spread result is not exact
 
 // exact
 type O4 = { ...{| p: T |} };
+
 declare var o4: O4;
 (o4: { p: T }); // ok
 (o4: {| p: T |}); // error: not exact
@@ -148,6 +154,7 @@ declare var o4: O4;
 
 // can make exact from exact
 type O5 = {| ...{| p: T |} |};
+
 declare var o5: O5;
 (o5: { p: T }); // ok
 (o5: {| p: T |}); // ok
@@ -158,6 +165,7 @@ declare var o5: O5;
 
 // inexact p + exact p
 type O6 = { ...{ p: T }, ...{| p: U |} };
+
 declare var o6: O6;
 (o6: { p: U }); // ok
 ({}: O6); // error: property \`p\` not found
@@ -167,10 +175,12 @@ declare var o6: O6;
 
 // inexact p + exact p ~> exact (TODO: force EvalT eagerly)
 type O7 = {| ...{ p: T }, ...{| p: U |} |};
+
 ({ p: y }: O7); // error: spread result is not exact
 
 // exact p + inexact p
 type O8 = { ...{| p: T |}, ...{ p: U } };
+
 declare var o8: O8;
 (o8: { p: T | U }); // ok
 (o8.p: T); // error: U ~> T
@@ -178,6 +188,7 @@ declare var o8: O8;
 
 // inexact p + exact q
 type O9 = { ...{ p: T }, ...{| q: U |} };
+
 declare var o9: O9;
 (o9: { p?: T, q: U });
 (o9.p: T); // error: o9.p is optional
@@ -185,21 +196,25 @@ declare var o9: O9;
 
 // exact p + inexact q
 type O10 = { ...{| p: T |}, ...{ q: U } };
+
 declare var o10: O10;
 (o10: { p: mixed, q?: U }); // ok
 
 // inexact p + inexact q
 type O11 = { ...{ p: T }, ...{ q: U } };
+
 declare var o11: O11;
 (o11: { p: mixed, q: mixed }); // ok
 
 // exact + exact
 type O12 = { ...{| p: T |}, ...{| q: U |} };
+
 declare var o12: O12;
 (o12: { p: T, q: U }); // ok
 
 // inline properties are exact
 type O13 = { ...{ p: T }, p: U };
+
 declare var o13: O13;
 (o13: { p: U });
 
@@ -228,17 +243,25 @@ var o3: O3 = (0: mixed); // ok
 
 =====================================output=====================================
 type O1 = { ...any };
+
 var o1: O1 = (0: mixed); // ok
+
 (o1: empty); // ok
 
 type O2 = { ...Object };
+
 var o2: O2 = (0: mixed); // ok
+
 (o2: empty); // ok
 
 declare var Base: any;
+
 declare class Derived extends Base {}
+
 type O3 = { ...Derived };
+
 var o3: O3 = (0: mixed); // ok
+
 (o3: empty); // ok
 
 ================================================================================
@@ -268,12 +291,14 @@ declare var o2: O2;
 declare class T {}
 
 type O1 = { ...{ -p: T } };
+
 declare var o1: O1;
 (o1: { p?: mixed }); // ok
 (o1: { p?: T }); // error: unknown ~> T
 (o1.p: T); // errors: undefined ~> T, unknown ~> T
 
 type O2 = { ...{ -[string]: T } };
+
 declare var o2: O2;
 (o2: { [string]: mixed }); // ok
 (o2: { [string]: T }); // error: unknown ~> T
@@ -329,6 +354,7 @@ declare var o12: {...{|[string]:T|},...{|[string]:U|}};
 
 =====================================output=====================================
 declare class T {}
+
 declare class U {}
 
 declare var o1: { ...{ [string]: T }, ...{ p: U } };
@@ -382,6 +408,7 @@ declare function spread<A,B>(a: A, b: B): {...A, ...B};
 
 =====================================output=====================================
 declare function spread<A, B>(a: A, b: B): { ...A, ...B };
+
 (spread({ p: 0 }, { q: 0 }): {| +p: number, +q: number |}); // ok
 (spread({ p: 0 }, { q: 0 }): {| +p: empty, +q: empty |}); // number ~> empty (x2)
 
@@ -410,18 +437,22 @@ declare var o2: O2;
 class A {
   +p: string | number;
 }
+
 class B extends A {
   p: number;
 }
 
 type O1 = { ...B };
+
 declare var o1: O1;
 (o1: { p?: number }); // ok
 
 declare class C {
   [string]: number;
 }
+
 type O2 = { ...C };
+
 declare var o2: O2;
 (o2: { [string]: number }); // ok
 
@@ -465,31 +496,38 @@ declare var o5: O5;
 
 =====================================output=====================================
 declare class T {}
+
 declare class U {}
 
 declare class A {}
+
 declare class B extends A {}
 
 type O1 = { ...{ p: T } & { q: U } };
+
 declare var o1: O1;
 (o1: { p?: T, q?: U }); // ok
 
 type O2 = { ...{ p: A } & { p: B } };
+
 declare var o2: O2;
 (o2: { p?: B }); // ok
 ({ p: new B() }: O2); // ok
 ({ p: new A() }: O2); // error: A ~> B
 
 type O3 = { ...{ p: A } & { [string]: B } };
+
 declare var o3: O3;
 (o3: { p: B, [string]: B }); // ok: A&B = B
 (o3.q: B); // ok
 
 type O4 = { ...{ [string]: A } & { p: B } };
+
 declare var o4: O4;
 (o4: { p: B, [string]: A }); // ok: A&B = B
 
 type O5 = { ...{ [string]: A } & { [string]: B } };
+
 declare var o5: O5;
 (o5: { [string]: B }); // ok: A&B = B
 
@@ -570,6 +608,7 @@ declare var o21: {...{|p:T|}&{q:U}};
 
 =====================================output=====================================
 declare class T {}
+
 declare class U {}
 
 declare var o1: { ...{ p: T } & { p: U } };
@@ -669,6 +708,7 @@ declare var p: {...{|p?:T|},...{|p?:U|}}; (p: {|p?:T|U|});
 
 =====================================output=====================================
 declare class T {}
+
 declare class U {}
 
 declare var a: { ...{ p: T }, ...{ p: U } };
@@ -728,12 +768,15 @@ declare var o1: O1;
 
 =====================================output=====================================
 declare class T {}
+
 declare var x: T;
 
 declare class U {}
+
 declare var y: U;
 
 type O1 = { ...{ p: T } | { q: U } };
+
 declare var o1: O1;
 (o1: { p?: T } | { q?: U }); // ok
 

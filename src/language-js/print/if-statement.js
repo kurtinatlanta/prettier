@@ -30,10 +30,7 @@ function printIfStatement(path, options, print) {
         node.consequent,
         CommentCheckFlags.Trailing | CommentCheckFlags.Line,
       ) || needsHardlineAfterDanglingComment(node);
-    // Always put else on its own line
-    // const elseOnSameLine =
-    //   node.consequent.type === "BlockStatement" && !commentOnOwnLine;
-    // parts.push(elseOnSameLine ? " " : hardline);
+    // Always put else on its own line (Stroustrup style)
     parts.push(hardline);
 
     if (hasComment(node, CommentCheckFlags.Dangling)) {

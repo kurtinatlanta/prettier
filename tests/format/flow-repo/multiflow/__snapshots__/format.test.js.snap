@@ -60,6 +60,7 @@ function apply<Args: $ReadOnlyArray<mixed>, Ret>(
 function noRest(x: "hi", y: 123): true {
   return true;
 }
+
 apply(noRest, ["hi", 123]); // No error
 apply(noRest, ["hi", 456]); // Error - 456 ~> 123
 apply(noRest, ["hi"]); // Error - too few args
@@ -69,6 +70,7 @@ apply(noRest, ["hi", 123, false]); // No error - too many args is fine
 function withRest(...rest: ["hi", 123]): true {
   return true;
 }
+
 apply(withRest, ["hi", 123]); // No error
 apply(withRest, ["hi", 456]); // Error - 456 ~> 123
 apply(withRest, ["hi"]); // Error - too few args
@@ -83,6 +85,7 @@ declare var applyType: <Args: $ReadOnlyArray<mixed>, Ret>(
 function noRest(x: "hi", y: 123): true {
   return true;
 }
+
 applyType(noRest, ["hi", 123]); // No error
 applyType(noRest, ["hi", 456]); // Error - 456 ~> 123
 applyType(noRest, ["hi"]); // Error - too few args
@@ -92,6 +95,7 @@ applyType(noRest, ["hi", 123, false]); // No error - too many args is fine
 function withRest(...rest: ["hi", 123]): true {
   return true;
 }
+
 applyType(withRest, ["hi", 123]); // No error
 applyType(withRest, ["hi", 456]); // Error - 456 ~> 123
 applyType(withRest, ["hi"]); // Error - too few args
@@ -143,6 +147,7 @@ class B extends A {
 function foo(...args) {
   foo(1, ...args);
 }
+
 foo(123);
 
 ================================================================================
@@ -232,14 +237,17 @@ declare function JSX<
 ): Elem;
 
 declare function AcceptsWhatever(props: {} | null, children: any): string;
+
 (<AcceptsWhatever />: number); // Error string ~> number
 (<AcceptsWhatever name="hi">Text</AcceptsWhatever>: number); // Error string ~> number
 
 declare function ExpectsProps(props: { name: string }, children: any): string;
+
 <ExpectsProps />; // Error - missing prop
 (<ExpectsProps name="hi">Text</ExpectsProps>: number); // Error string ~> number
 
 declare function ExpectsChildrenTuple(props: any, children: [string]): string;
+
 <ExpectsChildrenTuple />; // Error - mising child
 <ExpectsChildrenTuple>Hi</ExpectsChildrenTuple>; // No error
 <ExpectsChildrenTuple>{123}</ExpectsChildrenTuple>; // Error: number ~> string
@@ -249,6 +257,7 @@ declare function ExpectsChildrenArray(
   props: any,
   children: Array<string>,
 ): string;
+
 <ExpectsChildrenArray />; // No error - 0 children is fine
 <ExpectsChildrenArray>Hi</ExpectsChildrenArray>; // No error - 1 child is fine
 <ExpectsChildrenArray>{123}</ExpectsChildrenArray>; // Error: number ~> string
@@ -296,6 +305,7 @@ funWithRestArray('hi', ...arrOf123, 'bye', ...arrOf123);
 // @flow
 
 function fun(x: "hi", y: 123) {}
+
 fun(...["hi", 123]); // No error
 fun(...["hi"], ...[123]); // No error
 fun(...["hi"], ...[], ...[123]); // No error
@@ -306,6 +316,7 @@ declare var arrOf123: Array<123>;
 fun("hi", ...arrOf123); // No error - ignore the fact arrOf123 could be empty
 
 function funWithRestArray(x: "hi", y: 123, ...rest: Array<number>) {}
+
 funWithRestArray(...["hi", 123]); // No error
 funWithRestArray(...["hi"], ...[123]); // No error
 funWithRestArray(...["hi"], ...[], ...[123]); // No error

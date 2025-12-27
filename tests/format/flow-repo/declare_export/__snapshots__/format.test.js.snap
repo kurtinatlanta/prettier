@@ -1113,11 +1113,13 @@ var at4: string = numberValue9; // Error: number ~> string
 
 // @providesModule
 import * as DefaultA from "A";
+
 var a1: number = DefaultA.numberValue1;
 var a2: string = DefaultA.numberValue1; // Error: number ~> string
 
 // File path
 import * as DefaultB from "./B";
+
 var b1: number = DefaultB.numberValue;
 var b2: string = DefaultB.numberValue; // Error: number ~> string
 
@@ -1134,22 +1136,29 @@ import DefaultD from "./D"; // Error: No such module
 import { doesntExist1 } from "CommonJS_Clobbering_Lit"; // Error: Not an exported binding
 
 import { numberValue1 } from "CommonJS_Clobbering_Lit";
+
 var c1: number = numberValue1;
 var c2: string = numberValue1; // Error: number ~> string
 
 import { numberValue2 as numVal1 } from "CommonJS_Clobbering_Lit";
+
 var d1: number = numVal1;
 var d2: string = numVal1; // Error: number ~> string
 
 import CJS_Clobb_Lit from "CommonJS_Clobbering_Lit";
+
 var e1: number = CJS_Clobb_Lit.numberValue3;
 var e2: string = CJS_Clobb_Lit.numberValue3; // Error: number ~> string
+
 CJS_Clobb_Lit.doesntExist; // Error: doesntExist isn't a property
 
 import * as CJS_Clobb_Lit_NS from "CommonJS_Clobbering_Lit";
+
 var f1: number = CJS_Clobb_Lit_NS.numberValue4;
 var f2: number = CJS_Clobb_Lit_NS.default.numberValue4;
+
 CJS_Clobb_Lit_NS.default.default; // Error: No 'default' property on the exported obj
+
 var f3: string = CJS_Clobb_Lit_NS.numberValue4; // Error: number ~> string
 var f4: string = CJS_Clobb_Lit_NS.default.numberValue5; // Error: number ~> string
 
@@ -1166,15 +1175,19 @@ import { doesntExist2 } from "CommonJS_Clobbering_Class"; // Error: Not an expor
 import { staticNumber1, baseProp, childProp } from "CommonJS_Clobbering_Class"; // Error
 
 import CJS_Clobb_Class from "CommonJS_Clobbering_Class";
+
 new CJS_Clobb_Class();
 new CJS_Clobb_Class().doesntExist; // Error: Class has no \`doesntExist\` property
+
 var h1: number = CJS_Clobb_Class.staticNumber2();
 var h2: string = CJS_Clobb_Class.staticNumber2(); // Error: number ~> string
 var h3: number = new CJS_Clobb_Class().instNumber1();
 var h4: string = new CJS_Clobb_Class().instNumber1(); // Error: number ~> string
 
 import * as CJS_Clobb_Class_NS from "CommonJS_Clobbering_Class";
+
 new CJS_Clobb_Class_NS(); // Error: Namespace object isn't constructable
+
 var i1: number = CJS_Clobb_Class_NS.staticNumber3(); // Error: Class statics not copied to Namespace object
 var i2: number = new CJS_Clobb_Class_NS.default().instNumber2();
 var i3: string = new CJS_Clobb_Class_NS.default().instNumber2(); // Error: number ~> string
@@ -1186,19 +1199,24 @@ var i3: string = new CJS_Clobb_Class_NS.default().instNumber2(); // Error: numbe
 import { doesntExist3 } from "CommonJS_Named"; // Error: Not an exported binding
 
 import { numberValue2 } from "CommonJS_Named";
+
 var j1: number = numberValue2;
 var j2: string = numberValue2; // Error: number ~> string
 
 import { numberValue3 as numVal3 } from "CommonJS_Named";
+
 var k1: number = numVal3;
 var k2: string = numVal3; // Error: number ~> string
 
 import * as CJS_Named from "CommonJS_Named";
+
 var l1: number = CJS_Named.numberValue1;
 var l2: string = CJS_Named.numberValue1; // Error: number ~> string
+
 CJS_Named.doesntExist; // Error: doesntExist isn't a property
 
 import * as CJS_Named_NS from "CommonJS_Named";
+
 var m1: number = CJS_Named_NS.numberValue4;
 var m2: string = CJS_Named_NS.default.numberValue4; // Error: CommonJS_Named has no default export
 var m3: string = CJS_Named_NS.numberValue4; // Error: number ~> string
@@ -1210,14 +1228,17 @@ var m3: string = CJS_Named_NS.numberValue4; // Error: number ~> string
 import { doesntExist4 } from "ES6_Default_AnonFunction1"; // Error: Not an exported binding
 
 import ES6_Def_AnonFunc1 from "ES6_Default_AnonFunction1";
+
 var n1: number = ES6_Def_AnonFunc1();
 var n2: string = ES6_Def_AnonFunc1(); // Error: number ~> string
 
 import ES6_Def_NamedFunc1 from "ES6_Default_NamedFunction1";
+
 var o1: number = ES6_Def_NamedFunc1();
 var o2: string = ES6_Def_NamedFunc1(); // Error: number ~> string
 
 import ES6_Def_NamedClass1 from "ES6_Default_NamedClass1";
+
 var q1: number = new ES6_Def_NamedClass1().givesANum();
 var q2: string = new ES6_Def_NamedClass1().givesANum(); // Error: number ~> string
 
@@ -1228,46 +1249,56 @@ var q2: string = new ES6_Def_NamedClass1().givesANum(); // Error: number ~> stri
 import doesntExist5 from "ES6_Named1"; // Error: Not an exported binding
 
 import { specifierNumber1 as specifierNumber1_1 } from "ES6_Named1";
+
 var r1: number = specifierNumber1_1;
 var r2: string = specifierNumber1_1; // Error: number ~> string
 
 import { specifierNumber2Renamed } from "ES6_Named1";
+
 var s1: number = specifierNumber2Renamed;
 var s2: string = specifierNumber2Renamed; // Error: number ~> string
 
 import { specifierNumber3 as specifierNumber3Renamed } from "ES6_Named1";
+
 var t1: number = specifierNumber3Renamed;
 var t2: string = specifierNumber3Renamed; // Error: number ~> string
 
 import { groupedSpecifierNumber1, groupedSpecifierNumber2 } from "ES6_Named1";
+
 var u1: number = groupedSpecifierNumber1;
 var u2: number = groupedSpecifierNumber2;
 var u3: string = groupedSpecifierNumber1; // Error: number ~> string
 var u4: string = groupedSpecifierNumber2; // Error: number ~> string
 
 import { givesANumber } from "ES6_Named1";
+
 var v1: number = givesANumber();
 var v2: string = givesANumber(); // Error: number ~> string
 
 import { NumberGenerator } from "ES6_Named1";
+
 var w1: number = new NumberGenerator().givesANumber();
 var w2: string = new NumberGenerator().givesANumber(); // Error: number ~> string
 
 import { varDeclNumber1, varDeclNumber2 } from "ES6_Named1";
+
 var x1: number = varDeclNumber1;
 var x2: number = varDeclNumber2;
 var x3: string = varDeclNumber1; // Error: number ~> string
 var x4: string = varDeclNumber2; // Error: number ~> string
 
 import { numberValue1 as numberValue4 } from "ES6_ExportFrom_Intermediary1";
+
 var aa1: number = numberValue4;
 var aa2: string = numberValue4; // Error: number ~> string
 
 import { numberValue2_renamed } from "ES6_ExportFrom_Intermediary1";
+
 var ab1: number = numberValue2_renamed;
 var ab2: string = numberValue2_renamed; // Error: number ~> string
 
 import { numberValue1 as numberValue5 } from "ES6_ExportAllFrom_Intermediary1";
+
 var ac1: number = numberValue5;
 var ac2: string = numberValue5; // Error: number ~> string
 

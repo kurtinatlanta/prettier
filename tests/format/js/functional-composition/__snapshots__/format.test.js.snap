@@ -493,7 +493,9 @@ const mapStateToProps = state => ({
 =====================================output=====================================
 var classyGreeting = (firstName, lastName) =>
   "The name's " + lastName + ", " + firstName + " " + lastName;
+
 var yellGreeting = R.compose(R.toUpper, classyGreeting);
+
 yellGreeting("James", "Bond"); //=> "THE NAME'S BOND, JAMES BOND"
 
 R.compose(Math.abs, R.add(1), R.multiply(2))(-4); //=> 7
@@ -508,6 +510,7 @@ var getStateCode = R.composeK(
   get("address"),
   get("user"),
 );
+
 getStateCode({ user: { address: { state: "ny" } } }); //=> Maybe.Just("NY")
 getStateCode({}); //=> Maybe.Nothing()
 
@@ -522,14 +525,18 @@ var db = {
 
 // We'll pretend to do a db lookup which returns a promise
 var lookupUser = (userId) => Promise.resolve(db.users[userId]);
+
 var lookupFollowers = (user) => Promise.resolve(user.followers);
+
 lookupUser("JOE").then(lookupFollowers);
 
 //  followersForUser :: String -> Promise [UserId]
 var followersForUser = R.composeP(lookupFollowers, lookupUser);
+
 followersForUser("JOE").then((followers) =>
   console.log("Followers:", followers),
 );
+
 // Followers: ["STEVE","SUZY"]
 
 const mapStateToProps = (state) => ({
@@ -592,6 +599,7 @@ var getStateCode = R.pipeK(
 getStateCode('{"user":{"address":{"state":"ny"}}}');
 //=> Just('NY')
 getStateCode("[Invalid JSON]");
+
 //=> Nothing()
 
 //  followersForUser :: String -> Promise [User]

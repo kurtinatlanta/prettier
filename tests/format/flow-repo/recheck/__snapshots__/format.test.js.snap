@@ -91,6 +91,7 @@ module.exports = { C, E };
 class C {
   x: C;
 }
+
 class E {
   x: C;
 }
@@ -120,15 +121,21 @@ module.exports = { C, D };
 // @flow
 
 import { C, E } from "./b0";
+
 function foo() {
   return C;
 }
+
 function bar() {
   return E;
 }
+
 let X = foo();
+
 class F extends X {}
+
 class D extends F {}
+
 module.exports = { C, D };
 
 ================================================================================
@@ -362,6 +369,7 @@ module.exports = { a, b, c };
 // @flow
 
 type T = { x: number };
+
 type S = { x: string };
 
 declare var a: T;
@@ -388,6 +396,7 @@ var { a, b, c } = require('./f1');
 // @flow
 
 var { a, b, c } = require("./f1");
+
 (c: { x: number });
 
 ================================================================================

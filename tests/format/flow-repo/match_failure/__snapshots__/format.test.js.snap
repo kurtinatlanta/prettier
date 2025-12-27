@@ -36,6 +36,7 @@ function area(shape: Shape): number {
   else if (shape.type === "circle") {
     return Math.PI * Math.pow(shape.radius, 2);
   }
+
   throw "unreachable"; // TODO: this shouldn't be needed
 }
 
@@ -74,6 +75,7 @@ function stringifyBinary(binary: Binary): string {
     // oops
     return "one";
   }
+
   throw "unreachable"; // TODO: this shouldn't be needed
 }
 

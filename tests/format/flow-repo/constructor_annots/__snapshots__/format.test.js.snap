@@ -33,6 +33,7 @@ exports.Foo2 = (Foo: Class<IFoo>);
 function Foo() {
   this.x = 0; // constructs objects with property x
 }
+
 Foo.y = 0; // has static property y
 Foo.prototype = {
   m() {
@@ -48,11 +49,13 @@ exports.Foo = Foo;
 interface IFooPrototype {
   m: () => number;
 }
+
 interface IFoo extends IFooPrototype {
   x: boolean; // error, should have declared x: number instead
   static(): void;
   constructor(): void;
 }
+
 exports.Foo2 = (Foo: Class<IFoo>);
 
 ================================================================================

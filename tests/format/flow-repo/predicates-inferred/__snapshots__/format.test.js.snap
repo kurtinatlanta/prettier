@@ -146,11 +146,14 @@ if (dotAccess(obj)) {
 function dotAccess(head, create) {
   const path = "path.location";
   const stack = path.split(".");
+
   do {
     const key = stack.shift();
+
     head = head[key] || (create && (head[key] = {}));
   }
   while (stack.length && head);
+
   return head;
 }
 
