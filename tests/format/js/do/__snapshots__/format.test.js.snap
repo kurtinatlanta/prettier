@@ -52,25 +52,31 @@ expect(
 // from https://github.com/babel/babel/pull/13122/
 expect(do {
   var bar = "foo";
+
   if (!bar) throw new Error("unreachable");
+
   bar;
 }).toBe("foo");
 expect(bar).toBe("foo");
 
 var x = do {
   var bar = "foo";
+
   if (!bar) throw new Error("unreachable");
+
   bar;
 };
 
 expect(do {
   var bar = "foo";
+
   bar;
 }).toBe("foo");
 expect(bar).toBe("foo");
 
 var x = do {
   var bar = "foo";
+
   bar;
 };
 
@@ -218,6 +224,7 @@ const envSpecific = {
 
 let x = do {
   let tmp = f();
+
   tmp * tmp + 1;
 };
 
@@ -258,6 +265,7 @@ function foo() {
   switch (0) {
     case 0:
       "foo";
+
     case 1:
       break;
   }
@@ -265,6 +273,7 @@ function foo() {
 
 () => do {
   var obj = { foo: "bar", bar: "foo" };
+
   for (var key in obj) {
     obj[key];
   }
@@ -272,6 +281,7 @@ function foo() {
 
 () => () => do {
   var obj = { foo: "bar", bar: "foo" };
+
   for (var key in obj) {
     obj[key];
   }
@@ -279,6 +289,7 @@ function foo() {
 
 (a) => (b) => (c) => do {
   var obj = { foo: "bar", bar: "foo" };
+
   for (var key in obj) {
     obj[key];
   }

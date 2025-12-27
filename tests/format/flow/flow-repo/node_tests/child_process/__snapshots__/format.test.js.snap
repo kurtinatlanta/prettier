@@ -205,6 +205,7 @@ ls.on("close", function (code) {
   if (code !== 0) {
     console.warn("\`ls\` exited with code %s", code);
   }
+
   wc.stdin.end();
 });
 

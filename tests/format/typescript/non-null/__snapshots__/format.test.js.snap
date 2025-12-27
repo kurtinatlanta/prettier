@@ -186,6 +186,7 @@ const b = c!();
 const c1 = new (d()!)();
 const c2 = new (d()!)();
 const c3 = new (d()!.e)();
+
 new (x()\`\`.y!)();
 new (x()\`\`!.y)();
 new (x()!\`\`.y)();

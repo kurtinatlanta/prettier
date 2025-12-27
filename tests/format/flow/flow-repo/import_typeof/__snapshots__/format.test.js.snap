@@ -382,6 +382,7 @@ import ClassFoo1 from "./ExportDefault_Class";
 
 var a1: ClassFoo1T = ClassFoo1;
 var a2: ClassFoo1T = new ClassFoo1(); // Error: ClassFoo1 (inst) ~> ClassFoo1 (class)
+
 new ClassFoo1T(); // Error: ClassFoo1T is not bound to a value
 
 /////////////////////////////////////////////////
@@ -393,6 +394,7 @@ import { ClassFoo2 } from "./ExportNamed_Class";
 
 var b1: ClassFoo2T = ClassFoo2;
 var b2: ClassFoo2T = new ClassFoo2(); // Error: ClassFoo2 (inst) ~> ClassFoo2 (class)
+
 new ClassFoo2T(); // Error: ClassFoo2T is not bound to a value
 
 ///////////////////////////////////////////////////////
@@ -470,6 +472,7 @@ var i2: num_cjs_named = "asdf"; // Error: string ~> number
 ///////////////////////////////////////////////
 
 import typeof * as ModuleNSObjT from "./ExportNamed_Multi";
+
 var j1: ModuleNSObjT = { num: 42, str: "asdf" };
 var j2: ModuleNSObjT = { num: 42, str: 42 }; // Error: number ~> string
 

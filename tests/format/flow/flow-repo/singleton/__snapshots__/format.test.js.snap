@@ -139,7 +139,9 @@ bar(2);
 bar(3); // error
 
 type ComparatorResult = -1 | 0 | 1;
+
 function sort(fn: (x: any, y: any) => ComparatorResult) {}
+
 sort((x, y) => -1);
 
 ================================================================================
@@ -163,9 +165,11 @@ type HasSpaces = "foo bar"
 /* @flow */
 
 type NoSpaces = "foobar";
+
 ("foobar": NoSpaces);
 
 type HasSpaces = "foo bar";
+
 ("foo bar": HasSpaces);
 
 ================================================================================

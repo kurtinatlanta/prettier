@@ -1461,6 +1461,7 @@ const inReturn = () => {
   if (short) {
     return foo ? 1 : 2;
   }
+
   return typeof row[aVeryLongFieldName] !== "undefined" ?
       row[aVeryLongFieldName]
     : null;
@@ -1855,6 +1856,7 @@ const inReturn = () => {
   if (short) {
     return foo ? 1 : 2;
   }
+
   return typeof row[aVeryLongFieldName] !== "undefined"
     ? row[aVeryLongFieldName]
     : null;
@@ -1942,6 +1944,7 @@ var x = a <= 1 ? 2 : 3;
 =====================================output=====================================
 // no-confusing-arrow
 var x = (a) => (1 ? 2 : 3);
+
 var x = a <= 1 ? 2 : 3;
 
 ================================================================================
@@ -1960,6 +1963,7 @@ var x = a <= 1 ? 2 : 3;
 =====================================output=====================================
 // no-confusing-arrow
 var x = (a) => (1 ? 2 : 3);
+
 var x = a <= 1 ? 2 : 3;
 
 ================================================================================
@@ -2183,6 +2187,7 @@ function foo() {
     : linkToRecord(rootPath, sourceId, linkTo_as_string)
   );
 }
+
 function foo2() {
   return (
     React.isValidElement(emptyText) ? React.cloneElement(emptyText)
@@ -2516,6 +2521,7 @@ function foo() {
       ? linkTo(record, reference)
       : linkToRecord(rootPath, sourceId, linkTo_as_string);
 }
+
 function foo2() {
   return React.isValidElement(emptyText)
     ? React.cloneElement(emptyText)

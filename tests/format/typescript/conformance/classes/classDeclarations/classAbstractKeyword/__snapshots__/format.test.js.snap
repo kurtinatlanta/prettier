@@ -95,9 +95,11 @@ abstract class A {
 }
 
 var AA: typeof A;
+
 AA = I;
 
 var AAA: typeof I;
+
 AAA = A;
 
 ================================================================================
@@ -164,6 +166,7 @@ abstract class foo {
 class bar extends foo {
   test() {}
 }
+
 var x = new bar();
 
 ================================================================================
@@ -236,6 +239,7 @@ NewB(A);
 NewB(B);
 =====================================output=====================================
 class A {}
+
 abstract class B extends A {}
 
 function NewA(Factory: typeof A) {
@@ -539,6 +543,7 @@ new B();
 
 var BB: typeof B = B;
 var AA: typeof A = BB;
+
 new AA();
 
 function constructB(Factory: typeof B) {
@@ -546,9 +551,11 @@ function constructB(Factory: typeof B) {
 }
 
 var BB = B;
+
 new BB();
 
 var x: any = C;
+
 new x();
 
 class C extends B {}
@@ -830,6 +837,7 @@ new C;
 abstract class A {}
 
 abstract;
+
 class B {}
 
 abstract;
@@ -959,6 +967,7 @@ abstract class C extends A {
 }
 
 var a = new B();
+
 a.foo();
 
 a = new C();

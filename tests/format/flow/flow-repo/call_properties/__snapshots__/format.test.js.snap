@@ -122,15 +122,18 @@ var d: { (): string } = function (x: number): string {
 
 // ...but subtyping rules still apply
 var e: { (x: any): void } = function () {}; // arity
+
 var f: { (): mixed } = function (): string {
   return "hi";
 }; // return type
+
 var g: { (x: string): void } = function (x: mixed) {}; // param type
 
 // A function can be an object
 var y: {} = function (x: number): string {
   return "hi";
 };
+
 var z: Object = function (x: number): string {
   return "hi";
 };
@@ -302,7 +305,9 @@ var b: { apply: Function } = function () {};
 
 // Expecting properties in the functions statics should be fine
 var f = function () {};
+
 f.myProp = 123;
+
 var c: { myProp: number } = f;
 
 ================================================================================
@@ -352,13 +357,16 @@ var d: { (): string } = (x) => "hi";
 
 // ...but subtyping rules still apply
 var e: { (x: any): void } = () => {}; // arity
+
 var f: { (): mixed } = () => "hi"; // return type
+
 var g: { (x: Date): void } = (x) => {
   x * 2;
 }; // param type (date < number)
 
 // A function can be an object
 var y: {} = (x) => "hi";
+
 var z: Object = (x) => "hi";
 
 ================================================================================

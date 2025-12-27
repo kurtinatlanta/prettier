@@ -205,7 +205,9 @@ class C6 extends React.Component { // OK, recommended
 var React = require("React");
 
 type T1 = {};
+
 type T2 = { x: number };
+
 type T3 = { x: number, y: number };
 
 class C1 extends React.Component<T1, T2, any> {
@@ -336,7 +338,9 @@ FooLegacy.bar();
 var React = require("React");
 
 type DefaultProps = {};
+
 type Props = { x: number };
+
 type State = { y: number };
 
 class Foo extends React.Component {
@@ -369,6 +373,7 @@ class Foo extends React.Component {
 }
 
 Foo.defaultProps = 0;
+
 var foo: $jsx<number> = <Foo />;
 
 Foo.bar();
@@ -408,6 +413,7 @@ var FooLegacy = React.createClass({
 });
 
 FooLegacy.defaultProps = 0;
+
 var foo_legacy: $jsx<number> = <FooLegacy />;
 
 FooLegacy.bar();
@@ -451,6 +457,7 @@ class HelloMessage extends React.Component {
 // 'react' might show up here.
 
 import React from "react";
+
 //import React from "React";
 //var React = require("react");
 //var React = require("React");
@@ -527,8 +534,11 @@ var C = React.createClass({
     var bar: string = this.props;
     var qux: string = this.props.z;
     var w: number = this.props.x;
+
     this.props.y[0];
+
     var len: number = this.props.x.length;
+
     this.success();
     return <div />;
   },
@@ -652,9 +662,11 @@ var element = <TestProps x={false} y={false} z={false} />; // 3 errors
 
 (element: $jsx<*>);
 (element: $jsx<TestProps>);
+
 var FooProps = React.createClass({
   propTypes: { w: React.PropTypes.string.isRequired },
 });
+
 (element: $jsx<FooProps>);
 
 ================================================================================

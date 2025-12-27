@@ -542,22 +542,35 @@ type TypeName<T> =
   : "object";
 
 type Type01 = 0 extends (1 extends 2 ? 3 : 4) ? 5 : 6;
+
 type Type02 = 0 extends (1 extends 2 ? 3 : 4) ? 5 : 6;
+
 type Type03 = 0 extends (1 extends 2 ? 3 : 4) ? 5 : 6;
+
 type Type04 = 0 extends (1 extends 2 ? 3 : 4) ? 5 : 6;
+
 type Type05 = (0 extends 1 ? 2 : 3) extends 4 ? 5 : 6;
+
 type Type06 = (0 extends 1 ? 2 : 3) extends 4 ? 5 : 6;
+
 type Type07 = (0 extends 1 ? 2 : 3) extends 4 ? 5 : 6;
+
 type Type08 = (0 extends 1 ? 2 : 3) extends 4 ? 5 : 6;
 
 type T1 = () => void extends T ? U : V;
+
 type T1a = () => void extends T ? U : V;
+
 type T1b = () => void extends T ? U : V;
+
 type T2 = (() => void) extends T ? U : V;
 
 type U1 = new () => X extends T ? U : V;
+
 type U1a = new () => X extends T ? U : V;
+
 type U1b = new () => X extends T ? U : V;
+
 type U2 = (new () => X) extends T ? U : V;
 
 ================================================================================
@@ -636,22 +649,35 @@ type TypeName<T> = T extends string
           : "object";
 
 type Type01 = 0 extends (1 extends 2 ? 3 : 4) ? 5 : 6;
+
 type Type02 = 0 extends (1 extends 2 ? 3 : 4) ? 5 : 6;
+
 type Type03 = 0 extends (1 extends 2 ? 3 : 4) ? 5 : 6;
+
 type Type04 = 0 extends (1 extends 2 ? 3 : 4) ? 5 : 6;
+
 type Type05 = (0 extends 1 ? 2 : 3) extends 4 ? 5 : 6;
+
 type Type06 = (0 extends 1 ? 2 : 3) extends 4 ? 5 : 6;
+
 type Type07 = (0 extends 1 ? 2 : 3) extends 4 ? 5 : 6;
+
 type Type08 = (0 extends 1 ? 2 : 3) extends 4 ? 5 : 6;
 
 type T1 = () => void extends T ? U : V;
+
 type T1a = () => void extends T ? U : V;
+
 type T1b = () => void extends T ? U : V;
+
 type T2 = (() => void) extends T ? U : V;
 
 type U1 = new () => X extends T ? U : V;
+
 type U1a = new () => X extends T ? U : V;
+
 type U1b = new () => X extends T ? U : V;
+
 type U2 = (new () => X) extends T ? U : V;
 
 ================================================================================
@@ -1034,6 +1060,7 @@ type Test<T> = T extends (new (
 =====================================output=====================================
 // #13275
 type Foo<T> = T extends ((...a: any[]) => infer R extends string) ? R : never;
+
 type Foo<T> =
   T extends (new (...a: any[]) => infer R extends string) ? R : never;
 
@@ -1044,12 +1071,14 @@ type Test<T> =
   ) ?
     U
   : TSESTree.Token;
+
 type Test<T> =
   T extends (
     ((token: TSESTree.Token) => asserts token is infer U extends TSESTree.Token)
   ) ?
     U
   : TSESTree.Token;
+
 type Test<T> =
   T extends (
     (new (token: TSESTree.Token) => token is infer U extends TSESTree.Token)
@@ -1090,6 +1119,7 @@ type Test<T> = T extends (new (
 =====================================output=====================================
 // #13275
 type Foo<T> = T extends ((...a: any[]) => infer R extends string) ? R : never;
+
 type Foo<T> = T extends (new (...a: any[]) => infer R extends string)
   ? R
   : never;
@@ -1100,11 +1130,13 @@ type Test<T> = T extends ((
 ) => token is infer U extends TSESTree.Token)
   ? U
   : TSESTree.Token;
+
 type Test<T> = T extends ((
   token: TSESTree.Token,
 ) => asserts token is infer U extends TSESTree.Token)
   ? U
   : TSESTree.Token;
+
 type Test<T> = T extends (new (
   token: TSESTree.Token,
 ) => token is infer U extends TSESTree.Token)

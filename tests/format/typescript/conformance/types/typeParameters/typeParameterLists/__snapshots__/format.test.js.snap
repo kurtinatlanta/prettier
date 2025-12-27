@@ -42,18 +42,24 @@ function f2<T extends Date, U extends Date>() {
 function f<T extends Date>() {
   function g<T extends Number>() {
     var x: T;
+
     x.toFixed();
   }
+
   var x: T;
+
   x.getDate();
 }
 
 function f2<T extends Date, U extends Date>() {
   function g<T extends Number, U extends Number>() {
     var x: U;
+
     x.toFixed();
   }
+
   var x: U;
+
   x.getDate();
 }
 //function f2<T extends Date, U extends T>() {
@@ -119,11 +125,13 @@ class C2<T extends Date, U extends Date> {
 class C<T extends Date> {
   g<T extends Number>() {
     var x: T;
+
     x.toFixed();
   }
 
   h() {
     var x: T;
+
     x.getDate();
   }
 }
@@ -131,11 +139,13 @@ class C<T extends Date> {
 class C2<T extends Date, U extends Date> {
   g<T extends Number, U extends Number>() {
     var x: U;
+
     x.toFixed();
   }
 
   h() {
     var x: U;
+
     x.getDate();
   }
 }

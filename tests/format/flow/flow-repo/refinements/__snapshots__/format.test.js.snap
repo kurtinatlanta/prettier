@@ -44,6 +44,7 @@ function bar2(x : Bar) {
 
 function foo(x: ?number) {
   var y;
+
   if ((y = x)) {
     var z = y * 1000;
   }
@@ -70,6 +71,7 @@ function bar1(x: ?Bar) {
 
 function bar2(x: Bar) {
   var y = x;
+
   while ((y = y.parent)) {
     y.doStuff();
   }
@@ -192,6 +194,7 @@ function baz(x: ?boolean) {
   if (100 * false) {
     return;
   }
+
   if (false * 100) {
     return;
   }
@@ -202,6 +205,7 @@ let tests = [
     if (x.done === true) {
       return x.result;
     }
+
     return x.result; // error
   },
 
@@ -209,6 +213,7 @@ let tests = [
     if (true === x.done) {
       return x.result;
     }
+
     return x.result; // error
   },
 ];
@@ -329,13 +334,18 @@ let tests = [
 /* @flow */
 
 type Type = Name | ListType | NonNullType;
+
 type Name = { kind: "Name", value: string, type: void };
+
 type ListType = { kind: "ListType", type: Type };
+
 type NonNullType = { kind: "NonNullType", type: Name | ListType | BadType };
+
 type BadType = {};
 
 function getTypeASTName(typeAST: Type): string {
   if (!typeAST.type) throw new Error("Must be wrapping type"); // OK
+
   return getTypeASTName(typeAST.type); // error, BadType not a subtype of Type
 }
 
@@ -344,6 +354,7 @@ let tests = [
     if (x.done) {
       return x.result;
     }
+
     return x.result; // error
   },
 
@@ -351,6 +362,7 @@ let tests = [
     if (x.done) {
       return x.result; // error, consider { foo: "herp", done: "derp" }
     }
+
     return x.result; // error
   },
 
@@ -438,6 +450,7 @@ let tests = [
   function (x: string, y: number) {
     if (x == y) {
     } // error, string & number are not comparable (unsafe casting)
+
     if (x === y) {
     } // no error, to match \`let z = (x === y)\` which is allowed
   },
@@ -445,6 +458,7 @@ let tests = [
   function (x: string) {
     if (x == undefined) {
     } // ok
+
     if (x == void 0) {
     } // ok
   },
@@ -457,6 +471,7 @@ let tests = [
   function (x: { y: "foo" } | { y: "bar" }) {
     if (x.y == 123) {
     } // error
+
     if (x.y === 123) {
     } // ok
   },
@@ -576,9 +591,11 @@ function bar(x:Object) {
 
 function foo(x: { y?: () => void }) {
   x.y(); // error: could be undefined
+
   if (x.hasOwnProperty("y")) {
     x.y(); // error: still could be undefined
   }
+
   if (x.hasOwnProperty("z")) {
     x.z(); // error: unreachable, but we don't help you here
   }
@@ -586,9 +603,11 @@ function foo(x: { y?: () => void }) {
 
 function bar(x: Object) {
   x.y(); // treated as \`any\`, so allowed
+
   if (x.hasOwnProperty("y")) {
     x.y(); // still treated as \`any\`, so allowed
   }
+
   if (x.hasOwnProperty("z")) {
     x.z(); // also treated as \`any\`, so allowed
   }
@@ -698,48 +717,58 @@ function f() {}
 function def_assign_function_havoc(obj: Obj) {
   obj.p = 10; // (obj.p : number)
   f(); // clears refi
+
   var x: number = obj.p; // error, obj.p : number | string
 }
 
 function def_assign_setprop_havoc(obj: Obj, obj2: Obj) {
   obj.p = 10; // (obj.p : number)
   obj2.p = "hey"; // clears refi
+
   var x: number = obj.p; // error, obj.p : number | string
 }
 
 function def_assign_index_havoc(obj: Obj, obj2: Obj) {
   obj.p = 10; // (obj.p : number)
   obj2["p"] = "hey"; // clears refi
+
   var x: number = obj.p; // error, obj.p : number | string
 }
 
 function def_assign_within_if(b: boolean, obj: Obj) {
   if (b) {
     obj.p = 10; // (obj.p : number)
+
     var x: number = obj.p; // ok by def assign
   }
+
   var y: number = obj.p; // error, obj.p : number | string
 }
 
 function def_assign_within_while(b: boolean, obj: Obj) {
   while (b) {
     obj.p = 10; // (obj.p : number)
+
     var x: number = obj.p; // ok by def assign
   }
+
   var y: number = obj.p; // error, obj.p : number | string
 }
 
 function def_assign_within_do(b: boolean, obj: Obj) {
   do {
     obj.p = 10; // (obj.p : number)
+
     var x: number = obj.p; // ok by def assign
   }
   while (b);
+
   var y: number = obj.p; // no error, loop runs at least once
 }
 
 function def_assign_within_try(b: boolean, obj: Obj) {
   obj.p = 10; // (obj.p : number)
+
   try {
     f(); // clears refi and might throw
     obj.p = "hey";
@@ -754,16 +783,20 @@ function def_assign_within_try(b: boolean, obj: Obj) {
     // so if we did y:string, we would get at least a spurious error
     // (among other reasonable errors caused by values written upstream)
     var y: number = obj.p; // error, string ~/~ number
+
     obj.p = 42;
   }
+
   var z: string = obj.p; // error, number ~/~ string
 }
 
 function def_assign_within_for(b: boolean, obj: Obj) {
   for (; b; ) {
     obj.p = 10; // (obj.p : number)
+
     var x: number = obj.p; // ok by def assign
   }
+
   var z: number = obj.p; // error, (number | string) ~/~ number
 }
 
@@ -774,6 +807,7 @@ type Obj2 = { q: number | string };
 function def_assign_setprop_nohavoc(obj: Obj, obj2: Obj2) {
   obj.p = 10; // (obj.p : number)
   obj2.q = "hey"; // doesn't clear refi of .p
+
   var x: number = obj.p; // still ok
 }
 
@@ -900,10 +934,13 @@ function foo4(o: $Exact<{ x: number }>) {
 
 function foo5() {
   const o = {};
+
   _foo5();
+
   if (o.p) {
     o.p();
   }
+
   function _foo5() {
     o.p = function () {};
   }
@@ -917,10 +954,13 @@ function foo6(o: mixed) {
 function foo7(o: mixed) {
   if (typeof o.bar === "string") {
   } // error
+
   if (o && typeof o.bar === "string") {
   } // ok
+
   if (o != null && typeof o.bar === "string") {
   } // ok
+
   if (o !== null && o !== undefined && typeof o.bar === "string") {
   } // ok
 }
@@ -928,6 +968,7 @@ function foo7(o: mixed) {
 function foo8(o: { p: mixed }) {
   if (o.p && o.p.q) {
   } // this is ok because o.p is truthy, so o.p.q is safe
+
   if (o.p && o.p.q && o.p.q.r) {
   }
 }
@@ -938,9 +979,11 @@ type Foo9Expected = {
 
 function foo9() {
   const actual = {};
+
   if (actual.foo === undefined) {
     actual.foo = "foo";
   }
+
   (actual: Foo9Expected);
 }
 
@@ -1079,6 +1122,7 @@ function arr0(x: mixed) {
 /* @flow */
 
 function takesNumber(x: number) {}
+
 function takesString(x: string) {}
 
 function num(x: mixed) {
@@ -1086,9 +1130,11 @@ function num(x: mixed) {
     takesString(x); // error
     (!x: false); // error: we don't know the truthiness of x
   }
+
   if (typeof x === "number" && x) {
     (!x: false); // ok
   }
+
   if (x && typeof x === "number") {
     (!x: false); // ok
   }
@@ -1099,9 +1145,11 @@ function str(x: mixed) {
     takesNumber(x); // error
     (!x: false); // error: we don't know the truthiness of x
   }
+
   if (typeof x === "string" && x) {
     (!x: false); // ok
   }
+
   if (x && typeof x === "string") {
     (!x: false); // ok
   }
@@ -1112,9 +1160,11 @@ function bool(x: mixed) {
     takesString(x); // error
     (x: true); // error: we don't know the truthiness of x
   }
+
   if (typeof x === "boolean" && x) {
     (x: true); // ok
   }
+
   if (x && typeof x === "boolean") {
     (x: true); // ok
   }
@@ -1171,6 +1221,7 @@ function false_(x: mixed) {
 function obj2(x: mixed) {
   if (typeof x === "object") {
     (x: { [key: string]: mixed } | null);
+
     if (x !== null) {
       (x["foo"]: string); // error, mixed
     }
@@ -1181,12 +1232,15 @@ function obj2(x: mixed) {
   if (typeof x === "object" && x) {
     (x: Object);
   }
+
   if (x && typeof x === "object") {
     (x: Object);
   }
+
   if (x != null && typeof x === "object") {
     (x: Object);
   }
+
   if (x !== null && typeof x === "object") {
     (x: Object);
   }
@@ -1304,6 +1358,7 @@ class TestClass {}
 let tests = [
   function () {
     var y = true;
+
     while (y) {
       y = !y;
     }
@@ -1355,6 +1410,7 @@ function null_bogus_comparison() {
   if (100 * null) {
     return;
   }
+
   if (null * 100) {
     return;
   }
@@ -1501,6 +1557,7 @@ let tests = [
     if (x === 0) {
       (x: void); // error
     }
+
     (x: 0); // error
   },
 
@@ -1508,6 +1565,7 @@ let tests = [
     if (x !== 0) {
       (x: 0); // error
     }
+
     (x: void); // error
   },
 
@@ -1515,6 +1573,7 @@ let tests = [
     if (x === 0) {
       return x; // unreachable, no error
     }
+
     return 0;
   },
 
@@ -1522,6 +1581,7 @@ let tests = [
     if (x === 1) {
       return x;
     }
+
     return x;
   },
 
@@ -1529,6 +1589,7 @@ let tests = [
     if (x !== 1) {
       (x: 0);
     }
+
     (x: 0);
   },
 
@@ -1536,6 +1597,7 @@ let tests = [
     if (x === 0) {
       return x;
     }
+
     return x;
   },
 
@@ -1544,6 +1606,7 @@ let tests = [
       (x: 0);
       (x: void); // error
     }
+
     if (x === 1) {
       (x: 1);
       (x: void); // error
@@ -1554,6 +1617,7 @@ let tests = [
     if (x.foo === 0) {
       return x.foo;
     }
+
     return x.foo; // error
   },
 
@@ -1582,6 +1646,7 @@ let tests = [
     if (n !== 0 && n !== 1 && n !== 2) {
       throw new Error("Wrong number passed");
     }
+
     return n;
   },
 
@@ -1601,6 +1666,7 @@ let tests = [
         break;
 
       case 1:
+
       case 2:
         (mode: 1 | 2);
         break;
@@ -1716,6 +1782,7 @@ function a(x: { [key: string]: ?string }, y: string): string {
   if (x[y]) {
     return x[y];
   }
+
   return "";
 }
 
@@ -1723,6 +1790,7 @@ function b(x: { y: { [key: string]: ?string } }, z: string): string {
   if (x.y[z]) {
     return x.y[z];
   }
+
   return "";
 }
 
@@ -1730,6 +1798,7 @@ function c(x: { [key: string]: ?string }, y: { z: string }): string {
   if (x[y.z]) {
     return x[y.z];
   }
+
   return "";
 }
 
@@ -1737,6 +1806,7 @@ function d(x: { y: { [key: string]: ?string } }, a: { b: string }): string {
   if (x.y[a.b]) {
     return x.y[a.b];
   }
+
   return "";
 }
 
@@ -1744,6 +1814,7 @@ function a_array(x: Array<?string>, y: number): string {
   if (x[y]) {
     return x[y];
   }
+
   return "";
 }
 
@@ -1751,6 +1822,7 @@ function b_array(x: { y: Array<?string> }, z: number): string {
   if (x.y[z]) {
     return x.y[z];
   }
+
   return "";
 }
 
@@ -1758,6 +1830,7 @@ function c_array(x: Array<?string>, y: { z: number }): string {
   if (x[y.z]) {
     return x[y.z];
   }
+
   return "";
 }
 
@@ -1765,6 +1838,7 @@ function d_array(x: { y: Array<?string> }, a: { b: number }): string {
   if (x.y[a.b]) {
     return x.y[a.b];
   }
+
   return "";
 }
 
@@ -1772,6 +1846,7 @@ function e_array(x: Array<?string>): string {
   if (x[0]) {
     return x[0];
   }
+
   return "";
 }
 
@@ -1782,6 +1857,7 @@ function c2(x: { [key: string]: ?string }, y: { z: string }): string {
     y.z = "HEY";
     return x[y.z]; // error
   }
+
   return "";
 }
 
@@ -1793,6 +1869,7 @@ function c3(
     y.a = "HEY";
     return x[y.z]; // ok
   }
+
   return "";
 }
 
@@ -1887,26 +1964,34 @@ function global_in_conditional2(x: number) {
 =====================================output=====================================
 function foo(b) {
   var x = b ? 0 : null;
+
   while (typeof x == "string" || typeof x == "number") {
     var y: string = x;
+
     x = false;
   }
+
   var z: string = x;
 }
 
 function bar(b) {
   var x = b ? 0 : null;
+
   do {
     var y: string = x;
+
     x = false;
   }
   while (x === null);
+
   var z: string = x;
 }
 
 function maybe_throw() {}
+
 function qux() {
   var x = 0;
+
   try {
     maybe_throw();
     x = "hello";
@@ -1921,8 +2006,10 @@ function qux() {
     // so if we did y:string, we would get at least a spurious error
     // (among other reasonable errors caused by values written upstream)
     var y: number = x;
+
     x = 42;
   }
+
   var z: string = x;
 }
 
@@ -1934,15 +2021,18 @@ function corge(b) {
   ) {
     var y: string = x;
   }
+
   var z: string = x;
 }
 
 function waldo() {
   var o = {};
   var x = false;
+
   for (x in o) {
     x = 0; // commenting this out would propagate x:string downstream
   }
+
   var z: number = x;
 }
 
@@ -2122,6 +2212,7 @@ let tests = [
     if (x === "foo") {
       (x: void); // error
     }
+
     (x: "foo"); // error
   },
 
@@ -2129,6 +2220,7 @@ let tests = [
     if (x !== "foo") {
       (x: "foo"); // error
     }
+
     (x: void); // error
   },
 
@@ -2136,6 +2228,7 @@ let tests = [
     if (x === "foo") {
       return x; // unreachable, no error
     }
+
     return "foo";
   },
 
@@ -2143,6 +2236,7 @@ let tests = [
     if (x === "bar") {
       return x;
     }
+
     return x;
   },
 
@@ -2150,6 +2244,7 @@ let tests = [
     if (x !== "bar") {
       (x: "foo");
     }
+
     (x: "foo");
   },
 
@@ -2157,6 +2252,7 @@ let tests = [
     if (x === "foo") {
       return x;
     }
+
     return x;
   },
 
@@ -2165,6 +2261,7 @@ let tests = [
       (x: "foo");
       (x: void); // error
     }
+
     if (x === "bar") {
       (x: "bar");
       (x: void); // error
@@ -2175,6 +2272,7 @@ let tests = [
     if (x.foo === "foo") {
       return x.foo;
     }
+
     return x.foo; // error
   },
 
@@ -2203,9 +2301,11 @@ let tests = [
 
   function (str: string): Mode {
     var ch = str[0];
+
     if (ch !== "a" && ch !== "b" && ch !== "c") {
       throw new Error("Wrong string passed");
     }
+
     return ch;
   },
 
@@ -2225,6 +2325,7 @@ let tests = [
         break;
 
       case "b":
+
       case "c":
         (mode: "b" | "c");
         break;
@@ -2245,9 +2346,11 @@ let tests = [
     if (x === \`foo\`) {
       return x;
     }
+
     if (\`foo\` === x) {
       return x;
     }
+
     return "foo";
   },
 ];
@@ -2304,6 +2407,7 @@ class B {
       // super.prop doesn't exist
       return super.prop; // error, unknown type passed to string expected
     }
+
     return "B";
   }
 }
@@ -2313,6 +2417,7 @@ class C extends A {
     if (super.prop) {
       return super.prop; // OK
     }
+
     return "C";
   }
 }
@@ -2389,8 +2494,10 @@ function foo(text: string | number): string {
   switch (typeof text) {
     case "string":
       return text;
+
     case "number":
       return text; // error, should return string
+
     default:
       return "wat";
   }
@@ -2400,6 +2507,7 @@ function bar(text: string | number): string {
   switch (typeof text) {
     case "string":
       return text[0];
+
     default:
       return text++ + "";
   }
@@ -2408,8 +2516,10 @@ function bar(text: string | number): string {
 function baz1(text: string | number): string {
   switch (typeof text) {
     case "number":
+
     case "string":
       return text[0]; // error, [0] on number
+
     default:
       return "wat";
   }
@@ -2418,8 +2528,10 @@ function baz1(text: string | number): string {
 function baz2(text: string | number): string {
   switch (typeof text) {
     case "string":
+
     case "number":
       return text[0]; // error, [0] on number
+
     default:
       return "wat";
   }
@@ -2429,11 +2541,14 @@ function corge(text: string | number | Array<string>): string {
   switch (typeof text) {
     case "object":
       return text[0];
+
     case "string":
+
     case "number":
       // using ++ since it isn't valid on arrays or strings.
       // should only error for string since Array was filtered out.
       return text++ + "";
+
     default:
       return "wat";
   }
@@ -2721,7 +2836,9 @@ let tests = [
 // example 1
 
 type Type = Name | ListType;
+
 type Name = { kind: "Name", value: string };
+
 type ListType = { kind: "ListType", name: string };
 
 function getTypeASTName(typeAST: Type): string {
@@ -2735,18 +2852,24 @@ function getTypeASTName(typeAST: Type): string {
 
 // example 2
 import type { ASTNode } from "./ast_node";
+
 var Node = require("./node1"); // Node = "Node1"
+
 function foo(x: ASTNode) {
   if (x.kind === Node) {
     return x.prop1.charAt(0); // typeAST: Node1, but x.prop1 may be undefined
   }
+
   return null;
 }
 
 // example 3
 type Apple = { kind: "Fruit", taste: "Bad" };
+
 type Orange = { kind: "Fruit", taste: "Good" };
+
 type Broccoli = { kind: "Veg", taste: "Bad", raw: "No" };
+
 type Carrot = { kind: "Veg", taste: "Good", raw: "Maybe" };
 
 type Breakfast = Apple | Orange | Broccoli | Carrot;
@@ -2769,41 +2892,55 @@ function qux(x: Breakfast) {
 // example 4
 function list(n) {
   if (n > 0) return { kind: "cons", next: list(n - 1) };
+
   return { kind: "nil" };
 }
+
 function length(l) {
   switch (l.kind) {
     case "cons":
       return 1 + length(l.next);
+
     default:
       return 0;
   }
 }
+
 function check(n) {
   if (n >= 0) return n === length(list(n));
+
   return true;
 }
 
 // example 5
 var EnumKind = { A: 1, B: 2, C: 3 };
+
 type A = { kind: 1, A: number };
+
 type B = { kind: 2, B: number };
+
 type C = { kind: 3, C: number };
+
 function kind(x: A | B | C): number {
   switch (x.kind) {
     case EnumKind.A:
       return x.A;
+
     case EnumKind.B:
       return x.B;
+
     default:
       return x.A; // error, x: C and property A not found in type C
   }
 }
+
 kind({ kind: EnumKind.A, A: 1 });
 
 // example 6
 type Citizen = { citizen: true };
+
 type NonCitizen = { citizen: false, nationality: string };
+
 function nationality(x: Citizen | NonCitizen) {
   if (x.citizen) return "Shire";
   else return x.nationality;
@@ -2822,6 +2959,7 @@ let tests = [
   function test8(x: { foo: { bar: 1 } }) {
     if (x.foo.bar === 1) {
     }
+
     if (x.fooTypo.bar === 1) {
     } // error, fooTypo doesn't exist
   },
@@ -2830,6 +2968,7 @@ let tests = [
   function (x: A) {
     if (x.kind === null.toString()) {
     } // error, method on null
+
     if ({ kind: 1 }.kind === null.toString()) {
     } // error, method on null
   },
@@ -2846,44 +2985,56 @@ let tests = [
   ) {
     if (x.length === 0) {
     }
+
     if (x.legnth === 0) {
       // typos are allowed to be tested
       (x.legnth: number); // inside the block, it's a number
       (x.legnth: string); // error: number literal 0 !~> string
     }
+
     if (y.length === 0) {
     }
+
     if (y.legnth === 0) {
       // typos are allowed to be tested
       (y.legnth: number); // inside the block, it's a number
       (y.legnth: string); // error: number literal 0 !~> string
     }
+
     if (z.toString === 0) {
     }
+
     if (z.toStirng === 0) {
       // typos are allowed to be tested
       (z.toStirng: number); // inside the block, it's a number
       (z.toStirng: string); // error: number literal 0 !~> string
     }
+
     if (q.valueOf === 0) {
     }
+
     if (q.valeuOf === 0) {
       // typos are allowed to be tested
       (q.valeuOf: number); // inside the block, it's a number
       (q.valeuOf: string); // error: number literal 0 !~> string
     }
+
     if (r.toStirng === 0) {
       // typos are allowed to be tested
       (r.toStirng: empty); // props on AnyObjT are \`any\`
     }
+
     if (s.call === 0) {
     }
+
     if (s.calll === 0) {
       // typos are allowed to be tested
       (t.calll: empty); // ok, props on functions are \`any\` :/
     }
+
     if (t.call === 0) {
     }
+
     if (t.calll === 0) {
       // typos are allowed to be tested
       (t.calll: empty); // ok, props on functions are \`any\` :/
@@ -2895,19 +3046,24 @@ let tests = [
     if (x.str === "str") {
       (x.str: "not str"); // error: 'str' !~> 'not str'
     }
+
     if (x.num === 123) {
       (x.num: 456); // error: 123 !~> 456
     }
+
     if (x.bool === true) {
       (x.bool: false); // error: true !~> false
     }
+
     // even if it doesn't exist...
     if (x.badStr === "bad") {
       (x.badStr: empty); // error: 'bad' !~> empty
     }
+
     if (x.badNum === 123) {
       (x.badNum: empty); // error: 123 !~> empty
     }
+
     if (x.badBool === true) {
       (x.badBool: empty); // error: true !~> empty
     }
@@ -2923,6 +3079,7 @@ let tests = [
       (x.z: string);
       x.y; // error
     }
+
     if (x.foo === "foo") {
       (x.z: string);
       x.y; // error
@@ -2996,6 +3153,7 @@ let tests = [
       (x.z: string);
       x.y; // error
     }
+
     if (x.foo === "foo") {
       (x.z: string);
       x.y; // error
@@ -3016,6 +3174,7 @@ let tests = [
       (x.z: string);
       x.y; // error
     }
+
     if (x.foo === "foo") {
       (x.z: string);
       x.y; // error
@@ -3080,6 +3239,7 @@ function handleStatus(status: Success | Error) {
     case SUCCESS:
       console.log(\`Successful: \${status.message}\`);
       break;
+
     default:
       console.log(\`Errored: \${status.error}\`);
   }
@@ -3170,9 +3330,11 @@ function foo(x: boolean | number) {
 
 function bar(): number {
   var x = null;
+
   if (typeof x === "object") {
     return x; // error, null
   }
+
   return 0;
 }
 
@@ -3181,10 +3343,13 @@ function fn0() {
   if (typeof BAZ !== "undefined" && typeof BAZ.stuff === "function") {
     BAZ.stuff(123);
   }
+
   BAZ.stuff(123); // error, refinement is gone
 }
+
 function fn1() {
   BAZ.stuff; // error, could be undefined
+
   if (typeof BAZ !== "undefined" && typeof BAZ.stuff === "function") {
     BAZ.stuff(123); // ok
     BAZ.stuff(123); // error, refinement is gone
@@ -3195,6 +3360,7 @@ function anyfun(x: number | Function): number {
   if (typeof x === "function") {
     return 0;
   }
+
   return x; // OK, x refined to \`number\`
 }
 
@@ -3202,6 +3368,7 @@ function anyobj(x: number | Object): number {
   if (typeof x === "object") {
     return 0;
   }
+
   return x; // OK, x refined to \`number\`
 }
 
@@ -3378,6 +3545,7 @@ function undef_unreachable(x: number) {
   if (x === undefined) {
     var y = x * 1000; // unreachable
   }
+
   if (x == undefined) {
     var z = x * 1000; // unreachable
   }
@@ -3387,6 +3555,7 @@ function undef_var_nonstrict(x: ?number, y: ?number) {
   if (x != undefined) {
     var a = x * 1000;
   }
+
   if (y == undefined) {
     var b = y * 1000; // error
   }
@@ -3396,6 +3565,7 @@ function undef_bogus_comparison() {
   if (100 * undefined) {
     return;
   }
+
   if (undefined * 100) {
     return;
   }
@@ -3651,6 +3821,7 @@ function void_bogus_comparison() {
   if (100 * void 0) {
     return;
   }
+
   if (void 0 * 100) {
     return;
   }
@@ -3658,6 +3829,7 @@ function void_bogus_comparison() {
 
 function void_redefined_undefined(x: ?number) {
   var undefined = "foo";
+
   if (x !== null && x !== void 0) {
     var y = x * 1000;
   }

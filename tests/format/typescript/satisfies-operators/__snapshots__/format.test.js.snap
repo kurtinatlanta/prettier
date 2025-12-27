@@ -281,6 +281,7 @@ const t3 = {} satisfies I1
 const t4: T1 = { a: "a" } satisfies T1
 const t5 = ((m) => m.substring(0)) satisfies T2
 const t6 = [1, 2] satisfies [number, number]
+
 let t7 = { a: "test" } satisfies A
 let t8 = { a: "test", b: "test" } satisfies A
 
@@ -353,6 +354,7 @@ const t3 = {} satisfies I1;
 const t4: T1 = { a: "a" } satisfies T1;
 const t5 = ((m) => m.substring(0)) satisfies T2;
 const t6 = [1, 2] satisfies [number, number];
+
 let t7 = { a: "test" } satisfies A;
 let t8 = { a: "test", b: "test" } satisfies A;
 
@@ -552,8 +554,10 @@ const _ = () => {
   switch (type) {
     case "foo":
       return 1
+
     case "bar":
       return 2
+
     default:
       // exhaustiveness check idiom
       ;(type) satisfies never
@@ -639,8 +643,10 @@ const _ = () => {
   switch (type) {
     case "foo":
       return 1;
+
     case "bar":
       return 2;
+
     default:
       // exhaustiveness check idiom
       (type) satisfies never;
@@ -875,6 +881,7 @@ const el = ReactDOM.findDOMNode(ref)
 =====================================output=====================================
 // the 2nd line needs ASI protection
 const el = ReactDOM.findDOMNode(ref)
+
 ;(el satisfies HTMLElement)!.style.cursor = "pointer"
 
 ================================================================================
@@ -893,6 +900,7 @@ const el = ReactDOM.findDOMNode(ref)
 =====================================output=====================================
 // the 2nd line needs ASI protection
 const el = ReactDOM.findDOMNode(ref);
+
 (el satisfies HTMLElement)!.style.cursor = "pointer";
 
 ================================================================================

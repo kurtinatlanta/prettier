@@ -218,12 +218,14 @@ interface ISubject<T> extends IObservable<T> {}
 interface Foo {
   x;
 }
+
 interface Bar {
   y;
 }
 
 var values: IObservable<Foo>;
 var values2: ISubject<Bar>;
+
 values = values2;
 
 ================================================================================
@@ -280,11 +282,13 @@ var r23 = dot(id)(id);
 =====================================output=====================================
 // dot f g x = f(g(x))
 var dot: <T, S>(f: (_: T) => S) => <U>(g: (_: U) => T) => (_: U) => S;
+
 dot =
   <T, S>(f: (_: T) => S) =>
   <U>(g: (_: U) => T): ((r: U) => S) =>
   (x) =>
     f(g(x));
+
 var id: <T>(x: T) => T;
 var r23 = dot(id)(id);
 
@@ -470,6 +474,7 @@ let obj = {
 function a() {
   let global = 1;
 }
+
 function b() {
   class global {}
 }
@@ -779,6 +784,7 @@ module m1 {
   export var m1_im1_private_v2_public = new m1_im1_private.c1();
   export var m1_im1_private_v3_public = m1_im1_private.f1;
   export var m1_im1_private_v4_public = m1_im1_private.f1();
+
   var m1_im1_private_v1_private = m1_im1_private.c1;
   var m1_im1_private_v2_private = new m1_im1_private.c1();
   var m1_im1_private_v3_private = m1_im1_private.f1;
@@ -789,6 +795,7 @@ module m1 {
   export var m1_im2_private_v2_public = new m1_im2_private.c1();
   export var m1_im2_private_v3_public = m1_im2_private.f1;
   export var m1_im2_private_v4_public = m1_im2_private.f1();
+
   var m1_im2_private_v1_private = m1_im2_private.c1;
   var m1_im2_private_v2_private = new m1_im2_private.c1();
   var m1_im2_private_v3_private = m1_im2_private.f1;
@@ -841,6 +848,7 @@ declare module "use_glo_M1_public" {
   export var use_glo_M1_public_v1_public: { new (): use_glo_M1_public.c1 };
   export var use_glo_M1_public_v2_public: typeof use_glo_M1_public;
   export var use_glo_M1_public_v3_public: () => use_glo_M1_public.c1;
+
   var use_glo_M1_public_v1_private: { new (): use_glo_M1_public.c1 };
   var use_glo_M1_public_v2_private: typeof use_glo_M1_public;
   var use_glo_M1_public_v3_private: () => use_glo_M1_public.c1;
@@ -849,6 +857,7 @@ declare module "use_glo_M1_public" {
   export var use_glo_M2_public_v1_public: { new (): use_glo_M2_public.c1 };
   export var use_glo_M2_public_v2_public: typeof use_glo_M2_public;
   export var use_glo_M2_public_v3_public: () => use_glo_M2_public.c1;
+
   var use_glo_M2_public_v1_private: { new (): use_glo_M2_public.c1 };
   var use_glo_M2_public_v2_private: typeof use_glo_M2_public;
   var use_glo_M2_public_v3_private: () => use_glo_M2_public.c1;

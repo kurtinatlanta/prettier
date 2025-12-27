@@ -91,10 +91,13 @@ c.baz ??= result.baz;
 
 if ((thing &&= thing.original)) {
 }
+
 if ((thing &&= defaultValue)) {
 }
+
 if ((thing ||= defaultValue)) {
 }
+
 if ((thing ??= defaultValue)) {
 }
 

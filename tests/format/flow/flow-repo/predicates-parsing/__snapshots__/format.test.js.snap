@@ -159,6 +159,7 @@ x;
 type checks = any;
 
 declare function f(x: mixed): checks;
+
 typeof x === null;
 
 ================================================================================

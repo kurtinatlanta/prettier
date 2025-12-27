@@ -38,6 +38,7 @@ declare module "x" {
 
 declare module "y" {
   const y = 5;
+
   export default y;
 }
 

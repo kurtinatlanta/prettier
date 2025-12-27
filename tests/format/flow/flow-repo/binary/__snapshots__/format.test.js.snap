@@ -107,8 +107,10 @@ let tests = [
   function () {
     if ("foo" in 123) {
     } // error
+
     if ((!"foo") in {}) {
     } // error, !'foo' is a boolean
+
     if (!("foo" in {})) {
     }
   },

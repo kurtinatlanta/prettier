@@ -259,6 +259,7 @@ myclass.myfun(["1", "2", "3", "4", "5", "6", "7", function (ar) {}])
 declare class Myclass {
   myfun(myarray: Array<Function | string>): any;
 }
+
 declare var myclass: Myclass;
 
 myclass.myfun(["1", "2", "3", "4", "5", "6", function (ar) {}]);
@@ -298,6 +299,7 @@ module.exports = Foo;
 =====================================output=====================================
 /* @flow */
 class Foo {}
+
 module.exports = Foo;
 
 ================================================================================
@@ -321,6 +323,7 @@ foostr = barstr;
 =====================================output=====================================
 /* @flow */
 class Foo {}
+
 class Bar {}
 
 var foostr: Foo | string = new Foo();
@@ -361,6 +364,7 @@ class Tag {
 }
 
 type Node = Tag_ | string;
+
 class Tag_ {
   constructor() {
     var a1: Array<Node> = [new Tag_()];
@@ -423,7 +427,9 @@ var nested1: ("foo" | "bar") | "baz" = "baz";
 
 // through tvars
 type FooBar = "foo" | "bar";
+
 type Baz = "baz";
+
 type FooBarBaz = FooBar | Baz;
 
 var nested2: FooBarBaz = "baz";
@@ -491,7 +497,9 @@ type t3 = {
 };
 
 type intersected = t1 & t2;
+
 type union = intersected | t3;
+
 type union2 = t3 | intersected;
 
 const u1: union = {
@@ -542,9 +550,12 @@ var C = require("test-lib");
 // TODO: spurious error! (replacing C with number makes the error go away)
 // type Foo<X> = Array<C> | Array<?C>;
 type Foo<X: ?C> = Array<X>; // workaround
+
 var x: Array<C> = [];
 var y: Array<?C> = [];
+
 function foo<X>(x: Foo<X>) {}
+
 foo(x);
 foo(y);
 
@@ -555,7 +566,9 @@ type Bar = () => C | string; // workaround
 function f() {
   return "";
 }
+
 function bar(x: Bar) {}
+
 bar(f);
 
 ================================================================================
@@ -576,6 +589,7 @@ module.exports = C;
 /* @providesModule test-lib */
 
 class C {}
+
 module.exports = C;
 
 ================================================================================
@@ -651,15 +665,21 @@ function corge(b) {
 
 =====================================output=====================================
 function bar(x: Document | string): void {}
+
 bar(0);
 
 class C {}
+
 class D {}
+
 function CD(b) {
   var E = b ? C : D;
   var c: C = new E(); // error, since E could be D, and D is not a subtype of C
+
   function qux(e: E) {} // this annotation is an error: is it C, or is it D?
+
   function qux2(e: C | D) {} // OK
+
   qux2(new C());
 }
 
@@ -667,8 +687,10 @@ declare class F {
   foo(x: number): void;
   foo(x: string): void;
 }
+
 function corge(b) {
   var x = b ? "" : 0;
+
   new F().foo(x);
 }
 

@@ -150,6 +150,7 @@ var o = Baz;
 // errors from value positions only
 var a: Foo = new Foo();
 var b: Foo = new A.Foo();
+
 (new A.Bar(): Baz);
 
 ================================================================================
@@ -213,6 +214,7 @@ var o = Baz;
 
 // But using it in a type should still work
 var a: Foo = new actualA.Foo();
+
 (new actualA.Bar(): Baz);
 
 ================================================================================
@@ -251,6 +253,7 @@ var x = Foo;
 // But using it in a type should still work
 var a: Foo = 123;
 var b: Array<Foo> = [123];
+
 type c = Foo;
 
 ================================================================================

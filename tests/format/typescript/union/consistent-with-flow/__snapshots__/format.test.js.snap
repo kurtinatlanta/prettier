@@ -92,6 +92,7 @@ export type PropertyNameNon_____80 = Identifier | NumberLiteral | StringLiteral;
 type ClassLikeDeclaration =
   | TSESTree.ClassDeclaration
   | TSESTree.ClassExpression;
+
 type ClassLike________80 = TSESTree.ClassDeclaration | TSESTree.ClassExpression;
 
 ================================================================================
@@ -173,14 +174,21 @@ type B3 = a | /* 1 */ /* 2 */ b;
 
 =====================================output=====================================
 type A1 = a /* 1 */ | b;
+
 type A2 = a | /* 1 */ b;
+
 type A3 = a /* 1 */ | b;
+
 type A4 = a | /* 1 */ b;
+
 type A5 = a /* 1 */ | b;
+
 type A6 = a | /* 1 */ b;
 
 type B1 = a /* 1 */ /* 2 */ | b;
+
 type B2 = a /* 1 */ | /* 2 */ b;
+
 type B3 = a | /* 1 */ /* 2 */ b;
 
 ================================================================================
@@ -340,6 +348,7 @@ type A1 =
   | A
   // A comment to force break
   | B;
+
 type A2 =
   | (
       | A
@@ -351,18 +360,22 @@ type A2 =
       // A comment to force break
       | B
     );
+
 type A3 =
   | A
   // A comment to force break
   | B;
+
 type A4 =
   | A
   // A comment to force break
   | B;
+
 type A5 =
   | ({ key: string } | { key: string } | { key: string } | { key: string })
   | { key: string }
   | { key: string };
+
 type A6 = /*1*/
   | A
   // A comment to force break
@@ -372,6 +385,7 @@ type B1 =
   | A
   // A comment to force break
   | B;
+
 type B2 =
   | A
   // A comment to force break

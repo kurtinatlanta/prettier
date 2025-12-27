@@ -48,34 +48,42 @@ printWidth: 80
   // destructuring binding
   const [, void] = value;
 }
+
 {
   // for-of destructuring binding
   for (const [void] of []);
 }
+
 {
   // destructuring assignment
   [void] = [];
 }
+
 {
   // for-of destructuring assignment;
   for ([void] of []);
 }
+
 {
   // function param;
   function f([[[void], void], void]) {}
 }
+
 {
   // arrow function param
   ([[[void], void], void]) => {};
 }
+
 {
   // async arrow function param
   async ([[[void], void], void]) => {};
 }
+
 {
   // destructuring assignment in async call";
   async(([void] = []));
 }
+
 {
   // catch param
   try {
@@ -974,18 +982,22 @@ printWidth: 80
   // function parameter
   function f(void) {}
 }
+
 {
   // arrow function parameter
   (x, void) => {};
 }
+
 {
   // async arrow function parameter
   async (void, x) => {};
 }
+
 {
   // object method parameter
   ({ f(x, void, y) {} });
 }
+
 {
   // class method parameter
   class C {
@@ -1139,18 +1151,22 @@ printWidth: 80
   // destructuring binding
   const { void: void } = value;
 }
+
 {
   // for-of destructuring binding
   for (const { p: void } of []);
 }
+
 {
   // destructuring assignment
   ({ p: void } = {});
 }
+
 {
   // for-of destructuring assignment
   for ({ p: void } of []);
 }
+
 {
   // function param
   function f({
@@ -1161,6 +1177,7 @@ printWidth: 80
     p: void,
   }) {}
 }
+
 {
   // arrow function param
   ({
@@ -1171,6 +1188,7 @@ printWidth: 80
     p: void,
   }) => {};
 }
+
 {
   // async arrow function param
   async ({
@@ -1181,10 +1199,12 @@ printWidth: 80
     p: void,
   }) => {};
 }
+
 {
   // destructuring assignment in async call
   async(({ p: void } = {}));
 }
+
 {
   // catch param
   try {
@@ -1448,6 +1468,7 @@ async (void) => {
 {
   using void = f();
 }
+
 async (void) => {
   await using void = f();
 };
@@ -1588,35 +1609,42 @@ async () => {
   // using 1 declarator
   using void = f();
 }
+
 {
   // using 2 declarators
   using void = f(),
     void = g();
 }
+
 {
   // using void declarator and normal declarator
   using void = f(),
     x = g();
 }
+
 {
   // using declarator in for-of
   for (using void of []);
 }
+
 async () => {
   {
     // await using 1 declarator
     await using void = f();
   }
+
   {
     // await using 2 declarators
     await using void = f(),
       void = g();
   }
+
   {
     // await using void declarator and normal declarator
     await using void = f(),
       x = g();
   }
+
   {
     // await using declarator in for-of
     for (await using void of []);

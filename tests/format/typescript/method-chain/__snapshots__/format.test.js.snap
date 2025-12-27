@@ -28,6 +28,7 @@ this.firebase
     ): any => {
       // add distance to result
       const s = shop;
+
       s.distance = shopLocation.distance;
       return s;
     },
@@ -238,7 +239,8 @@ document
     if (document.fullscreenElement) {
       // exitFullscreen is only available on the Document object.
       document.exitFullscreen();
-    } else {
+    }
+    else {
       el.requestFullscreen();
     }
   });
