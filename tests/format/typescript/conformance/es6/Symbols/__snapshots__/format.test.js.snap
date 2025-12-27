@@ -24,6 +24,7 @@ bar(i);
 =====================================output=====================================
 //@target: ES6
 class C {}
+
 interface I {
   [Symbol.iterator]?: { x };
 }

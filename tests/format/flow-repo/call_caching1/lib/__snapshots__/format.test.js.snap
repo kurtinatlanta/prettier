@@ -49,11 +49,13 @@ interface $Iterator<+Yield, +Return, -Next> {
   @@iterator(): $Iterator<Yield, Return, Next>;
   next(value?: Next): IteratorResult<Yield, Return>;
 }
+
 type Iterator<+T> = $Iterator<T, void, void>;
 
 interface $Iterable<+Yield, +Return, -Next> {
   @@iterator(): $Iterator<Yield, Return, Next>;
 }
+
 type Iterable<+T> = $Iterable<T, void, void>;
 
 declare class Map<K, V> {

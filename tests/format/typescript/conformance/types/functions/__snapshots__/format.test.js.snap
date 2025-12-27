@@ -129,6 +129,7 @@ var f4 = function () {
 function f5(): number {}
 
 var m;
+
 // Function signature with parameter initializer referencing in scope local variable
 function f6(n = m) {
   var m = 4;
@@ -148,15 +149,19 @@ undefined ===
 class Base {
   private x;
 }
+
 class AnotherClass {
   private y;
 }
+
 class Derived1 extends Base {
   private m;
 }
+
 class Derived2 extends Base {
   private n;
 }
+
 function f8() {
   return new Derived1();
   return new Derived2();
@@ -169,6 +174,7 @@ var f10 = () => {
   return new Derived1();
   return new Derived2();
 };
+
 function f11() {
   return new Base();
   return new AnotherClass();
@@ -374,6 +380,7 @@ var a: any = function f() {
 function rec1() {
   return rec2();
 }
+
 function rec2() {
   return rec1();
 }
@@ -384,6 +391,7 @@ var a = rec2();
 function rec3(): number {
   return rec4();
 }
+
 function rec4() {
   return rec3();
 }
@@ -432,6 +440,7 @@ var n = (function () {
 class Base {
   private m;
 }
+
 class Derived extends Base {
   private q;
 }
@@ -489,6 +498,7 @@ function f6(): number {
 class Derived2 extends Base {
   private r: string;
 }
+
 class AnotherClass {
   private x;
 }
@@ -546,6 +556,7 @@ function f(x: string): void {
 
 =====================================output=====================================
 function f(x: string): number;
+
 function f(x: string): void {
   return;
 }
@@ -566,6 +577,7 @@ function f(x: string): number {
 
 =====================================output=====================================
 function f(x: string): void;
+
 function f(x: string): number {
   return 0;
 }
@@ -586,6 +598,7 @@ function f(x: string): void {
 
 =====================================output=====================================
 function f(x: string): void;
+
 function f(x: string): void {
   return;
 }
@@ -634,13 +647,16 @@ function fn5() { }
 =====================================output=====================================
 //Function overload signature with optional parameter followed by non-optional parameter
 function fn4a(x?: number, y: string);
+
 function fn4a() {}
 
 function fn4b(n: string, x?: number, y: string);
+
 function fn4b() {}
 
 //Function overload signature with rest param followed by non-optional parameter
 function fn5(x: string, ...y: any[], z: string);
+
 function fn5() {}
 
 ================================================================================
@@ -731,6 +747,7 @@ function inside(a = b) {
 
 function outside() {
   var b;
+
   function inside(a = b) {
     // Still an error because b is declared inside the function
     var b;
@@ -743,6 +760,7 @@ function defaultArgFunction(
   },
   b = 1,
 ) {}
+
 function defaultArgArrow(a = () => () => b, b = 3) {}
 
 class C {

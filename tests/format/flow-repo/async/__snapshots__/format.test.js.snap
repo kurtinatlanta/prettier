@@ -197,6 +197,7 @@ var y = { async };
 
 =====================================output=====================================
 async function f() {}
+
 async function ft<T>(a: T) {}
 
 class C {
@@ -526,6 +527,7 @@ var y = { await };
 async function f() {
   await 1;
 }
+
 async function ft<T>(a: T) {
   await 1;
 }

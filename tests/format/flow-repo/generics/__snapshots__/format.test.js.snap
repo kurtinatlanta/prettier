@@ -87,7 +87,9 @@ var e = new E(); // error: too few arguments to inherited constructor
 var x: string = e.set(0);
 
 class F<X> {}
+
 class G<Y> extends F<Array<Y>> {}
+
 class H<Z> extends G<Array<Z>> {
   x: Z;
   foo(x: Z) {

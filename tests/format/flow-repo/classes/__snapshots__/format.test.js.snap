@@ -94,6 +94,7 @@ new E().x
 
 =====================================output=====================================
 class D {}
+
 class E {}
 new E().x;
 
@@ -172,6 +173,7 @@ class Test2Superclass {
   a: number; // conflicts with cast to Foo
   c: ?number; // conflicts with cast to Foo
 }
+
 class Test2Class extends Test2Superclass {
   b: number; // conflicts with cast to Foo
 }
@@ -269,7 +271,9 @@ class Derived2 extends Derived1 {
 
 =====================================output=====================================
 const Base: any = class {};
+
 class Derived1 extends Base {}
+
 class Derived2 extends Derived1 {
   m() {}
 }

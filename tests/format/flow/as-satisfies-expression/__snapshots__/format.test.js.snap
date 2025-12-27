@@ -67,10 +67,13 @@ export default class Column<T> extends (RcTable.Column as Long.Thing<
   ColumnProps<T>,
   ColumnProps<T>,
 >) {}
+
 ({}) as {};
+
 function* g() {
   const test = (yield "foo") as number;
 }
+
 async function g1() {
   const test = (await "foo") as number;
 }

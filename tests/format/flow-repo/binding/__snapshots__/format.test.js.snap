@@ -316,11 +316,13 @@ function fn_params_clash_fn_binding(x,y) {
 
 function type_type() {
   type A = number;
+
   type A = number; // error: name already bound
 }
 
 function type_class() {
   type A = number;
+
   class A {} // error: name already bound
 }
 
@@ -348,11 +350,13 @@ function type_reassign() {
 
 function class_type() {
   class A {}
+
   type A = number; // error: name already bound
 }
 
 function class_class() {
   class A {}
+
   class A {} // error: name already bound
 }
 
@@ -375,11 +379,13 @@ function class_var() {
 
 function let_type() {
   let A = 0;
+
   type A = number; // error: name already bound
 }
 
 function let_class() {
   let A = 0;
+
   class A {} // error: name already bound
 }
 
@@ -402,11 +408,13 @@ function let_var() {
 
 function const_type() {
   const A = 0;
+
   type A = number; // error: name already bound
 }
 
 function const_class() {
   const A = 0;
+
   class A {} // error: name already bound
 }
 
@@ -434,11 +442,13 @@ function const_reassign() {
 
 function var_type() {
   var A = 0;
+
   type A = number; // error: name already bound
 }
 
 function var_class() {
   var A = 0;
+
   class A {} // error: name already bound
 }
 
@@ -461,12 +471,14 @@ function var_var() {
 
 function function_toplevel() {
   function a() {}
+
   function a() {} // OK
 }
 
 function function_block() {
   {
     function a() {}
+
     function a() {} // error: name already bound
   }
 }
@@ -494,6 +506,7 @@ function type_shadow_nested_scope() {
 // fn params name clash
 
 function fn_params_name_clash(x, x /* error: x already bound */) {}
+
 function fn_params_clash_fn_binding(x, y) {
   let x = 0; // error: x already bound
   var y = 0; // OK
@@ -742,10 +755,12 @@ function default_param_1() {
 function default_param_2() {
   // fn body bindings not visible from param scope
   let a = "";
+
   function f0(x = () => a): number {
     let a = 0;
     return x(); // error: string ~> number
   }
+
   function f1(x = b /* error: cannot resolve b */): number {
     let b = 0;
     return x;
@@ -870,6 +885,7 @@ f(a); // ok, a: number (not ?number)
 // type aliases are hoisted and always available
 
 type T1 = T2; // ok
+
 type T2 = number;
 
 // --- lets ---
@@ -914,11 +930,13 @@ function f3() {
   var s: string = foo(); // ok, finds hoisted outer
   {
     var n: number = foo(); // ok, finds hoisted inner
+
     function foo() {
       return 0;
     }
   }
   var s2: string = foo(); // ok, hoisted outer not clobbered
+
   function foo() {
     return "";
   }

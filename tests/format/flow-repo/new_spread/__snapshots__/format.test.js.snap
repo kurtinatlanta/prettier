@@ -236,7 +236,9 @@ var o2: O2 = (0: mixed); // ok
 (o2: empty); // ok
 
 declare var Base: any;
+
 declare class Derived extends Base {}
+
 type O3 = { ...Derived };
 var o3: O3 = (0: mixed); // ok
 (o3: empty); // ok
@@ -329,6 +331,7 @@ declare var o12: {...{|[string]:T|},...{|[string]:U|}};
 
 =====================================output=====================================
 declare class T {}
+
 declare class U {}
 
 declare var o1: { ...{ [string]: T }, ...{ p: U } };
@@ -410,6 +413,7 @@ declare var o2: O2;
 class A {
   +p: string | number;
 }
+
 class B extends A {
   p: number;
 }
@@ -421,6 +425,7 @@ declare var o1: O1;
 declare class C {
   [string]: number;
 }
+
 type O2 = { ...C };
 declare var o2: O2;
 (o2: { [string]: number }); // ok
@@ -465,9 +470,11 @@ declare var o5: O5;
 
 =====================================output=====================================
 declare class T {}
+
 declare class U {}
 
 declare class A {}
+
 declare class B extends A {}
 
 type O1 = { ...{ p: T } & { q: U } };
@@ -570,6 +577,7 @@ declare var o21: {...{|p:T|}&{q:U}};
 
 =====================================output=====================================
 declare class T {}
+
 declare class U {}
 
 declare var o1: { ...{ p: T } & { p: U } };
@@ -669,6 +677,7 @@ declare var p: {...{|p?:T|},...{|p?:U|}}; (p: {|p?:T|U|});
 
 =====================================output=====================================
 declare class T {}
+
 declare class U {}
 
 declare var a: { ...{ p: T }, ...{ p: U } };

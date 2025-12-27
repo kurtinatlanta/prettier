@@ -197,6 +197,7 @@ var j = g(); // OK
 class E {
   foo(x: number) {}
 }
+
 class F extends E {
   foo() {
     // OK to override with generalization

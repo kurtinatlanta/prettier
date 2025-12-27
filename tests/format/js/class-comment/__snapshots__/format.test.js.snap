@@ -112,7 +112,9 @@ class A1 extends B {
 }
 
 class A2 /* a */ extends B {}
+
 class A3 extends B /* a */ {}
+
 class A4 extends /* a */ B {}
 
 (class A5 // comment 1
@@ -146,6 +148,7 @@ class C2 // comment
 }
 
 (class A10 extends /* a */ /* prettier-ignore */ B {});
+
 class A10 extends /* a */ /* prettier-ignore */ B {}
 
 ================================================================================

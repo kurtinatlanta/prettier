@@ -205,7 +205,9 @@ class C6 extends React.Component { // OK, recommended
 var React = require("React");
 
 type T1 = {};
+
 type T2 = { x: number };
+
 type T3 = { x: number, y: number };
 
 class C1 extends React.Component<T1, T2, any> {
@@ -336,7 +338,9 @@ FooLegacy.bar();
 var React = require("React");
 
 type DefaultProps = {};
+
 type Props = { x: number };
+
 type State = { y: number };
 
 class Foo extends React.Component {
@@ -451,6 +455,7 @@ class HelloMessage extends React.Component {
 // 'react' might show up here.
 
 import React from "react";
+
 //import React from "React";
 //var React = require("react");
 //var React = require("React");

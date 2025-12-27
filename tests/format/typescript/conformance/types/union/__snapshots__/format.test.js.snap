@@ -202,11 +202,17 @@ fUnion(""); // All constituents can be called by passing a single string.
 
 =====================================output=====================================
 ﻿function f1(s: string) {}
+
 function f2(s?: string) {}
+
 function f3(...s: string[]) {}
+
 function f4(s: string, s2?: string) {}
+
 function f5(s?: string, n?: number) {}
+
 function f6(s?: string, ...n: number[]) {}
+
 function f7(s: string, ...sRest: string[]) {}
 
 var fUnion:
@@ -257,9 +263,13 @@ f12345("a", "b", "c");  // error
 
 =====================================output=====================================
 ﻿type F1 = (a: string, b?: string) => void;
+
 type F2 = (a: string, b?: string, c?: string) => void;
+
 type F3 = (a: string, ...rest: string[]) => void;
+
 type F4 = (a: string, b?: string, ...rest: string[]) => void;
+
 type F5 = (a: string, b: string) => void;
 
 var f12: F1 | F2;
@@ -487,6 +497,7 @@ var z1: string | typeof BC;
 =====================================output=====================================
 ﻿// A | B is equivalent to A if B is a subtype of A
 class C {}
+
 class D extends C {
   foo() {}
 }
@@ -554,15 +565,19 @@ var arr5Tuple: {
   0: string;
   5: number;
 } = ["hello", true, false, " hello", true, 10, "any"]; // Tuple
+
 class C {
   foo() {}
 }
+
 class D {
   foo2() {}
 }
+
 class E extends C {
   foo3() {}
 }
+
 class F extends C {
   foo4() {}
 }

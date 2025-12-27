@@ -43,9 +43,11 @@ module.exports = {fn: fix};
 function eq(x: number, y: number) {
   return true;
 }
+
 function sub(x: number, y: number) {
   return 0;
 }
+
 function mul(x: number, y: number) {
   return 0;
 }
@@ -123,6 +125,7 @@ function func1(f) {
   }
   return fix_f;
 }
+
 function func2(f) {
   function fix_f(x: string): string {
     return f(x);

@@ -68,7 +68,9 @@ class DisplayObject3
 class DisplayObject4
   extends utils.EventEmitter
   implements interaction_InteractiveTarget {}
+
 class Readable extends events.EventEmitter implements NodeJS_ReadableStream {}
+
 class InMemoryAppender
   extends log4javascript.Appender
   implements ICachedLogMessageProvider {}

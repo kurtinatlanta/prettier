@@ -89,6 +89,7 @@ class C {
 }
 
 function asserts_1(x: any): asserts x {}
+
 function asserts_2(x: any): asserts x is A {}
 
 ================================================================================

@@ -236,6 +236,7 @@ NewB(A);
 NewB(B);
 =====================================output=====================================
 class A {}
+
 abstract class B extends A {}
 
 function NewA(Factory: typeof A) {
@@ -830,6 +831,7 @@ new C;
 abstract class A {}
 
 abstract;
+
 class B {}
 
 abstract;

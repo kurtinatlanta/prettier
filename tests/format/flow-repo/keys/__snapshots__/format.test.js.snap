@@ -66,6 +66,7 @@ function testKeysOfObject(str: string, lit: "hi") {
 }
 
 type StrDict = { [key: string]: mixed };
+
 function testKeysOfStrDict(str: string, lit: "hi") {
   (str: $Keys<StrDict>); // Any string should be fine
   if (str) {
@@ -77,6 +78,7 @@ function testKeysOfStrDict(str: string, lit: "hi") {
 }
 
 type StrLitDict = { [key: "hi"]: mixed };
+
 function testKeysOfStrLitDict(str: string, lit: "hi") {
   (str: $Keys<StrLitDict>); // Error: Not all strings are allowed
   if (str) {
@@ -89,6 +91,7 @@ function testKeysOfStrLitDict(str: string, lit: "hi") {
 }
 
 type ObjLit = { hi: mixed };
+
 function testKeysOfOtherObj(str: string, lit: "hi") {
   (str: $Keys<ObjLit>); // Error: string -> keys of ObjLit
   if (str) {

@@ -148,6 +148,7 @@ interface B { "D": boolean; }
 interface A {
   C: string;
 }
+
 interface B {
   D: boolean;
 }
@@ -169,6 +170,7 @@ interface B { "D": boolean; }
 interface A {
   C: string;
 }
+
 interface B {
   D: boolean;
 }
@@ -337,7 +339,9 @@ type H = { 'A': string, "B": number };
 
 =====================================output=====================================
 type F = <T>(T) => T;
+
 type G = <A, B>(A) => B;
+
 type H = { A: string, B: number };
 
 ================================================================================
@@ -356,7 +360,9 @@ type H = { 'A': string, "B": number };
 
 =====================================output=====================================
 type F = <T>(T) => T;
+
 type G = <A, B>(A) => B;
+
 type H = { A: string, B: number };
 
 ================================================================================

@@ -54,6 +54,7 @@ var red:string = tuple[indices.red]; // error: tuple[0] is a number
 
 =====================================output=====================================
 var APIKeys = require("./enum");
+
 // object that maps "AGE" to "age", "NAME" to "name"
 
 function foo(x: $Keys<typeof APIKeys>) {}
@@ -125,6 +126,7 @@ function test3(x: number, flip_times: number): number {
   }
   return x;
 }
+
 function test4(flip_times: number): number {
   var x = 1;
   for (var i = 0; i < flip_times; i++) {

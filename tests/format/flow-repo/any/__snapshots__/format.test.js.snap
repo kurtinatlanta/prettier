@@ -22,9 +22,11 @@ var z:string = qux(0);
 function foo(x: any): any {
   return x;
 }
+
 function bar(x: any): mixed {
   return x;
 }
+
 function qux(x: mixed): any {
   return x;
 }
@@ -92,13 +94,16 @@ var w:string = baz(0);
 function foo(x: $FlowFixMe): $FlowFixMe {
   return x;
 }
+
 function bar(x: $FlowFixMe): mixed {
   return x;
 }
+
 // param (info only)
 function qux(x: $FlowFixMe<number>): $FlowFixMe<number> {
   return x;
 }
+
 // ...params are still checked. unknown type
 function baz(x: $FlowFixMe<nnumber>): $FlowFixMe<number> {
   return x;
@@ -150,13 +155,16 @@ var w:string = baz(0);
 function foo(x: $FlowIssue): $FlowIssue {
   return x;
 }
+
 function bar(x: $FlowIssue): mixed {
   return x;
 }
+
 // param (info only)
 function qux(x: $FlowIssue<number>): $FlowIssue<number> {
   return x;
 }
+
 // ...params are still checked. unknown type
 function baz(x: $FlowIssue<nnumber>): $FlowIssue<number> {
   return x;
@@ -234,6 +242,7 @@ function foo(c: C, x: any): string {
 }
 
 var any_fun1 = require("./nonflowfile");
+
 function bar1(x: mixed) {
   if (any_fun1(x)) {
     (x: boolean);
@@ -241,6 +250,7 @@ function bar1(x: mixed) {
 }
 
 var any_fun2 = require("./anyexportflowfile");
+
 function bar2(x: mixed) {
   if (any_fun2(x)) {
     (x: boolean);

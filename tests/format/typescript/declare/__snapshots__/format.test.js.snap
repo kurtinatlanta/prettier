@@ -19,12 +19,15 @@ declare class D {
 class B {
   p: number;
 }
+
 class C extends B {
   declare p: 256 | 1000;
 }
+
 class D {
   declare field = "field";
 }
+
 declare class D {
   field = "field";
 }
@@ -43,6 +46,7 @@ declare enum Bar {}
 
 =====================================output=====================================
 declare const enum Foo {}
+
 declare enum Bar {}
 
 ================================================================================

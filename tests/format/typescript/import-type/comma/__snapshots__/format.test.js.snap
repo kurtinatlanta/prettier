@@ -23,6 +23,7 @@ type A = import("foo", {
     type: "json",
   },
 });
+
 type A = import("foo", {
   with: {
     type: "json",

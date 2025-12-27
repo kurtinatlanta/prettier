@@ -194,6 +194,7 @@ require.call(null, "DoesNotExist");
 /* @flow */
 
 function takesANumber(num: number): void {}
+
 function takesAString(str: string): void {}
 
 // @providesModule

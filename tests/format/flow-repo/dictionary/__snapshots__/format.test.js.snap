@@ -413,11 +413,14 @@ function subtype_optional_c_to_dict(
 
 // Some logic is variance-sensitive.
 class A {}
+
 class B extends A {}
+
 class C extends B {}
 
 // Just a couple of short type names. Compare to string/number.
 class X {}
+
 class Y {}
 
 // Any property can be set on a dict with string keys.
@@ -888,6 +891,7 @@ module.exports = o;
 
 =====================================output=====================================
 type Params = { count: number, [name: string]: string };
+
 type QueryFunction = (params: Params) => string;
 
 var o: { foo: QueryFunction } = {

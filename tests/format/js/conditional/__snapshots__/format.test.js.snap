@@ -2183,6 +2183,7 @@ function foo() {
     : linkToRecord(rootPath, sourceId, linkTo_as_string)
   );
 }
+
 function foo2() {
   return (
     React.isValidElement(emptyText) ? React.cloneElement(emptyText)
@@ -2516,6 +2517,7 @@ function foo() {
       ? linkTo(record, reference)
       : linkToRecord(rootPath, sourceId, linkTo_as_string);
 }
+
 function foo2() {
   return React.isValidElement(emptyText)
     ? React.cloneElement(emptyText)

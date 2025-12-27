@@ -101,6 +101,7 @@ function takes_string(_: string) {}
 var global_x = "hello";
 
 function global_f() {}
+
 function global_g() {
   global_x = 42;
 }
@@ -120,6 +121,7 @@ function local_func() {
   var local_x = "hello";
 
   function local_f() {}
+
   function local_g() {
     local_x = 42;
   }
@@ -206,6 +208,7 @@ function example(b: bool): number {
 //
 function example(b: boolean): number {
   var x = 0;
+
   function f() {
     x = "";
   }

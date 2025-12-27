@@ -1180,7 +1180,9 @@ var PolyDefaultExample = React.createClass({
 /* @flow */
 
 class A {}
+
 class B extends A {}
+
 class C extends B {}
 
 var React = require("react");

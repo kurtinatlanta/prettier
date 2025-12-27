@@ -49,6 +49,7 @@ declare module "declare_m_e_with_other_value_declares" {
 
 declare module "declare_m_e_with_other_type_declares" {
   declare module.exports: number;
+
   declare type str2 = string;
 }
 

@@ -20,6 +20,7 @@ function bar(x: Class<B>): B {
 
 =====================================output=====================================
 class A {}
+
 function foo(x: Class<A>): A {
   return new x(); // OK
 }
@@ -27,6 +28,7 @@ function foo(x: Class<A>): A {
 class B {
   constructor(_: any) {}
 }
+
 function bar(x: Class<B>): B {
   return new x(); // error (too few args)
 }
@@ -62,7 +64,9 @@ check(B, new C);
 declare function check<X>(cls: $Type<X>, inst: X): void;
 
 class A {}
+
 class B extends A {}
+
 class C {}
 
 check(B, new A());

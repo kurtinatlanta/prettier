@@ -46,12 +46,15 @@ const example6 = (): ({ p: { p: { p: (string) => string } & string } }) =>
   (0: any);
 const example7 = (): ({ p: { p: { p: [(string) => string, string] } } }) =>
   (0: any);
+
 function example8(): { p: (string) => string } {
   return (0: any);
 }
+
 function example9(): { p: { p: (string) => string } } {
   return (0: any);
 }
+
 function example10(): { p: { p: { p: (string) => string } } } {
   return (0: any);
 }
@@ -98,25 +101,45 @@ type X = (a & b) => void;
 
 =====================================output=====================================
 type Bar = (number | string) => number;
+
 type X = (?(number, number) => number) => void;
+
 type X = ?((number, number) => number) => void;
+
 type X = ?(number, number) => (number) => void;
+
 type X = (1234) => void;
+
 type X = ("abc") => void;
+
 type X = (true) => void;
+
 type X = (false) => void;
+
 type X = (boolean) => void;
+
 type X = (number) => void;
+
 type X = (void) => void;
+
 type X = (null) => void;
+
 type X = (any) => void;
+
 type X = (empty) => void;
+
 type X = (mixed) => void;
+
 type X = (string) => void;
+
 type X = (abc) => void;
+
 type X = a | ((b) => void);
+
 type X = (a | b) => void;
+
 type X = a & ((b) => void);
+
 type X = (a & b) => void;
 
 ================================================================================
@@ -139,6 +162,7 @@ const f1 = (): ((string) => string) => {};
 const f2 = (): (?(y) => { a: (b) => c }) => (0: any);
 const f3 = (): a | ((string) => string) => {};
 const f4 = (): a & ((string) => string) => {};
+
 function f5(): (string) => string {}
 
 ================================================================================

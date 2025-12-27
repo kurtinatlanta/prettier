@@ -93,6 +93,7 @@ fn({some: 'literal'});
 
 =====================================output=====================================
 function foo(x: ?string) {}
+
 function bar(x: ?number) {}
 foo("hmm");
 bar("hmm");

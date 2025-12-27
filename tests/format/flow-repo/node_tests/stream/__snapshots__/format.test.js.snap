@@ -69,8 +69,11 @@ var ws = fs.createWriteStream("/dev/null");
 ls.stdout.pipe(ws).end();
 
 class MyReadStream extends stream.Readable {}
+
 class MyWriteStream extends stream.Writable {}
+
 class MyDuplex extends stream.Duplex {}
+
 class MyTransform extends stream.Duplex {}
 
 new MyReadStream()

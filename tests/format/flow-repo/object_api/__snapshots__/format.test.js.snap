@@ -173,6 +173,7 @@ let tests = [
 // @flow
 
 class Foo {}
+
 class Bar extends Foo {}
 
 let tests = [
@@ -462,8 +463,11 @@ var k : Object = a.constructor;
 /* @flow */
 
 function takesABool(x: boolean) {}
+
 function takesAString(x: string) {}
+
 function takesANumber(x: number) {}
+
 function takesAnObject(x: Object) {}
 
 class Foo {}

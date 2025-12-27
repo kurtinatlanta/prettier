@@ -122,6 +122,7 @@ function foo(x: number | string | Array<string>): number {
 // @flow
 
 declare function f1(x: mixed): boolean %checks(typeof x === "string");
+
 declare function f2(x: mixed): boolean %checks(Array.isArray(x));
 
 declare var cond: boolean;
@@ -170,6 +171,7 @@ function foo(x: string | Array<string>): string {
 // @flow
 
 declare function is_string(x: mixed): boolean %checks(typeof x === "string");
+
 declare function is_number(x: mixed): boolean %checks(typeof x === "number");
 
 // Feature check:
@@ -456,6 +458,7 @@ function bar(x: string | Array<string>): string {
 // @flow
 
 declare function is_string(x: mixed): boolean %checks(typeof x === "string");
+
 declare function is_number(x: mixed): boolean %checks(typeof x === "number");
 
 // Sanity check:

@@ -329,9 +329,13 @@ let tests = [
 /* @flow */
 
 type Type = Name | ListType | NonNullType;
+
 type Name = { kind: "Name", value: string, type: void };
+
 type ListType = { kind: "ListType", type: Type };
+
 type NonNullType = { kind: "NonNullType", type: Name | ListType | BadType };
+
 type BadType = {};
 
 function getTypeASTName(typeAST: Type): string {
@@ -904,6 +908,7 @@ function foo5() {
   if (o.p) {
     o.p();
   }
+
   function _foo5() {
     o.p = function () {};
   }
@@ -1079,6 +1084,7 @@ function arr0(x: mixed) {
 /* @flow */
 
 function takesNumber(x: number) {}
+
 function takesString(x: string) {}
 
 function num(x: mixed) {
@@ -1905,6 +1911,7 @@ function bar(b) {
 }
 
 function maybe_throw() {}
+
 function qux() {
   var x = 0;
   try {
@@ -2721,7 +2728,9 @@ let tests = [
 // example 1
 
 type Type = Name | ListType;
+
 type Name = { kind: "Name", value: string };
+
 type ListType = { kind: "ListType", name: string };
 
 function getTypeASTName(typeAST: Type): string {
@@ -2735,7 +2744,9 @@ function getTypeASTName(typeAST: Type): string {
 
 // example 2
 import type { ASTNode } from "./ast_node";
+
 var Node = require("./node1"); // Node = "Node1"
+
 function foo(x: ASTNode) {
   if (x.kind === Node) {
     return x.prop1.charAt(0); // typeAST: Node1, but x.prop1 may be undefined
@@ -2745,8 +2756,11 @@ function foo(x: ASTNode) {
 
 // example 3
 type Apple = { kind: "Fruit", taste: "Bad" };
+
 type Orange = { kind: "Fruit", taste: "Good" };
+
 type Broccoli = { kind: "Veg", taste: "Bad", raw: "No" };
+
 type Carrot = { kind: "Veg", taste: "Good", raw: "Maybe" };
 
 type Breakfast = Apple | Orange | Broccoli | Carrot;
@@ -2771,6 +2785,7 @@ function list(n) {
   if (n > 0) return { kind: "cons", next: list(n - 1) };
   return { kind: "nil" };
 }
+
 function length(l) {
   switch (l.kind) {
     case "cons":
@@ -2779,6 +2794,7 @@ function length(l) {
       return 0;
   }
 }
+
 function check(n) {
   if (n >= 0) return n === length(list(n));
   return true;
@@ -2786,9 +2802,13 @@ function check(n) {
 
 // example 5
 var EnumKind = { A: 1, B: 2, C: 3 };
+
 type A = { kind: 1, A: number };
+
 type B = { kind: 2, B: number };
+
 type C = { kind: 3, C: number };
+
 function kind(x: A | B | C): number {
   switch (x.kind) {
     case EnumKind.A:
@@ -2803,7 +2823,9 @@ kind({ kind: EnumKind.A, A: 1 });
 
 // example 6
 type Citizen = { citizen: true };
+
 type NonCitizen = { citizen: false, nationality: string };
+
 function nationality(x: Citizen | NonCitizen) {
   if (x.citizen) return "Shire";
   else return x.nationality;
@@ -3183,6 +3205,7 @@ function fn0() {
   }
   BAZ.stuff(123); // error, refinement is gone
 }
+
 function fn1() {
   BAZ.stuff; // error, could be undefined
   if (typeof BAZ !== "undefined" && typeof BAZ.stuff === "function") {

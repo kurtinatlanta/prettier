@@ -122,6 +122,7 @@ var d_star: D<*> = new D(10); // error, number ~> string
 (d_star.p: boolean); // Error number ~> boolean
 
 class E<S: string, T: number = S> {} // Error: string ~> number
+
 class F<S: string, T: S = number> {} // Error: number ~> string
 
 class G<S: string, T = S> extends A<T> {}

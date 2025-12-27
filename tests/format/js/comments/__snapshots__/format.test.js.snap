@@ -1589,6 +1589,7 @@ var b = {
 var b = [
   /* dangling */
 ]
+
 function d() {
   /* dangling */
 }
@@ -1627,6 +1628,7 @@ var b = {
 var b = [
   /* dangling */
 ];
+
 function d() {
   /* dangling */
 }
@@ -1895,6 +1897,7 @@ a /* a */ // b
 foo // first
 // second
 // third
+
 function x() {} // first
 // second
 a =
@@ -1942,6 +1945,7 @@ a; /* a */ // b
 foo; // first
 // second
 // third
+
 function x() {} // first
 // second
 a =
@@ -2360,7 +2364,9 @@ function foo4() {
 
 =====================================output=====================================
 function a(/* comment */) {} // comment
+
 function b() {} // comment
+
 function c(/* comment */ argA, argB, argC) {} // comment
 call((/*object*/ row) => {})
 KEYPAD_NUMBERS.map(
@@ -2370,12 +2376,17 @@ KEYPAD_NUMBERS.map(
 )
 
 function f1 /* f */() {}
+
 function f2(/* args */) {}
+
 function f3() /* returns */ {}
+
 function f4 /* f */(/* args */) /* returns */ {}
 
 function f5 /* f */(/* a */ a) {}
+
 function f6 /* f */(a /* a */) {}
+
 function f7 /* f */(/* a */ a) /* returns */ {}
 
 const obj = {
@@ -2393,12 +2404,15 @@ const obj = {
 class C1 {
   f /* f */() {}
 }
+
 class C2 {
   f(/* args */) {}
 }
+
 class C3 {
   f() /* returns */ {}
 }
+
 class C4 {
   f /* f */(/* args */) /* returns */ {}
 }
@@ -2496,7 +2510,9 @@ function foo4() {
 
 =====================================output=====================================
 function a(/* comment */) {} // comment
+
 function b() {} // comment
+
 function c(/* comment */ argA, argB, argC) {} // comment
 call((/*object*/ row) => {});
 KEYPAD_NUMBERS.map(
@@ -2506,12 +2522,17 @@ KEYPAD_NUMBERS.map(
 );
 
 function f1 /* f */() {}
+
 function f2(/* args */) {}
+
 function f3() /* returns */ {}
+
 function f4 /* f */(/* args */) /* returns */ {}
 
 function f5 /* f */(/* a */ a) {}
+
 function f6 /* f */(a /* a */) {}
+
 function f7 /* f */(/* a */ a) /* returns */ {}
 
 const obj = {
@@ -2529,12 +2550,15 @@ const obj = {
 class C1 {
   f /* f */() {}
 }
+
 class C2 {
   f(/* args */) {}
 }
+
 class C3 {
   f() /* returns */ {}
 }
+
 class C4 {
   f /* f */(/* args */) /* returns */ {}
 }

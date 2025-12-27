@@ -62,6 +62,7 @@ callable.call(null, 0); // error, number ~> string
 
 =====================================output=====================================
 var x = Boolean(4);
+
 function foo(fn: (value: any) => boolean) {}
 foo(Boolean);
 

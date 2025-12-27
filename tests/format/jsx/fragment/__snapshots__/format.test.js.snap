@@ -132,6 +132,7 @@ foo = (
 [<></>, <></>];
 const fun1 = () => <></>;
 x = <></>;
+
 function fun2(param = <></>) {}
 1 + <></>;
 1 || <></>;
@@ -145,6 +146,7 @@ const obj = {
   foo: <></>,
 };
 const fragmentVar = <></>;
+
 function fun3() {
   return <></>;
 }

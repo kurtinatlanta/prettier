@@ -27,6 +27,7 @@ promiseAllByKey({
 
 =====================================output=====================================
 declare function promiseAllByKey<O>(o: O): Promise<$ObjMap<O, typeof $await>>;
+
 declare function keyMirror<O>(o: O): $ObjMapi<O, <K>(k: K) => K>;
 
 var o = keyMirror({

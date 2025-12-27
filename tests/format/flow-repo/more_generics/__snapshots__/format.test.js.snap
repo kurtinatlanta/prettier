@@ -54,6 +54,7 @@ function foo4<T, S>(x: T): S {
 }
 
 var x = [];
+
 function foo5<T>(): Array<T> {
   return x;
 }

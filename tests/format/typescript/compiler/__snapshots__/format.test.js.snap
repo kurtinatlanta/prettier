@@ -218,6 +218,7 @@ interface ISubject<T> extends IObservable<T> {}
 interface Foo {
   x;
 }
+
 interface Bar {
   y;
 }
@@ -470,6 +471,7 @@ let obj = {
 function a() {
   let global = 1;
 }
+
 function b() {
   class global {}
 }
@@ -779,6 +781,7 @@ module m1 {
   export var m1_im1_private_v2_public = new m1_im1_private.c1();
   export var m1_im1_private_v3_public = m1_im1_private.f1;
   export var m1_im1_private_v4_public = m1_im1_private.f1();
+
   var m1_im1_private_v1_private = m1_im1_private.c1;
   var m1_im1_private_v2_private = new m1_im1_private.c1();
   var m1_im1_private_v3_private = m1_im1_private.f1;
@@ -789,6 +792,7 @@ module m1 {
   export var m1_im2_private_v2_public = new m1_im2_private.c1();
   export var m1_im2_private_v3_public = m1_im2_private.f1;
   export var m1_im2_private_v4_public = m1_im2_private.f1();
+
   var m1_im2_private_v1_private = m1_im2_private.c1;
   var m1_im2_private_v2_private = new m1_im2_private.c1();
   var m1_im2_private_v3_private = m1_im2_private.f1;
@@ -841,6 +845,7 @@ declare module "use_glo_M1_public" {
   export var use_glo_M1_public_v1_public: { new (): use_glo_M1_public.c1 };
   export var use_glo_M1_public_v2_public: typeof use_glo_M1_public;
   export var use_glo_M1_public_v3_public: () => use_glo_M1_public.c1;
+
   var use_glo_M1_public_v1_private: { new (): use_glo_M1_public.c1 };
   var use_glo_M1_public_v2_private: typeof use_glo_M1_public;
   var use_glo_M1_public_v3_private: () => use_glo_M1_public.c1;
@@ -849,6 +854,7 @@ declare module "use_glo_M1_public" {
   export var use_glo_M2_public_v1_public: { new (): use_glo_M2_public.c1 };
   export var use_glo_M2_public_v2_public: typeof use_glo_M2_public;
   export var use_glo_M2_public_v3_public: () => use_glo_M2_public.c1;
+
   var use_glo_M2_public_v1_private: { new (): use_glo_M2_public.c1 };
   var use_glo_M2_public_v2_private: typeof use_glo_M2_public;
   var use_glo_M2_public_v3_private: () => use_glo_M2_public.c1;
