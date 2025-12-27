@@ -87,7 +87,8 @@ function try_scope_finally() {
   try {
     a = "";
     b = "";
-  } finally {
+  }
+  finally {
     let a;
     a = 0; // doesn't add lower bound to outer a
     b = 0;
@@ -173,7 +174,8 @@ function foo(p: boolean) {}
 function sorry(really: boolean) {
   if (really) {
     var x: number | string = 1337;
-  } else {
+  }
+  else {
     var x: boolean = true;
   }
   foo(x);

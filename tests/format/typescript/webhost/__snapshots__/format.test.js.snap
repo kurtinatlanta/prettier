@@ -145,7 +145,8 @@ namespace TypeScript.WebTsc {
           if (encoding) {
             fileStream.Charset = encoding;
             fileStream.LoadFromFile(fileName);
-          } else {
+          }
+          else {
             // Load file and read the first two bytes into a string with no interpretation
             fileStream.Charset = "x-ansi";
             fileStream.LoadFromFile(fileName);
@@ -162,9 +163,11 @@ namespace TypeScript.WebTsc {
           }
           // ReadText method always strips byte order mark from resulting string
           return fileStream.ReadText();
-        } catch (e) {
+        }
+        catch (e) {
           throw e;
-        } finally {
+        }
+        finally {
           fileStream.Close();
         }
       },

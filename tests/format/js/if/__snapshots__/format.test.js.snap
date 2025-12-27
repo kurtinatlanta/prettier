@@ -23,7 +23,8 @@ else stuff;
 =====================================output=====================================
 if (cond) {
   stuff;
-} /* comment */ else if (cond) {
+} /* comment */
+else if (cond) {
   stuff;
 }
 // comment
@@ -84,7 +85,8 @@ if (1) {
   doThing(foo);
 }
 if (1) {
-} else {
+}
+else {
   // foo may not exist
   doThing(foo);
 }
@@ -94,7 +96,8 @@ if (2) // foo may not exist
   doThing(foo);
 }
 if (2) {
-} else // foo may not exist
+}
+else // foo may not exist
 {
   doThing(foo);
 }
@@ -104,7 +107,8 @@ if (3) // foo may not exist
   doThing(foo);
 }
 if (3) {
-} else // foo may not exist
+}
+else // foo may not exist
 {
   doThing(foo);
 }
@@ -113,7 +117,8 @@ if (4) /* foo may not exist */ {
   doThing(foo);
 }
 if (4) {
-} else /* foo may not exist */ {
+}
+else /* foo may not exist */ {
   doThing(foo);
 }
 
@@ -327,10 +332,12 @@ async function f5() {
 async function f1() {
   if (untrackedChoice === 0) /* Cancel */ {
     return null;
-  } else if (untrackedChoice === 1) /* Add */ {
+  }
+  else if (untrackedChoice === 1) /* Add */ {
     await repository.addAll(Array.from(untrackedChanges.keys()));
     shouldAmend = true;
-  } else if (untrackedChoice === 2) /* Allow Untracked */ {
+  }
+  else if (untrackedChoice === 2) /* Allow Untracked */ {
     allowUntracked = true;
   }
 }
@@ -356,10 +363,12 @@ async function f3() {
 async function f4() {
   if (untrackedChoice === 0) /* Cancel */ {
     return null;
-  } else if (untrackedChoice === 1) /* Add */ {
+  }
+  else if (untrackedChoice === 1) /* Add */ {
     await repository.addAll(Array.from(untrackedChanges.keys()));
     shouldAmend = true;
-  } else if (untrackedChoice === 2) /* Allow Untracked */ {
+  }
+  else if (untrackedChoice === 2) /* Allow Untracked */ {
     allowUntracked = true;
   }
 }
@@ -367,10 +376,12 @@ async function f4() {
 async function f5() {
   if (untrackedChoice === 0) {
     /* Cancel */ return null;
-  } else if (untrackedChoice === 1) {
+  }
+  else if (untrackedChoice === 1) {
     /* Add */ await repository.addAll(Array.from(untrackedChanges.keys()));
     shouldAmend = true;
-  } else if (untrackedChoice === 2) {
+  }
+  else if (untrackedChoice === 2) {
     /* Allow Untracked */ allowUntracked = true;
   }
 }
@@ -437,7 +448,8 @@ else bar();
 if (foo)
   do {
     console.log(i);
-  } while (i--); // foo
+  }
+  while (i--); // foo
 else bar();
 
 ================================================================================

@@ -263,7 +263,8 @@ class Refinements {
   constructor() {
     if (this.#p) {
       (this.#p: number); // Refinements work properly
-    } else {
+    }
+    else {
       (this.#p: number); // Error #p is null or undefined
     }
   }

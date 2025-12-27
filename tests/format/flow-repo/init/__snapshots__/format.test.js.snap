@@ -76,7 +76,8 @@ function _while(b: () => boolean) {
 function _do_while(b: () => boolean) {
   do {
     var f = function () {};
-  } while (b());
+  }
+  while (b());
   f(); // ok
 }
 
@@ -411,7 +412,8 @@ function if_scoped_init(b) {
 function if_else_partial_init(b) {
   if (b) {
     var x: number = 0;
-  } else {
+  }
+  else {
     var y: number = x; // error
   }
 }
@@ -436,7 +438,8 @@ function if_partial_post_init(b) {
 function if_post_init(b) {
   if (b) {
     var x: number = 0;
-  } else {
+  }
+  else {
     var x: number = 1;
   }
   var y: number = x;
@@ -456,7 +459,8 @@ function if_post_init(b) {
   var x: number;
   if (b) {
     x = 0;
-  } else {
+  }
+  else {
     x = 1;
   }
   var y: number = x;
@@ -558,7 +562,8 @@ function do_while_scoped_init(b) {
   do {
     var x: number = 0;
     var y: number = x;
-  } while (b);
+  }
+  while (b);
 }
 
 // ...but use before do-while gives undefined
@@ -566,14 +571,16 @@ function do_while_pre_init(b) {
   var y: number = x; // error
   do {
     var x: number = 0;
-  } while (b);
+  }
+  while (b);
 }
 
 // after is ok, because loop is guaranteed to run
 function do_while_post_init(b) {
   do {
     var x: number = 0;
-  } while (b);
+  }
+  while (b);
   var y: number = x;
 }
 
@@ -857,7 +864,8 @@ function if_post_init(b) {
   let x: number;
   if (b) {
     x = 0;
-  } else {
+  }
+  else {
     x = 1;
   }
   var y: number = x;
@@ -917,7 +925,8 @@ function do_while_post_init(b) {
   let x: number;
   do {
     x = 0;
-  } while (b);
+  }
+  while (b);
   var y: number = x; // ok
 }
 

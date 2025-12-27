@@ -100,13 +100,15 @@ const {
 
 try {
   // code
-} catch ({ data: { message } }) {
+}
+catch ({ data: { message } }) {
   // code
 }
 
 try {
   // code
-} catch ({
+}
+catch ({
   data: {
     message: { errors },
   },

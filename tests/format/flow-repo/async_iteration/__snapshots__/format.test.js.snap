@@ -112,7 +112,8 @@ async function* readLines(path) {
     while (!file.EOF) {
       yield await file.readLine();
     }
-  } finally {
+  }
+  finally {
     file.close();
   }
 }
@@ -169,7 +170,8 @@ gen.return(0).then((result) => {
 async function* refuse_return() {
   try {
     yield 1;
-  } finally {
+  }
+  finally {
     return 0;
   }
 }
@@ -227,7 +229,8 @@ async function *yield_return() {
 async function* catch_return() {
   try {
     yield 0;
-  } catch (e) {
+  }
+  catch (e) {
     return e;
   }
 }
@@ -246,7 +249,8 @@ async function* yield_return() {
   try {
     yield 0;
     return;
-  } catch (e) {
+  }
+  catch (e) {
     yield e;
   }
 }
