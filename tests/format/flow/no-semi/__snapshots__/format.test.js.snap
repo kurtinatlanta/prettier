@@ -20,6 +20,7 @@ x;
 
 =====================================output=====================================
 let error = new Error(response.statusText)
+
 // comment
 ;(error: any).response = response
 
@@ -53,6 +54,7 @@ x;
 
 =====================================output=====================================
 let error = new Error(response.statusText);
+
 // comment
 (error: any).response = response;
 

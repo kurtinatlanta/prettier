@@ -163,6 +163,7 @@ function f2() {
 // Type of body and abnormal handling
 {
   declare const x: empty;
+
   const out = match (x) {
   };
 
@@ -186,6 +187,7 @@ declare const x: 1 | 2;
     1 => true,
     2 => "s",
   };
+
   out as boolean | string; // OK
   out as empty; // ERROR
 }
@@ -197,6 +199,7 @@ declare function invariant(boolean): empty;
     1 => true,
     2 => invariant(false),
   };
+
   out as boolean; // OK
   out as empty; // ERROR
 }
@@ -206,6 +209,7 @@ function f1() {
     1 => invariant(false),
     2 => invariant(false),
   };
+
   out; // ERROR: unreachable
 }
 
@@ -215,6 +219,7 @@ function f2() {
     1 if (invariant(false)) => true,
     _ => "s",
   };
+
   out as string; // OK
   out as empty; // ERROR
 }
@@ -246,6 +251,7 @@ function f2() {
 // Case body provider and refinement analysis
 {
   let target;
+
   const out = match (x) {
     1 => (target = "foo"),
     2 => (target = true),
@@ -253,28 +259,37 @@ function f2() {
 
   target as string | boolean; // OK
 }
+
 {
   let target;
+
   const out = match (x) {
     const a => (target = "foo" as const),
   };
+
   a; // ERROR
 
   target as "foo"; // OK
 }
+
 {
   declare const x: [number] | number;
+
   let target = null;
+
   const out = match (x) {
     [const a] => (target = "foo"),
     const a => (target = true),
   };
+
   a; // ERROR
 
   target as string | boolean; // OK
 }
+
 {
   let target;
+
   const out = match (x) {
     1 => (target = "foo"),
     2 => invariant(false),
@@ -282,8 +297,10 @@ function f2() {
 
   target as string; // OK
 }
+
 {
   declare const o: { prop: number };
+
   const out = match (x) {
     1 => (o.prop = 1),
     2 => (o.prop = 2),
@@ -291,6 +308,7 @@ function f2() {
 
   o.prop as 1 | 2; // OK
 }
+
 {
   const a = [];
   const out = match (x) {
@@ -308,6 +326,7 @@ function f2() {
     2 => "xxx", // ERROR: 'xxx' is not a subtype of 'a' | 'b'
   };
 }
+
 {
   declare const dict: { ["a" | "b"]: number };
   dict[
@@ -413,6 +432,7 @@ type F = string => boolean;
 =====================================output=====================================
 // Annotation hint
 type F = (string) => boolean;
+
 {
   declare const x: "a";
 
@@ -429,6 +449,7 @@ type F = (string) => boolean;
     "a" => [1],
     "b" => [], // Should be \`Array<number>\`
   };
+
   out as Array<number>; // OK
 }
 
@@ -440,6 +461,7 @@ type F = (string) => boolean;
     "a" => [], // Should be \`Array<number>\`
     "b" => [1],
   };
+
   out as Array<number>; // OK
 }
 
@@ -453,6 +475,7 @@ type F = (string) => boolean;
     "c" => [1],
     "d" => [], // Should be \`Array<number>\`
   };
+
   out as number | {} | Array<number>; // OK
 }
 
@@ -465,8 +488,10 @@ type F = (string) => boolean;
     "b" => [1],
     "c" => [],
   };
+
   out as Array<boolean> | Array<number>; // OK
 }
+
 {
   declare const x: "a" | "b" | "c";
 
@@ -488,6 +513,7 @@ type F = (string) => boolean;
     "b" => ((x) => {}),
   };
 }
+
 {
   declare const x: "a" | "b";
 
@@ -1013,6 +1039,7 @@ parsers: ["flow"]
     2 as a => a as 2, // OK
   };
 }
+
 {
   declare const x: { type: "foo", value: 1 } | { type: "bar", value: 2 };
 
@@ -1098,6 +1125,7 @@ parsers: ["flow"]
     {bar: _, const a} => a as 1, // OK
   };
 }
+
 {
   declare const x:
     | { foo: void, a: 0 }
@@ -1140,6 +1168,7 @@ parsers: ["flow"]
   declare const foo: "foo";
   declare const bar: "bar";
   declare const baz: "baz";
+
   const e3 = match (x) {
     {type: foo, val: const a} => a as number, // OK
     {type: bar, val: const a} => a as string, // OK
@@ -1152,6 +1181,7 @@ parsers: ["flow"]
     bar: "bar",
     baz: "baz",
   };
+
   const e4 = match (x) {
     {type: o.foo, val: const a} => a as number, // OK
     {type: o.bar, val: const a} => a as string, // OK
@@ -1234,6 +1264,7 @@ parsers: ["flow"]
   declare const foo: "foo";
   declare const bar: "bar";
   declare const baz: "baz";
+
   const e3 = match (x) {
     [foo, const a] => a as number, // OK
     [bar, const a] => a as string, // OK
@@ -1271,6 +1302,7 @@ parsers: ["flow"]
     [const a] => a as number, // OK
   };
 }
+
 {
   declare const x: [number] | Array<string>;
 
@@ -1331,6 +1363,7 @@ parsers: ["flow"]
 // Exhaustive checking error points to definition
 {
   type T = { foo: 1 } | { foo: 2 };
+
   declare const x: T;
 
   const e1 = match (x) {
@@ -1625,8 +1658,10 @@ parsers: ["flow"]
     _ => 0,
   };
 }
+
 {
   declare const x: { a: boolean, b: boolean };
+
   const e1 = match (x) {
     {const a, b: true as a} => 0, // ERROR
     {const a, ...const a} => 0, // ERROR
@@ -1650,6 +1685,7 @@ parsers: ["flow"]
     _ => 0,
   };
 }
+
 {
   declare const x: { a: boolean } | { a: string };
 
@@ -1683,6 +1719,7 @@ parsers: ["flow"]
     _ => 0,
   };
 }
+
 {
   declare const x: [number, { foo: number }];
 
@@ -1701,6 +1738,7 @@ parsers: ["flow"]
     _ => 0,
   };
 }
+
 {
   declare const x: [{ foo: number }, number];
 
@@ -1945,6 +1983,7 @@ parsers: ["flow"]
   const out = match (x) {
     const a => a,
   };
+
   out as number; // OK
   out as empty; // ERROR
 }
@@ -1967,6 +2006,7 @@ parsers: ["flow"]
   const out = match (x) {
     [const a] => a,
   };
+
   out as number; // OK
   out as empty; // ERROR
 }
@@ -2003,12 +2043,14 @@ parsers: ["flow"]
     {foo: [{bar: const a}]} => a,
     _ => 0,
   };
+
   out1 as number; // OK
   out1 as empty; // ERROR
 
   const out2 = match (x) {
     {foo: const a} => a[0].bar,
   };
+
   out2 as number; // OK
   out2 as empty; // ERROR
 }
@@ -2036,6 +2078,7 @@ parsers: ["flow"]
     _ => 0,
   };
 }
+
 {
   declare const x: { foo: [number] };
 
@@ -2045,6 +2088,7 @@ parsers: ["flow"]
     _ => 0,
   };
 }
+
 {
   declare const x: { foo: { bar: number } };
 
@@ -2449,6 +2493,7 @@ function f2() {
 // Body makes refinements
 {
   let target;
+
   match (x) {
     1 => {
       target = "foo";
@@ -2460,8 +2505,10 @@ function f2() {
 
   target as string | boolean; // OK
 }
+
 {
   let target;
+
   match (x) {
     const a => {
       target = "foo" as const;
@@ -2471,9 +2518,12 @@ function f2() {
 
   target as "foo"; // OK
 }
+
 {
   declare const x: [number] | number;
+
   let target = null;
+
   match (x) {
     [const a] => {
       target = "foo";
@@ -2486,8 +2536,10 @@ function f2() {
 
   target as string | boolean; // OK
 }
+
 {
   let target;
+
   match (x) {
     1 => {
       target = "foo";
@@ -2499,6 +2551,7 @@ function f2() {
 
   target as string; // OK
 }
+
 {
   declare const o: { prop: number };
   match (x) {
@@ -2512,8 +2565,10 @@ function f2() {
 
   o.prop as 1 | 2; // OK
 }
+
 {
   const a = [];
+
   match (x) {
     1 => {
       a.push(1);
@@ -2560,6 +2615,7 @@ function t2(): boolean {
     }
   }
 }
+
 {
   label: for (let i = 0; i < 2; i++) {
     match (i) {

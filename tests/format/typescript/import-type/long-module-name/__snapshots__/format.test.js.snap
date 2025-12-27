@@ -10,6 +10,7 @@ export default plugin as typeof import("@babel/plugin-transform-react-jsx").defa
 
 =====================================output=====================================
 const plugin = {};
+
 export default plugin as typeof import("@babel/plugin-transform-react-jsx").default;
 
 ================================================================================
@@ -27,6 +28,7 @@ export default plugin as typeof import(
 
 =====================================output=====================================
 const plugin = {};
+
 export default plugin as typeof import(
   // Comment
   "@babel/plugin-transform-react-jsx"
@@ -133,10 +135,12 @@ with:{type:'json'}})
 =====================================output=====================================
 type A =
   import("./long/long/long/long/long/long/long/long/long/long/path/to/module");
+
 type B = import(
   "./long/long/long/long/long/long/long/long/long/long/path/to/module",
   { with: { type: "json" } }
 );
+
 type C = import(
   "./long/long/long/long/long/long/long/long/long/long/path/to/module",
   {
@@ -145,6 +149,7 @@ type C = import(
     },
   }
 );
+
 type D = import(
   "./long/long/long/long/long/long/long/long/long/long/path/to/module",
   {

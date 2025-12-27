@@ -242,6 +242,7 @@ x = \`mdl-textfield mdl-js-textfield \${className} \${
 
 function testing() {
   const p = {};
+
   // faking some tabs since I can't paste my real code in
   if (true) {
     if (false) {

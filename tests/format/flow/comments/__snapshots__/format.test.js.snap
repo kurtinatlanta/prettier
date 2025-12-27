@@ -105,11 +105,15 @@ function f2(a : c /* b */ ){}
 
 =====================================output=====================================
 function f1(a /* b */ : c) {}
+
 function f2(a /* b */ : c) {}
+
 function f3(a /* b */ : c) {}
+
 function f4(a /* b */ : c) {}
 
 function f2(a: /* b */ c) {}
+
 function f2(a: c /* b */) {}
 
 ================================================================================
@@ -348,6 +352,7 @@ class Foo {
 }
 =====================================output=====================================
 foo<bar>(baz);
+
 class Foo {
   bar(data: Array<string>) {}
 }
@@ -372,6 +377,7 @@ type PropTypes = {|
 =====================================output=====================================
 import type { OneType } from "./oneFile.js";
 import type { HelloType } from "./otherFile.js";
+
 type PropTypes = {|
   TestComponent: React.AbstractComponent<any>,
   hello: HelloType,

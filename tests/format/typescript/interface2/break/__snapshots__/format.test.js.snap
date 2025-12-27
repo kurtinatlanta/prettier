@@ -129,6 +129,7 @@ declare interface ExtendsOne extends ASingleInterface {
 declare interface ExtendsLarge extends ASingleInterfaceWithAReallyReallyReallyReallyLongName {
   x: string;
 }
+
 declare class ExtendsLarge____ extends ASingleInterfaceWithAReallyReallyReallyReallyLongName {
   x: string;
 }
@@ -153,6 +154,7 @@ interface ExtendsOne extends ASingleInterface {
 interface ExtendsLarge extends ASingleInterfaceWithAReallyReallyReallyReallyLongName {
   x: string;
 }
+
 class ExtendsLarge____ extends ASingleInterfaceWithAReallyReallyReallyReallyLongName {
   x: string;
 }
@@ -177,6 +179,7 @@ interface ExtendsOne extends ASingleInterface<string> {
 interface ExtendsLarge extends ASingleInterfaceWithAReallyReallyReallyReallyLongName<string> {
   x: string;
 }
+
 class ExtendsLarge____ extends ASingleInterfaceWithAReallyReallyReallyReallyLongName<string> {
   x: string;
 }
@@ -192,6 +195,7 @@ interface ExtendsMany extends ASingleGenericInterface<
 > {
   x: string;
 }
+
 class ExtendsMany____ extends ASingleGenericInterface<
   Interface1,
   Interface2,
@@ -362,6 +366,7 @@ declare interface ExtendsOne extends ASingleInterface {
 declare interface ExtendsLarge extends ASingleInterfaceWithAReallyReallyReallyReallyLongName {
   x: string;
 }
+
 declare class ExtendsLarge____ extends ASingleInterfaceWithAReallyReallyReallyReallyLongName {
   x: string;
 }
@@ -386,6 +391,7 @@ interface ExtendsOne extends ASingleInterface {
 interface ExtendsLarge extends ASingleInterfaceWithAReallyReallyReallyReallyLongName {
   x: string;
 }
+
 class ExtendsLarge____ extends ASingleInterfaceWithAReallyReallyReallyReallyLongName {
   x: string;
 }
@@ -410,6 +416,7 @@ interface ExtendsOne extends ASingleInterface<string> {
 interface ExtendsLarge extends ASingleInterfaceWithAReallyReallyReallyReallyLongName<string> {
   x: string;
 }
+
 class ExtendsLarge____ extends ASingleInterfaceWithAReallyReallyReallyReallyLongName<string> {
   x: string;
 }
@@ -425,6 +432,7 @@ interface ExtendsMany extends ASingleGenericInterface<
 > {
   x: string;
 }
+
 class ExtendsMany____ extends ASingleGenericInterface<
   Interface1,
   Interface2,
@@ -595,6 +603,7 @@ declare interface ExtendsOne extends ASingleInterface {
 declare interface ExtendsLarge extends ASingleInterfaceWithAReallyReallyReallyReallyLongName {
   x: string;
 }
+
 declare class ExtendsLarge____ extends ASingleInterfaceWithAReallyReallyReallyReallyLongName {
   x: string;
 }
@@ -619,6 +628,7 @@ interface ExtendsOne extends ASingleInterface {
 interface ExtendsLarge extends ASingleInterfaceWithAReallyReallyReallyReallyLongName {
   x: string;
 }
+
 class ExtendsLarge____ extends ASingleInterfaceWithAReallyReallyReallyReallyLongName {
   x: string;
 }
@@ -643,6 +653,7 @@ interface ExtendsOne extends ASingleInterface<string> {
 interface ExtendsLarge extends ASingleInterfaceWithAReallyReallyReallyReallyLongName<string> {
   x: string;
 }
+
 class ExtendsLarge____ extends ASingleInterfaceWithAReallyReallyReallyReallyLongName<string> {
   x: string;
 }
@@ -658,6 +669,7 @@ interface ExtendsMany extends ASingleGenericInterface<
 > {
   x: string;
 }
+
 class ExtendsMany____ extends ASingleGenericInterface<
   Interface1,
   Interface2,

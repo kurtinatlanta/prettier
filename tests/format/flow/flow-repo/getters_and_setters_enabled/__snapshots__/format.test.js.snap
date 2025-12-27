@@ -142,6 +142,7 @@ foo.goodSetterWithAnnotation = "hello"; // Error string ~> number
 var testSubtypingGetterAndSetter: number = foo.propWithSubtypingGetterAndSetter; // Error ?number ~> number
 
 var testPropOverridenWithGetter: number = foo.propOverriddenWithGetter; // Error string ~> number
+
 foo.propOverriddenWithSetter = 123; // Error number ~> string
 
 ================================================================================
@@ -247,6 +248,7 @@ foo.goodSetterWithAnnotation = "hello"; // Error string ~> number
 var testSubtypingGetterAndSetter: number = foo.propWithSubtypingGetterAndSetter; // Error ?number ~> number
 
 var testPropOverridenWithGetter: number = foo.propOverriddenWithGetter; // Error string ~> number
+
 foo.propOverriddenWithSetter = 123; // Error number ~> string
 
 ================================================================================
@@ -329,7 +331,9 @@ var testExampleOrOrderOfGetterAndSetterReordered: number =
 var z: number = 123;
 
 class A {}
+
 class B extends A {}
+
 class C extends A {}
 
 var obj = {
@@ -474,7 +478,9 @@ function test(obj: T) {
 var z: number = 123;
 
 class A {}
+
 class B extends A {}
+
 class C extends A {}
 
 type T = {
@@ -656,7 +662,9 @@ class Base {
 /* @flow */
 
 class A {}
+
 class B extends A {}
+
 class C extends B {}
 
 declare var a: A;

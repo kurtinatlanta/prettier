@@ -21,6 +21,7 @@ module.exports = Bar;
 function Bar(x: number) {
   this.x = x;
 }
+
 Bar.prototype.getX = function () {
   return this.x;
 };
@@ -55,6 +56,7 @@ module.exports = export_o;
 
 =====================================output=====================================
 function Foo() {}
+
 var o = new Foo();
 var x: number = o.x;
 
@@ -63,6 +65,7 @@ Foo.prototype.m = function () {
 };
 
 var y: number = o.m();
+
 o.x = "...";
 
 Foo.prototype = {
@@ -99,10 +102,12 @@ a.y = 'abc'; // error, needs to be declared in Bar's constructor
 var o = require("./proto");
 
 o.z = 0;
+
 var x: string = o.x;
 
 var Bar = require("./function");
 var a = new Bar(234);
+
 a.x = 123;
 a.y = "abc"; // error, needs to be declared in Bar's constructor
 (a.getX(): number);

@@ -67,6 +67,7 @@ switch(x) {
 =====================================output=====================================
 switch (true) {
   case true:
+
   // Good luck getting here
 
   case false:
@@ -319,11 +320,13 @@ switch (a) {
   case b:
     if (1) {
     }
+
     c;
 }
 
 switch (a) {
   case x:
+
   case y:
     call();
 
@@ -333,6 +336,7 @@ switch (a) {
 
 switch (a) {
   case x:
+
   case y:
     call();
 
@@ -379,6 +383,7 @@ switch (1) {}
 switch (1) {
   default:
 }
+
 switch (1) {
 }
 
@@ -431,12 +436,15 @@ switch (a) {
   case 3:
     alert("3");
     break;
+
   case 4:
     alert("4");
     break;
+
   case 5:
     alert("5");
     break;
+
   default:
     alert("default");
 }
@@ -447,6 +455,7 @@ switch (
   case 3:
     alert("3");
     break;
+
   default:
     alert("default");
 }
@@ -458,6 +467,7 @@ switch (
   case 3:
     alert("3");
     break;
+
   default:
     alert("default");
 }

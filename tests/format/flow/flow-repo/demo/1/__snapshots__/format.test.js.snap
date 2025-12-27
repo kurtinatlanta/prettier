@@ -22,6 +22,7 @@ function f(x) {
 }
 
 var x = null;
+
 //...
 
 f(x);

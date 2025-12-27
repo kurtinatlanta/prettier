@@ -76,6 +76,7 @@ test.apply("", [0, 0]); // error: number ~> string (1st arg)
 function f(args) {
   test.apply("", args);
 }
+
 f(["", 0]); // OK
 f(["", ""]); // error: string ~> number (2nd arg)
 f([0, 0]); // error: number ~> string (1st arg)
@@ -99,6 +100,7 @@ test.apply("", "not array"); // error: expect array of args
 function test2(): number {
   return 0;
 }
+
 (test2.apply(): number);
 (test2.apply(""): number);
 
@@ -151,6 +153,7 @@ let tests = [
 let tests = [
   function (x: (a: string, b: string) => void) {
     let y = x.bind(x, "foo");
+
     y("bar"); // ok
     y(123); // error, number !~> string
   },
@@ -158,6 +161,7 @@ let tests = [
   // callable objects
   function (x: { (a: string, b: string): void }) {
     let y = x.bind(x, "foo");
+
     y("bar"); // ok
     y(123); // error, number !~> string
   },
@@ -248,6 +252,7 @@ test.call("", 0, 0); // error: number ~> string (1st arg)
 function f(args) {
   test.call("", args[0], args[1]);
 }
+
 f(["", 0]); // OK
 f(["", ""]); // error: string ~> number (2nd arg)
 f([0, 0]); // error: number ~> string (1st arg)
@@ -262,6 +267,7 @@ f([0, 0]); // error: number ~> string (1st arg)
 function test2(): number {
   return 0;
 }
+
 (test2.call(): number);
 (test2.call(""): number);
 
@@ -366,11 +372,14 @@ var c: Function = C;
 
 function good(x: Function, MyThing: Function): number {
   var o: Object = x; // Function is an Object
+
   x.foo = 123;
   x["foo"] = 456;
   x();
   <MyThing />;
+
   var { ...something } = x;
+
   Object.assign(x, { hi: "there" });
   Object.keys(x);
   return x.bar + x["bar"] + x.lala();
@@ -385,6 +394,7 @@ function bad(x: Function, y: Object): void {
 let tests = [
   function (y: () => void, z: Function) {
     function x() {}
+
     (x.length: void); // error, it's a number
     (y.length: void); // error, it's a number
     (z.length: void); // error, it's a number
@@ -396,6 +406,7 @@ let tests = [
 
   function (y: () => void, z: Function) {
     function x() {}
+
     x.length = "foo"; // error, it's a number
     y.length = "foo"; // error, it's a number
     z.length = "foo"; // error, it's a number
@@ -412,7 +423,9 @@ let tests = [
 
 // \`Function\` types can be bound (resulting in a \`Function\` type)
 var d: Function = () => 1;
+
 var e = (d.bind(1): Function)();
+
 (e: number);
 (e: string);
 
@@ -519,11 +532,17 @@ function rest_t<U, T: Array<U>>(...xs: T): U {
 
 // These are ok bounds for the rest param
 function unbound_rest_t<T>(...xs: T): void {}
+
 function mixed_rest_t<T: mixed>(...xs: T): void {}
+
 function array_rest_t<T: Array<mixed>>(...xs: T): void {}
+
 function roarray_rest_t<T: $ReadOnlyArray<mixed>>(...xs: T): void {}
+
 function iterable_rest_t<T: Iterable<mixed>>(...xs: T): void {}
+
 function empty_rest_t<T: empty>(...xs: T): void {}
+
 function bounds_on_bounds<T>() {
   return function <U: T>(...xs: T): void {};
 }
@@ -532,10 +551,13 @@ function bounds_on_bounds<T>() {
 function bad_unbound_rest_t<T>(...xs: T): T {
   return xs.pop(); // Error - no bound on T
 }
+
 function string_rest_t<T: string>(...xs: T): void {} // Error - rest param can't be a string
+
 function empty_rest_t<T: empty>(...xs: T): void {} // Error - rest param can't be empty
 
 type Rest = Array<string>;
+
 function rest_alias(...xs: Rest): void {} // Ok
 
 function rest_union(...xs: [1, 2] | Array<number>): number {
@@ -551,6 +573,7 @@ function rest_intersection(...xs: { x: number } & [1, 2]): number {
 function empty_rest<T: Array<mixed>>(...xs: T): T {
   return xs;
 }
+
 (empty_rest(): empty); // Error Array ~> empty
 
 function return_rest_param<Args: Array<mixed>>(
@@ -562,6 +585,7 @@ function return_rest_param<Args: Array<mixed>>(
 }
 
 function requires_first_param(x: number, ...rest: Array<number>): void {}
+
 requires_first_param(); // Error: missing first arg
 
 ================================================================================
@@ -618,16 +642,19 @@ type rest_any = (...xs: any) => any; // Ok, any can be a rest param
 type rest_t = <U, T: Array<U>>(...xs: T) => U; // Ok, bounded targ can be rest
 
 type unbound_rest_t = <T>(...xs: T) => void; // Should be error but no way to check yet :(
+
 function test_unbound_rest(f: <T>(x: T, ...xs: T) => void) {
   f(123); // Error - number ~> array - luckily this errors
 }
 
 type string_rest_t = (...xs: string) => void; // Should be error but no way to check yet :(
+
 function test_string_rest(f: string_rest_t) {
   f("hello"); // Error - string ~> array - luckily this errors
 }
 
 type Rest = Array<string>;
+
 type rest_alias = (...xs: Rest) => void; // Ok
 
 type rest_union = (...xs: [1, 2] | Array<number>) => number; // OK
@@ -635,6 +662,7 @@ type rest_union = (...xs: [1, 2] | Array<number>) => number; // OK
 type rest_intersection = (...xs: { x: number } & [1, 2]) => number; // OK
 
 type empty_rest = <T: Array<mixed>>(...xs: T) => T; // OK
+
 (f: empty_rest) => (f(): empty); // Error Array ~> empty
 
 ================================================================================

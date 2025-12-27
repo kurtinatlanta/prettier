@@ -493,6 +493,7 @@ function test(x: {
 }) {
   return x;
 }
+
 function test(x: {
   foo: number,
   bar: number,
@@ -518,6 +519,7 @@ function test(x: {
 }
 
 type W = { ... };
+
 type X = { ... };
 
 ================================================================================
@@ -605,6 +607,7 @@ function test(x: {
 }) {
   return x;
 }
+
 function test(x: {
   foo: number,
   bar: number,
@@ -630,6 +633,7 @@ function test(x: {
 }
 
 type W = { ... };
+
 type X = { ... };
 
 ================================================================================
@@ -717,6 +721,7 @@ function test(x: {
 }) {
   return x;
 }
+
 function test(x: {
   foo: number,
   bar: number,
@@ -742,6 +747,7 @@ function test(x: {
 }
 
 type W = { ... };
+
 type X = { ... };
 
 ================================================================================

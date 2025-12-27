@@ -38,8 +38,10 @@ function baz(x): number {
 function foo(x): number {
   switch (x) {
     case 0:
+
     case 1:
       return 1;
+
     default:
       throw new Error("hi");
   }
@@ -49,9 +51,11 @@ function bar(x) {
   switch (x) {
     case 0:
       break;
+
     default:
       return;
   }
+
   1;
 }
 
@@ -59,11 +63,14 @@ function baz(x): number {
   switch (x) {
     case 0:
       break;
+
     case 1:
       return 1;
+
     default:
       throw new Error("hi");
   }
+
   return 2;
 }
 
@@ -115,6 +122,7 @@ function foo(): number {
     case "foo":
       return 1;
   }
+
   return 2;
 }
 
@@ -122,6 +130,7 @@ function bar() {
   switch ("bar") {
     case "bar":
       break;
+
     default:
       break;
   }
@@ -129,9 +138,11 @@ function bar() {
 
 function qux(b) {
   var x = b ? 0 : "";
+
   switch ("qux") {
     case "":
       x = 0;
+
     case "qux":
       x = x * x;
   }
@@ -204,6 +215,7 @@ function foo(x: mixed): string {
   switch (x) {
     case "foo":
       a = 0;
+
     default:
       b = 0;
   }
@@ -225,8 +237,10 @@ function baz(x: mixed): number {
     case "baz":
       a = 0;
       break;
+
     case "bar":
       a = "";
+
     default:
       b = 0;
   }
@@ -343,12 +357,15 @@ function f1(i) {
     case 0:
       x = 0;
       break;
+
     case 1:
       x = 1;
       break;
+
     default:
       x = -1;
       break;
+
     case 2:
       x = "2";
       break;
@@ -362,10 +379,13 @@ function f2(i) {
 
   switch (i) {
     case 0:
+
     case 1:
+
     default:
       x = 1;
       break;
+
     case 2:
     // does not fall through default
   }
@@ -378,8 +398,11 @@ function f3(i) {
 
   switch (i) {
     case 0:
+
     case 1:
+
     default:
+
     // falls through to subsequent cases
     case 2:
       x = 1;
@@ -391,8 +414,10 @@ function f3(i) {
 function foo(x): number {
   switch (x) {
     case 0:
+
     default:
       throw new Error("hi");
+
     case 1:
       return 1;
   }
@@ -402,9 +427,11 @@ function bar(x) {
   switch (x) {
     default:
       return;
+
     case 0:
       break;
   }
+
   1;
 }
 
@@ -412,11 +439,14 @@ function baz(x): number {
   switch (x) {
     case 0:
       break;
+
     default:
       throw new Error("hi");
+
     case 1:
       return 1;
   }
+
   return 2;
 }
 

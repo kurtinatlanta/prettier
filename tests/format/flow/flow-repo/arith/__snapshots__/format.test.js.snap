@@ -108,6 +108,7 @@ function foo() {
   var x = 0;
   var y = "...";
   var z = {};
+
   num(x + x);
   num(x + y); // error
   str(x + y);
@@ -119,6 +120,7 @@ function foo() {
 function bar0(x: ?number, y: number) {
   num(x + y);
 }
+
 function bar1(x: number, y: ?number) {
   num(x + y);
 }
@@ -127,6 +129,7 @@ function bar1(x: number, y: ?number) {
 function bar2(x?: number, y: number) {
   num(x + y);
 }
+
 function bar3(x: number, y?: number) {
   num(x + y);
 }
@@ -135,6 +138,7 @@ function bar3(x: number, y?: number) {
 function bar4(x?: ?number, y: number) {
   num(x + y);
 }
+
 function bar5(x: number, y?: ?number) {
   num(x + y);
 }
@@ -213,9 +217,11 @@ y **= 2; // error
 /* @flow */
 
 let x: number = 2 ** 3;
+
 x **= 4;
 
 let y: string = "123";
+
 y **= 2; // error
 
 1 + 2 ** 3 + 4;
@@ -244,15 +250,19 @@ function f<A,B>(a: A, b: B): B {return b + a; } // error
 function f<A>(a: A): A {
   return a + a;
 } // error
+
 function f<A, B>(a: A, b: B): A {
   return a + b;
 } // error
+
 function f<A, B>(a: A, b: B): A {
   return b + a;
 } // error
+
 function f<A, B>(a: A, b: B): B {
   return a + b;
 } // error
+
 function f<A, B>(a: A, b: B): B {
   return b + a;
 } // error
@@ -287,9 +297,11 @@ num(null * 1);
 num(1 * null);
 
 let x: number = 2 * 3;
+
 x *= 4;
 
 let y: string = "123";
+
 y *= 2; // error
 
 ================================================================================
@@ -345,6 +357,7 @@ let tests = [
 ({ foo: 1 }) < "foo"; // error
 
 var x = (null: ?number);
+
 1 < x; // 2 errors: null !~> number; undefined !~> number
 x < 1; // 2 errors: null !~> number; undefined !~> number
 

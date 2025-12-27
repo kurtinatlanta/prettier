@@ -267,6 +267,7 @@ const E = React.createClass({
   },
   mm() {
     var props: { m(): void } = { m: this.m };
+
     props.m(); // OK: this.m is autobound, so \`this.foo\` will always be found
   },
 });
@@ -648,6 +649,7 @@ import React from "react";
 
 // statics = None
 const A = React.createClass({ p: 0 });
+
 (A.bar: empty); // number ~> empty (inflow below)
 A.bar = 0;
 
@@ -655,6 +657,7 @@ A.bar = 0;
 const B = React.createClass({
   statics: { foo: 0 },
 });
+
 (B.foo: empty); // number ~> empty
 (B.bar: empty); // number ~> empty (inflow below)
 B.bar = 0;
@@ -663,6 +666,7 @@ B.bar = 0;
 const C = React.createClass({
   statics: ({ foo: 0 }: {| foo: number |}),
 });
+
 (C.foo: empty); // number ~> empty
 (C.bar: empty); // number ~> empty (inflow below)
 C.bar = 0;
@@ -671,6 +675,7 @@ C.bar = 0;
 const D = React.createClass({
   statics: ({ foo: 0 }: { foo: number }),
 });
+
 (D.foo: empty); // number ~> empty
 (D.bar: empty); // property \`bar\` not found
 D.bar = 0; // property \`bar\` not found
@@ -684,6 +689,7 @@ const E = React.createClass({
   ],
   statics: { bar: 0 },
 });
+
 (E.foo: empty); // number ~> empty
 (E.bar: empty); // number ~> empty
 (E.baz: empty); // number ~> empty (inflow below)
@@ -698,6 +704,7 @@ const F = React.createClass({
   ],
   statics: { bar: 0 },
 });
+
 (F.foo: empty); // number ~> empty
 (F.bar: empty); // number ~> empty
 (F.baz: empty); // number ~> empty (inflow below)
@@ -1166,7 +1173,9 @@ var PolyDefaultExample = React.createClass({
 /* @flow */
 
 class A {}
+
 class B extends A {}
+
 class C extends B {}
 
 var React = require("react");
@@ -1184,6 +1193,7 @@ var Example = React.createClass({
 class Poly<T> {
   x: T;
 }
+
 var PolyExample = React.createClass({
   propTypes: {
     x: React.PropTypes.instanceOf(Poly).isRequired,
@@ -1200,6 +1210,7 @@ var PolyExample = React.createClass({
 class PolyDefault<T = string> {
   x: T;
 }
+
 var PolyDefaultExample = React.createClass({
   propTypes: {
     x: React.PropTypes.instanceOf(PolyDefault).isRequired,
@@ -1273,6 +1284,7 @@ var Foo = React.createClass({
     switch (this.props.name) {
       case "a":
         return "Bob";
+
       default:
         return "Alice";
     }
@@ -1605,6 +1617,7 @@ var NonLiteralElemExample = React.createClass({
     p: React.PropTypes.oneOf([{}]), // OK: allow non-literals
   },
 });
+
 <NonLiteralElemExample p={0} />; // OK, result is unknown/any
 
 ================================================================================

@@ -58,6 +58,7 @@ Promise.all([
 ]).then((xs) => {
   // tuple information is preserved
   let [a, b, c] = xs;
+
   (a: number); // Error: string ~> number
   (b: boolean); // Error: number ~> boolean
   (c: string); // Error: boolean ~> string
@@ -434,6 +435,7 @@ new Promise(function (resolve, reject) {
   else {
     var b: number = numOrStr;
   }
+
   var c: string = numOrStr; // Error: number|string -> string
 });
 

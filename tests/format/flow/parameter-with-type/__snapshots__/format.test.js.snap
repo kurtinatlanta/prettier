@@ -12,6 +12,7 @@ function g({}: Foo) {}
 =====================================output=====================================
 const f =
   ({}: MyVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryLongType) => {};
+
 function g({}: Foo) {}
 
 ================================================================================
@@ -29,6 +30,7 @@ function g({}: Foo) {}
 =====================================output=====================================
 const f =
   ({}: MyVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryLongType) => {};
+
 function g({}: Foo) {}
 
 ================================================================================

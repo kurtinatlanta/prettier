@@ -168,12 +168,14 @@ if (processDefineProps(
   {
     if (!doesImmediatelyReturnFunctionExpression({ node: current, returns })) {
     }
+
     if (
       !validatePredefinedFormat(config, name, node, originalName, modifiers)
     ) {
     }
   }
 }
+
 if (
   ![
     AST_NODE_TYPES.ArrowFunctionExpression,
@@ -181,6 +183,7 @@ if (
     AST_NODE_TYPES.FunctionExpression,
   ].includes(blockParent.type)
 );
+
 if (
   !allowInGenericTypeArguments
     .map((s) => s.replaceAll(" ", ""))
@@ -193,10 +196,12 @@ if (foo) {
 }
 else if (!(i === 0 ? validFirstIdentCharRE : validIdentCharRE).test(char)) {
 }
+
 if (
   !processDefineProps(ctx, node.arguments[0], declId, true /* isWithDefaults */)
 ) {
 }
+
 if (
   processDefineProps(ctx, node.arguments[0], declId, true /* isWithDefaults */)
 ) {
@@ -397,6 +402,7 @@ else {
       //
     }
 }
+
 if (2) {
   //
 }

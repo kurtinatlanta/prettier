@@ -224,6 +224,7 @@ a?.b?.c.d?.e;
 
 async function HelloWorld() {
   var x = (await foo.bar.blah)?.hi;
+
   a?.[await b];
   (await x)?.();
 }
@@ -264,7 +265,9 @@ a?.[b ? c : d];
 )?.();
 
 let f = () => ({})?.();
+
 let g = () => ({})?.b;
+
 a = () => ({})?.() && a;
 a = () => ({})?.()() && a;
 a = () => ({})?.().b && a;

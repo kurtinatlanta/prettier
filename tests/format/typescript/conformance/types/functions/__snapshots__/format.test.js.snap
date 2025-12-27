@@ -104,10 +104,12 @@ var f1 = function () {
   return "";
   return 3;
 };
+
 var f2 = function x() {
   return "";
   return 3;
 };
+
 var f3 = () => {
   return "";
   return 3;
@@ -127,6 +129,7 @@ var f4 = function () {
 function f5(): number {}
 
 var m;
+
 // Function signature with parameter initializer referencing in scope local variable
 function f6(n = m) {
   var m = 4;
@@ -140,41 +143,51 @@ function f7(n = m, m?) {}
 undefined ===
   function (): number {
     throw undefined;
+
     var x = 4;
   };
 
 class Base {
   private x;
 }
+
 class AnotherClass {
   private y;
 }
+
 class Derived1 extends Base {
   private m;
 }
+
 class Derived2 extends Base {
   private n;
 }
+
 function f8() {
   return new Derived1();
   return new Derived2();
 }
+
 var f9 = function () {
   return new Derived1();
   return new Derived2();
 };
+
 var f10 = () => {
   return new Derived1();
   return new Derived2();
 };
+
 function f11() {
   return new Base();
   return new AnotherClass();
 }
+
 var f12 = function () {
   return new Base();
   return new AnotherClass();
 };
+
 var f13 = () => {
   return new Base();
   return new AnotherClass();
@@ -357,6 +370,7 @@ var v: void = (function () {})();
 var a: any = function f() {
   return f;
 };
+
 var a: any = function f() {
   return f();
 };
@@ -371,9 +385,11 @@ var a: any = function f() {
 function rec1() {
   return rec2();
 }
+
 function rec2() {
   return rec1();
 }
+
 var a = rec1();
 var a = rec2();
 
@@ -381,9 +397,11 @@ var a = rec2();
 function rec3(): number {
   return rec4();
 }
+
 function rec4() {
   return rec3();
 }
+
 var n: number;
 var n = rec3();
 var n = rec4();
@@ -429,9 +447,11 @@ var n = (function () {
 class Base {
   private m;
 }
+
 class Derived extends Base {
   private q;
 }
+
 var b: Base;
 var b = (function () {
   return new Base();
@@ -486,9 +506,11 @@ function f6(): number {
 class Derived2 extends Base {
   private r: string;
 }
+
 class AnotherClass {
   private x;
 }
+
 // if f is a contextually typed function expression, the inferred return type is the union type
 // of the types of the return statement expressions in the function body,
 // ignoring return statements with no expressions.
@@ -497,29 +519,35 @@ var f7: (x: number) => string | number = (x) => {
   if (x < 0) {
     return x;
   }
+
   return x.toString();
 };
+
 var f8: (x: number) => any = (x) => {
   // should be (x: number) => Base
   return new Base();
   return new Derived2();
 };
+
 var f9: (x: number) => any = (x) => {
   // should be (x: number) => Base
   return new Base();
   return new Derived();
   return new Derived2();
 };
+
 var f10: (x: number) => any = (x) => {
   // should be (x: number) => Derived | Derived1
   return new Derived();
   return new Derived2();
 };
+
 var f11: (x: number) => any = (x) => {
   // should be (x: number) => Base | AnotherClass
   return new Base();
   return new AnotherClass();
 };
+
 var f12: (x: number) => any = (x) => {
   // should be (x: number) => Base | AnotherClass
   return new Base();
@@ -542,6 +570,7 @@ function f(x: string): void {
 
 =====================================output=====================================
 function f(x: string): number;
+
 function f(x: string): void {
   return;
 }
@@ -561,6 +590,7 @@ function f(x: string): number {
 
 =====================================output=====================================
 function f(x: string): void;
+
 function f(x: string): number {
   return 0;
 }
@@ -580,6 +610,7 @@ function f(x: string): void {
 
 =====================================output=====================================
 function f(x: string): void;
+
 function f(x: string): void {
   return;
 }
@@ -606,13 +637,16 @@ function fn5() { }
 =====================================output=====================================
 //Function overload signature with optional parameter followed by non-optional parameter
 function fn4a(x?: number, y: string);
+
 function fn4a() {}
 
 function fn4b(n: string, x?: number, y: string);
+
 function fn4b() {}
 
 //Function overload signature with rest param followed by non-optional parameter
 function fn5(x: string, ...y: any[], z: string);
+
 function fn5() {}
 
 ================================================================================
@@ -722,6 +756,7 @@ function inside(a = b) {
 
 function outside() {
   var b;
+
   function inside(a = b) {
     // Still an error because b is declared inside the function
     var b;
@@ -734,6 +769,7 @@ function defaultArgFunction(
   },
   b = 1,
 ) {}
+
 function defaultArgArrow(a = () => () => b, b = 3) {}
 
 class C {

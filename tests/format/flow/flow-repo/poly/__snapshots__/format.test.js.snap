@@ -19,7 +19,9 @@ function bar(): A<*> { // error, * can't be {} and {x: string} at the same time
 
 =====================================output=====================================
 class A<X> {}
+
 new A(); // OK, implicitly inferred type args
+
 class B extends A {} // OK, same as above
 
 function foo(b): A<any> {
@@ -65,7 +67,9 @@ a.meth(new Base()); // Error: Base ~> Middle
 // @flow
 
 class Base {}
+
 class Middle extends Base {}
+
 class Child extends Middle {}
 
 class C<T: Middle> {
@@ -217,6 +221,7 @@ class C {
     return x;
   }
 }
+
 class D extends C {
   foo(x: number): number {
     return x;

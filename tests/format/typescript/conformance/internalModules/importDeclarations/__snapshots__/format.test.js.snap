@@ -285,6 +285,7 @@ module clodule {
     x: number;
     y: number;
   }
+
   var Point: Point = { x: 0, y: 0 };
 }
 
@@ -303,6 +304,7 @@ module fundule {
     x: number;
     y: number;
   }
+
   var Point: Point = { x: 0, y: 0 };
 }
 
@@ -424,6 +426,7 @@ module A {
 
 module B {
   var A = { x: 0, y: 0 };
+
   import Point = A;
 }
 

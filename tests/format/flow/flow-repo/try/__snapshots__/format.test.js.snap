@@ -235,6 +235,7 @@ function f() {
 function f() {
   try {
     might_throw();
+
     var x: number = 0;
   }
   catch (e) {
@@ -246,6 +247,7 @@ function f() {
 function f() {
   try {
     might_throw();
+
     var x: number = 0;
   }
   finally {
@@ -272,6 +274,7 @@ function f() {
   }
   catch (e) {
     might_throw();
+
     var x: number = 0;
   }
   finally {
@@ -286,8 +289,10 @@ function f() {
   }
   catch (e) {
     might_throw(); // ...but if so, suffix is not reached
+
     var x: number = 0;
   }
+
   var y: number = x;
 }
 
@@ -299,8 +304,10 @@ function f() {
   }
   finally {
     might_throw(); // ...but if so, suffix is not reached
+
     var x: number = 0;
   }
+
   var y: number = x;
 }
 
@@ -315,6 +322,7 @@ function f() {
     might_throw(); // ...but if so, suffix is not reached
     x = 0;
   }
+
   var y: number = x;
 }
 
@@ -329,12 +337,14 @@ function f() {
     might_throw(); // ...but if so, suffix is not reached
     x = 0;
   }
+
   var y: number = x;
 }
 
 // error if used prior to init
 function f() {
   var y: number = x; // error
+
   try {
     var x: number = 0;
   }
@@ -347,6 +357,7 @@ function f() {
     var x: number = 0;
   }
   catch (e) {}
+
   var y: number = x; // error
 }
 
@@ -357,6 +368,7 @@ function f() {
   catch (e) {
     var x: number = 0;
   }
+
   var y: number = x; // error
 }
 
@@ -364,12 +376,15 @@ function f() {
 function f(b) {
   try {
     var x: number;
+
     if (b) {
       throw new Error();
     }
+
     x = 0;
   }
   catch (e) {}
+
   var y: number = x; // error
 }
 
@@ -458,6 +473,7 @@ function foo(x: ?number): string {
   catch (e) {
     return "bar";
   }
+
   console.log();
   return "foo";
 }
@@ -478,6 +494,7 @@ function baz(): string {
   catch (e) {
     return "foo";
   }
+
   return "bar"; // unreachable
 }
 
@@ -486,6 +503,7 @@ function qux(): string {
     throw new Error("foo");
   }
   catch (e) {}
+
   console.log();
   return "bar";
 }
@@ -495,6 +513,7 @@ function quux(): string {
     return qux();
   }
   catch (e) {}
+
   return "bar";
 }
 
@@ -517,6 +536,7 @@ function corge(): string {
   catch (e) {
     throw new Error("bar");
   }
+
   bar(); // unreachable
 }
 
@@ -580,6 +600,7 @@ function qux() {
 function foo() {
   var x = 0;
   var y;
+
   try {
     x = "";
   }
@@ -590,6 +611,7 @@ function foo() {
   finally {
     y = {};
   }
+
   // here via [try; finally] only.
   x(); // string ~/> function call (no num or bool error)
   y(); // object ~/> function call (no uninitialized error)
@@ -597,12 +619,14 @@ function foo() {
 
 function bar(response) {
   var payload;
+
   try {
     payload = JSON.parse(response);
   }
   catch (e) {
     throw new Error("...");
   }
+
   // here via [try] only.
   if (payload.error) {
     // ok
@@ -612,11 +636,13 @@ function bar(response) {
 
 function qux() {
   var x = 5;
+
   try {
     throw -1;
   }
   finally {
   }
+
   x(); // unreachable
 }
 

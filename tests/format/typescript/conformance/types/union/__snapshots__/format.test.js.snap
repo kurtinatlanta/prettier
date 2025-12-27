@@ -3,7 +3,8 @@
 exports[`unionTypeCallSignatures.ts format 1`] = `
 ====================================options=====================================
 parsers: ["typescript"]
-                                                      printWidth: 80 (default) |
+printWidth: 80
+                                                                                | printWidth
 =====================================input======================================
 ﻿var numOrDate: number | Date;
 var strOrBoolean: string | boolean;
@@ -88,6 +89,7 @@ var strOrNum: string | number;
 // If each type in U has call signatures and the sets of call signatures are identical ignoring return types,
 // U has the same set of call signatures, but with return types that are unions of the return types of the respective call signatures from each type in U.
 var unionOfDifferentReturnType: { (a: number): number } | { (a: number): Date };
+
 numOrDate = unionOfDifferentReturnType(10);
 strOrBoolean = unionOfDifferentReturnType("hello"); // error
 unionOfDifferentReturnType1(true); // error in type of parameter
@@ -95,45 +97,58 @@ unionOfDifferentReturnType1(true); // error in type of parameter
 var unionOfDifferentReturnType1:
   | { (a: number): number; (a: string): string }
   | { (a: number): Date; (a: string): boolean };
+
 numOrDate = unionOfDifferentReturnType1(10);
 strOrBoolean = unionOfDifferentReturnType1("hello");
 unionOfDifferentReturnType1(true); // error in type of parameter
 unionOfDifferentReturnType1(); // error missing parameter
 
 var unionOfDifferentParameterTypes:
-  { (a: number): number } | { (a: string): Date };
+  | { (a: number): number }
+  | { (a: string): Date };
+
 unionOfDifferentParameterTypes(10); // error - no call signatures
 unionOfDifferentParameterTypes("hello"); // error - no call signatures
 unionOfDifferentParameterTypes(); // error - no call signatures
 
 var unionOfDifferentNumberOfSignatures:
-  { (a: number): number } | { (a: number): Date; (a: string): boolean };
+  | { (a: number): number }
+  | { (a: number): Date; (a: string): boolean };
+
 unionOfDifferentNumberOfSignatures(); // error - no call signatures
 unionOfDifferentNumberOfSignatures(10); // error - no call signatures
 unionOfDifferentNumberOfSignatures("hello"); // error - no call signatures
 
 var unionWithDifferentParameterCount:
-  { (a: string): string } | { (a: string, b: number): number };
+  | { (a: string): string }
+  | { (a: string, b: number): number };
+
 unionWithDifferentParameterCount(); // no  call signature
 unionWithDifferentParameterCount("hello"); // no  call signature
 unionWithDifferentParameterCount("hello", 10); // no  call signature
 
 var unionWithOptionalParameter1:
-  { (a: string, b?: number): string } | { (a: string, b?: number): number };
+  | { (a: string, b?: number): string }
+  | { (a: string, b?: number): number };
+
 strOrNum = unionWithOptionalParameter1("hello");
 strOrNum = unionWithOptionalParameter1("hello", 10);
 strOrNum = unionWithOptionalParameter1("hello", "hello"); // error in parameter type
 strOrNum = unionWithOptionalParameter1(); // error
 
 var unionWithOptionalParameter2:
-  { (a: string, b?: number): string } | { (a: string, b: number): number };
+  | { (a: string, b?: number): string }
+  | { (a: string, b: number): number };
+
 strOrNum = unionWithOptionalParameter2("hello"); // error no call signature
 strOrNum = unionWithOptionalParameter2("hello", 10); // error no call signature
 strOrNum = unionWithOptionalParameter2("hello", "hello"); // error no call signature
 strOrNum = unionWithOptionalParameter2(); // error no call signature
 
 var unionWithOptionalParameter3:
-  { (a: string, b?: number): string } | { (a: string): number };
+  | { (a: string, b?: number): string }
+  | { (a: string): number };
+
 strOrNum = unionWithOptionalParameter3("hello");
 strOrNum = unionWithOptionalParameter3("hello", 10); // error no call signature
 strOrNum = unionWithOptionalParameter3("hello", "hello"); // error no call signature
@@ -142,6 +157,7 @@ strOrNum = unionWithOptionalParameter3(); // error no call signature
 var unionWithRestParameter1:
   | { (a: string, ...b: number[]): string }
   | { (a: string, ...b: number[]): number };
+
 strOrNum = unionWithRestParameter1("hello");
 strOrNum = unionWithRestParameter1("hello", 10);
 strOrNum = unionWithRestParameter1("hello", 10, 11);
@@ -149,7 +165,9 @@ strOrNum = unionWithRestParameter1("hello", "hello"); // error in parameter type
 strOrNum = unionWithRestParameter1(); // error
 
 var unionWithRestParameter2:
-  { (a: string, ...b: number[]): string } | { (a: string, b: number): number };
+  | { (a: string, ...b: number[]): string }
+  | { (a: string, b: number): number };
+
 strOrNum = unionWithRestParameter2("hello"); // error no call signature
 strOrNum = unionWithRestParameter2("hello", 10); // error no call signature
 strOrNum = unionWithRestParameter2("hello", 10, 11); // error no call signature
@@ -157,7 +175,9 @@ strOrNum = unionWithRestParameter2("hello", "hello"); // error no call signature
 strOrNum = unionWithRestParameter2(); // error no call signature
 
 var unionWithRestParameter3:
-  { (a: string, ...b: number[]): string } | { (a: string): number };
+  | { (a: string, ...b: number[]): string }
+  | { (a: string): number };
+
 strOrNum = unionWithRestParameter3("hello");
 strOrNum = unionWithRestParameter3("hello", 10); // error no call signature
 strOrNum = unionWithRestParameter3("hello", 10, 11); // error no call signature
@@ -165,7 +185,9 @@ strOrNum = unionWithRestParameter3("hello", "hello"); // error no call signature
 strOrNum = unionWithRestParameter3(); // error no call signature
 
 var unionWithRestParameter4:
-  { (...a: string[]): string } | { (a: string, b: string): number };
+  | { (...a: string[]): string }
+  | { (a: string, b: string): number };
+
 strOrNum = unionWithRestParameter4("hello"); // error supplied parameters do not match any call signature
 strOrNum = unionWithRestParameter4("hello", "world");
 
@@ -175,7 +197,8 @@ strOrNum = unionWithRestParameter4("hello", "world");
 exports[`unionTypeCallSignatures3.ts format 1`] = `
 ====================================options=====================================
 parsers: ["typescript"]
-                                                      printWidth: 80 (default) |
+printWidth: 80
+                                                                                | printWidth
 =====================================input======================================
 ﻿function f1(s: string) { }
 function f2(s?: string) { }
@@ -191,11 +214,17 @@ fUnion(""); // All constituents can be called by passing a single string.
 
 =====================================output=====================================
 ﻿function f1(s: string) {}
+
 function f2(s?: string) {}
+
 function f3(...s: string[]) {}
+
 function f4(s: string, s2?: string) {}
+
 function f5(s?: string, n?: number) {}
+
 function f6(s?: string, ...n: number[]) {}
+
 function f7(s: string, ...sRest: string[]) {}
 
 var fUnion:
@@ -215,7 +244,8 @@ fUnion(""); // All constituents can be called by passing a single string.
 exports[`unionTypeCallSignatures4.ts format 1`] = `
 ====================================options=====================================
 parsers: ["typescript"]
-                                                      printWidth: 80 (default) |
+printWidth: 80
+                                                                                | printWidth
 =====================================input======================================
 ﻿type F1 = (a: string, b?: string) => void;
 type F2 = (a: string, b?: string, c?: string) => void;
@@ -245,27 +275,35 @@ f12345("a", "b", "c");  // error
 
 =====================================output=====================================
 ﻿type F1 = (a: string, b?: string) => void;
+
 type F2 = (a: string, b?: string, c?: string) => void;
+
 type F3 = (a: string, ...rest: string[]) => void;
+
 type F4 = (a: string, b?: string, ...rest: string[]) => void;
+
 type F5 = (a: string, b: string) => void;
 
 var f12: F1 | F2;
+
 f12("a");
 f12("a", "b");
 f12("a", "b", "c"); // error
 
 var f34: F3 | F4;
+
 f34("a");
 f34("a", "b");
 f34("a", "b", "c");
 
 var f1234: F1 | F2 | F3 | F4;
+
 f1234("a");
 f1234("a", "b");
 f1234("a", "b", "c"); // error
 
 var f12345: F1 | F2 | F3 | F4 | F5;
+
 f12345("a"); // error
 f12345("a", "b");
 f12345("a", "b", "c"); // error
@@ -276,7 +314,8 @@ f12345("a", "b", "c"); // error
 exports[`unionTypeConstructSignatures.ts format 1`] = `
 ====================================options=====================================
 parsers: ["typescript"]
-                                                      printWidth: 80 (default) |
+printWidth: 80
+                                                                                | printWidth
 =====================================input======================================
 ﻿var numOrDate: number | Date;
 var strOrBoolean: string | boolean;
@@ -357,7 +396,9 @@ var strOrNum: string | number;
 // If each type in U has construct signatures and the sets of construct signatures are identical ignoring return types,
 // U has the same set of construct signatures, but with return types that are unions of the return types of the respective construct signatures from each type in U.
 var unionOfDifferentReturnType:
-  { new (a: number): number } | { new (a: number): Date };
+  | { new (a: number): number }
+  | { new (a: number): Date };
+
 numOrDate = new unionOfDifferentReturnType(10);
 strOrBoolean = new unionOfDifferentReturnType("hello"); // error
 new unionOfDifferentReturnType1(true); // error in type of parameter
@@ -365,13 +406,16 @@ new unionOfDifferentReturnType1(true); // error in type of parameter
 var unionOfDifferentReturnType1:
   | { new (a: number): number; new (a: string): string }
   | { new (a: number): Date; new (a: string): boolean };
+
 numOrDate = new unionOfDifferentReturnType1(10);
 strOrBoolean = new unionOfDifferentReturnType1("hello");
 new unionOfDifferentReturnType1(true); // error in type of parameter
 new unionOfDifferentReturnType1(); // error missing parameter
 
 var unionOfDifferentParameterTypes:
-  { new (a: number): number } | { new (a: string): Date };
+  | { new (a: number): number }
+  | { new (a: string): Date };
+
 new unionOfDifferentParameterTypes(10); // error - no call signatures
 new unionOfDifferentParameterTypes("hello"); // error - no call signatures
 new unionOfDifferentParameterTypes(); // error - no call signatures
@@ -379,12 +423,15 @@ new unionOfDifferentParameterTypes(); // error - no call signatures
 var unionOfDifferentNumberOfSignatures:
   | { new (a: number): number }
   | { new (a: number): Date; new (a: string): boolean };
+
 new unionOfDifferentNumberOfSignatures(); // error - no call signatures
 new unionOfDifferentNumberOfSignatures(10); // error - no call signatures
 new unionOfDifferentNumberOfSignatures("hello"); // error - no call signatures
 
 var unionWithDifferentParameterCount:
-  { new (a: string): string } | { new (a: string, b: number): number };
+  | { new (a: string): string }
+  | { new (a: string, b: number): number };
+
 new unionWithDifferentParameterCount(); // no  call signature
 new unionWithDifferentParameterCount("hello"); // no  call signature
 new unionWithDifferentParameterCount("hello", 10); // no  call signature
@@ -392,6 +439,7 @@ new unionWithDifferentParameterCount("hello", 10); // no  call signature
 var unionWithOptionalParameter1:
   | { new (a: string, b?: number): string }
   | { new (a: string, b?: number): number };
+
 strOrNum = new unionWithOptionalParameter1("hello");
 strOrNum = new unionWithOptionalParameter1("hello", 10);
 strOrNum = new unionWithOptionalParameter1("hello", "hello"); // error in parameter type
@@ -400,13 +448,16 @@ strOrNum = new unionWithOptionalParameter1(); // error
 var unionWithOptionalParameter2:
   | { new (a: string, b?: number): string }
   | { new (a: string, b: number): number };
+
 strOrNum = new unionWithOptionalParameter2("hello"); // error no call signature
 strOrNum = new unionWithOptionalParameter2("hello", 10); // error no call signature
 strOrNum = new unionWithOptionalParameter2("hello", "hello"); // error no call signature
 strOrNum = new unionWithOptionalParameter2(); // error no call signature
 
 var unionWithOptionalParameter3:
-  { new (a: string, b?: number): string } | { new (a: string): number };
+  | { new (a: string, b?: number): string }
+  | { new (a: string): number };
+
 strOrNum = new unionWithOptionalParameter3("hello"); // error no call signature
 strOrNum = new unionWithOptionalParameter3("hello", 10); // error no call signature
 strOrNum = new unionWithOptionalParameter3("hello", "hello"); // error no call signature
@@ -415,6 +466,7 @@ strOrNum = new unionWithOptionalParameter3(); // error no call signature
 var unionWithRestParameter1:
   | { new (a: string, ...b: number[]): string }
   | { new (a: string, ...b: number[]): number };
+
 strOrNum = new unionWithRestParameter1("hello");
 strOrNum = new unionWithRestParameter1("hello", 10);
 strOrNum = new unionWithRestParameter1("hello", 10, 11);
@@ -424,6 +476,7 @@ strOrNum = new unionWithRestParameter1(); // error
 var unionWithRestParameter2:
   | { new (a: string, ...b: number[]): string }
   | { new (a: string, b: number): number };
+
 strOrNum = new unionWithRestParameter2("hello"); // error no call signature
 strOrNum = new unionWithRestParameter2("hello", 10); // error no call signature
 strOrNum = new unionWithRestParameter2("hello", 10, 11); // error no call signature
@@ -431,7 +484,9 @@ strOrNum = new unionWithRestParameter2("hello", "hello"); // error no call signa
 strOrNum = new unionWithRestParameter2(); // error no call signature
 
 var unionWithRestParameter3:
-  { new (a: string, ...b: number[]): string } | { new (a: string): number };
+  | { new (a: string, ...b: number[]): string }
+  | { new (a: string): number };
+
 strOrNum = new unionWithRestParameter3("hello"); // error no call signature
 strOrNum = new unionWithRestParameter3("hello", 10); // error no call signature
 strOrNum = new unionWithRestParameter3("hello", 10, 11); // error no call signature
@@ -444,7 +499,8 @@ strOrNum = new unionWithRestParameter3(); // error no call signature
 exports[`unionTypeEquivalence.ts format 1`] = `
 ====================================options=====================================
 parsers: ["typescript"]
-                                                      printWidth: 80 (default) |
+printWidth: 80
+                                                                                | printWidth
 =====================================input======================================
 ﻿// A | B is equivalent to A if B is a subtype of A
 class C { }
@@ -468,9 +524,11 @@ var z1: string | typeof BC;
 =====================================output=====================================
 ﻿// A | B is equivalent to A if B is a subtype of A
 class C {}
+
 class D extends C {
   foo() {}
 }
+
 var x: C;
 var x: C | D;
 
@@ -493,7 +551,8 @@ var z1: string | typeof BC;
 exports[`unionTypeFromArrayLiteral.ts format 1`] = `
 ====================================options=====================================
 parsers: ["typescript"]
-                                                      printWidth: 80 (default) |
+printWidth: 80
+                                                                                | printWidth
 =====================================input======================================
 ﻿// The resulting type an array literal expression is determined as follows:
 // If the array literal is empty, the resulting type is an array type with the element type Undefined.
@@ -534,18 +593,23 @@ var arr5Tuple: {
   0: string;
   5: number;
 } = ["hello", true, false, " hello", true, 10, "any"]; // Tuple
+
 class C {
   foo() {}
 }
+
 class D {
   foo2() {}
 }
+
 class E extends C {
   foo3() {}
 }
+
 class F extends C {
   foo4() {}
 }
+
 var c: C, d: D, e: E, f: F;
 var arr6 = [c, d]; // (C | D)[]
 var arr7 = [c, d, e]; // (C | D)[]
@@ -558,7 +622,8 @@ var arr9 = [e, f]; // (E|F)[]
 exports[`unionTypeIndexSignature.ts format 1`] = `
 ====================================options=====================================
 parsers: ["typescript"]
-                                                      printWidth: 80 (default) |
+printWidth: 80
+                                                                                | printWidth
 =====================================input======================================
 ﻿var numOrDate: number | Date;
 var anyVar: number;
@@ -592,23 +657,30 @@ var anyVar: number;
 // U has a string index signature of a union type of the types of the string index signatures from each type in U.
 
 var unionOfDifferentReturnType: { [a: string]: number } | { [a: string]: Date };
+
 numOrDate = unionOfDifferentReturnType["hello"]; // number | Date
 numOrDate = unionOfDifferentReturnType[10]; // number | Date
 
 var unionOfTypesWithAndWithoutStringSignature:
-  { [a: string]: number } | boolean;
+  | { [a: string]: number }
+  | boolean;
+
 anyVar = unionOfTypesWithAndWithoutStringSignature["hello"]; // any
 anyVar = unionOfTypesWithAndWithoutStringSignature[10]; // any
 
 // If each type in U has a numeric index signature,
 // U has a numeric index signature of a union type of the types of the numeric index signatures from each type in U.
 var unionOfDifferentReturnType1:
-  { [a: number]: number } | { [a: number]: Date };
+  | { [a: number]: number }
+  | { [a: number]: Date };
+
 numOrDate = unionOfDifferentReturnType1["hello"]; // any
 numOrDate = unionOfDifferentReturnType1[10]; // number | Date
 
 var unionOfTypesWithAndWithoutStringSignature1:
-  { [a: number]: number } | boolean;
+  | { [a: number]: number }
+  | boolean;
+
 anyVar = unionOfTypesWithAndWithoutStringSignature1["hello"]; // any
 anyVar = unionOfTypesWithAndWithoutStringSignature1[10]; // any
 
@@ -618,7 +690,8 @@ anyVar = unionOfTypesWithAndWithoutStringSignature1[10]; // any
 exports[`unionTypePropertyAccessibility.ts format 1`] = `
 ====================================options=====================================
 parsers: ["typescript"]
-                                                      printWidth: 80 (default) |
+printWidth: 80
+                                                                                | printWidth
 =====================================input======================================
 class Default {
     member: string;

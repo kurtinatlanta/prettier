@@ -37,6 +37,7 @@ var o1 = { x: 0, y: "" };
 var o2 = { z: o1 };
 
 var o3 = {};
+
 o3.w = o2;
 
 //declare var exports: { w: any };
@@ -62,6 +63,7 @@ var o2: Foo = new Foo();
 function Foo() {
   this.x = 0;
 }
+
 Foo.prototype.m = function () {};
 
 var o1: { x: number, m(): void } = new Foo();
@@ -85,6 +87,7 @@ var d: { +m: () => void } = new D();
 class C {
   m() {}
 }
+
 class D extends C {}
 
 var d: { +m: () => void } = new D();

@@ -98,6 +98,7 @@ function log(...args) {
 =====================================output=====================================
 <script setup lang="ts">
 let x = 1;
+
 function log(...args) {
   console.log(...args);
 }
@@ -207,6 +208,7 @@ type Foo = () => void
 =====================================output=====================================
 <script setup lang="ts">
 const 我 = () => {};
+
 const me = () => {};
 
 type Foo = () => void;

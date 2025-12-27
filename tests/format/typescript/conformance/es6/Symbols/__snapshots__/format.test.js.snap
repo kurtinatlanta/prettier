@@ -23,6 +23,7 @@ bar(i);
 =====================================output=====================================
 //@target: ES6
 class C {}
+
 interface I {
   [Symbol.iterator]?: { x };
 }
@@ -34,7 +35,9 @@ declare function bar(i: C): C;
 declare function bar(a: any): any;
 
 foo(new C());
+
 var i: I;
+
 bar(i);
 
 ================================================================================

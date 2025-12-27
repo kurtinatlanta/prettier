@@ -14,6 +14,7 @@ type FooThisNameIsVeryLongSoThatItBreaksToTheNextLine = Something<
   FirstParam,
   SecondParam
 >;
+
 type ShortName = Something<FirstParam, SecondParam>;
 
 ================================================================================
@@ -33,6 +34,7 @@ type FooThisNameIsVeryLongSoThatItBreaksToTheNextLine = Something<
   FirstParam,
   SecondParam
 >;
+
 type ShortName = Something<FirstParam, SecondParam>;
 
 ================================================================================
@@ -52,6 +54,7 @@ type FooThisNameIsVeryLongSoThatItBreaksToTheNextLine = Something<
   FirstParam,
   SecondParam
 >;
+
 type ShortName = Something<FirstParam, SecondParam>;
 
 ================================================================================

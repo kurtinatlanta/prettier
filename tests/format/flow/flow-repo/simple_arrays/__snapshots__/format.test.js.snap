@@ -29,6 +29,7 @@ function baz(i:number): string { return a[i]; }
 =====================================output=====================================
 /* @flow */
 var a = [];
+
 for (var i = 0; i < 10; ++i) {
   if (i % 2 == 0) {
     a[i] = 0;
@@ -49,6 +50,7 @@ function foo(i): string {
 function bar(i): string {
   return a[i];
 }
+
 bar(0);
 
 // annotations suffice to unblock the access constraint as well, so only
@@ -78,6 +80,7 @@ function foo(i: number): string { return a[i]; }
 =====================================output=====================================
 /* @flow */
 var a = [];
+
 for (var i = 0; i < 10; ++i) {
   if (i % 2 == 0) {
     a[i] = 0;
