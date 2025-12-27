@@ -295,7 +295,8 @@ semi: false
       $emit('click')
       if (something) {
         for (let i = j; i < 100; i++) {}
-      } else {
+      }
+      else {
       }
     "
     slot-scope="foo"
@@ -660,7 +661,8 @@ trailingComma: "es5"
       $emit('click');
       if (something) {
         for (let i = j; i < 100; i++) {}
-      } else {
+      }
+      else {
       }
     "
     slot-scope="foo"
@@ -1025,7 +1027,8 @@ trailingComma: "none"
       $emit('click');
       if (something) {
         for (let i = j; i < 100; i++) {}
-      } else {
+      }
+      else {
       }
     "
     slot-scope="foo"
@@ -1223,7 +1226,8 @@ export default {
 
         if (Store.detail.issue && Store.detail.issue.id === this.issue.id) {
           eventHub.$emit("clearDetailIssue")
-        } else {
+        }
+        else {
           eventHub.$emit("newDetailIssue", this.issue)
           Store.detail.list = this.list
         }
@@ -1388,7 +1392,8 @@ export default {
 
         if (Store.detail.issue && Store.detail.issue.id === this.issue.id) {
           eventHub.$emit("clearDetailIssue");
-        } else {
+        }
+        else {
           eventHub.$emit("newDetailIssue", this.issue);
           Store.detail.list = this.list;
         }
@@ -1553,7 +1558,8 @@ export default {
 
         if (Store.detail.issue && Store.detail.issue.id === this.issue.id) {
           eventHub.$emit("clearDetailIssue");
-        } else {
+        }
+        else {
           eventHub.$emit("newDetailIssue", this.issue);
           Store.detail.list = this.list;
         }

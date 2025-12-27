@@ -117,7 +117,8 @@ var f3 = () => {
 var f4 = function () {
   if (true) {
     return [""];
-  } else {
+  }
+  else {
     return [1];
   }
 };

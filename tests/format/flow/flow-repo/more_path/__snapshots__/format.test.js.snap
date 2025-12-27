@@ -108,7 +108,8 @@ function goofy() {
   var x = g();
   if (typeof x == "function") {
     x();
-  } else {
+  }
+  else {
     // if (typeof x == 'number') {
     //f(x);
   }
@@ -122,7 +123,8 @@ function goofy2() {
   var y = o.x;
   if (typeof y == "function") {
     y();
-  } else {
+  }
+  else {
     //f(y);
   }
 }
@@ -231,7 +233,8 @@ function bar(x: B) {
   if (x instanceof A) {
     x.a();
     x.c(); // error
-  } else {
+  }
+  else {
     x++; // TODO no error? since unreachable (x: B implies x: A)
   }
 }
@@ -242,7 +245,8 @@ function foo(x: A) {
     x.b();
     x.c();
     x.d(); // error
-  } else {
+  }
+  else {
     x.a();
     x.c(); // error
   }

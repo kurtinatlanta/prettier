@@ -34,7 +34,8 @@ while (
   someVeryLongStringC &&
   someVeryLongStringD
 ) {}
-do {} while (
+do {}
+while (
   someVeryLongStringA &&
   someVeryLongStringB &&
   someVeryLongStringC &&
@@ -58,7 +59,8 @@ while (
     someVeryLongArgD,
   )
 ) {}
-do {} while (
+do {}
+while (
   someVeryLongFunc(
     someVeryLongArgA,
     someVeryLongArgB,

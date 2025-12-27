@@ -8,7 +8,8 @@ import {
 function printDoWhileStatement(path, options, print) {
   return [
     group(["do", printDoWhileStatementBody(path, options, print)]),
-    path.node.body.type === "BlockStatement" ? " " : hardline,
+    // Stroustrup style: always put while on its own line
+    hardline,
     "while (",
     printDoWhileStatementCondition(path, options, print),
     ")",

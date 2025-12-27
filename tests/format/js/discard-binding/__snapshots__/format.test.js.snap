@@ -78,7 +78,8 @@ parsers: ["babel", "flow", "typescript"]
 {
   // catch param
   try {
-  } catch ([void]) {}
+  }
+  catch ([void]) {}
 }
 
 ================================================================================
@@ -1175,7 +1176,8 @@ parsers: ["babel", "flow", "typescript"]
 {
   // catch param
   try {
-  } catch ({ p: void }) {}
+  }
+  catch ({ p: void }) {}
 }
 
 ================================================================================

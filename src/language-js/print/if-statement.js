@@ -34,10 +34,8 @@ function printIfStatement(path, options, print) {
 
   /** @type {Doc[]} */
   const parts = [opening];
-  let needSpace = isConsequentBlockStatement;
   if (!isConsequentBlockStatement) {
     parts.push(hardline);
-    needSpace = false;
   }
 
   const danglingComments = getComments(node, CommentCheckFlags.Dangling);
@@ -63,11 +61,12 @@ function printIfStatement(path, options, print) {
         ? hardline
         : " ",
     );
-    needSpace = false;
+  } else {
+    // Stroustrup style: always put else on its own line
+    parts.push(hardline);
   }
 
   parts.push(
-    needSpace ? " " : "",
     "else",
     group(printIfStatementAlternate(path, options, print)),
   );

@@ -170,8 +170,10 @@ class GeneratorExamples {
   *widen_next() {
     var x = yield 0;
     if (typeof x === "number") {
-    } else if (typeof x === "boolean") {
-    } else {
+    }
+    else if (typeof x === "boolean") {
+    }
+    else {
       (x: string); // ok, sherlock
     }
   }
@@ -239,8 +241,10 @@ for (var x of examples.infer_stmt()) {
 
 var infer_stmt_next = examples.infer_stmt().next(0).value; // error: number ~> boolean
 if (typeof infer_stmt_next === "undefined") {
-} else if (typeof infer_stmt_next === "number") {
-} else {
+}
+else if (typeof infer_stmt_next === "number") {
+}
+else {
   (infer_stmt_next: boolean); // error: string ~> boolean
 }
 
@@ -250,8 +254,10 @@ examples.widen_next().next(true);
 
 for (var x of examples.widen_yield()) {
   if (typeof x === "number") {
-  } else if (typeof x === "boolean") {
-  } else {
+  }
+  else if (typeof x === "boolean") {
+  }
+  else {
     (x: string); // ok, sherlock
   }
 }
@@ -316,8 +322,10 @@ for (var x of examples.infer_stmt()) {
 var infer_stmt_next = examples.infer_stmt().next(0).value; // error: number ~> boolean
 
 if (typeof infer_stmt_next === "undefined") {
-} else if (typeof infer_stmt_next === "number") {
-} else {
+}
+else if (typeof infer_stmt_next === "number") {
+}
+else {
   (infer_stmt_next: boolean); // error: string ~> boolean
 }
 
@@ -494,16 +502,20 @@ for (var x of infer_stmt()) {
 } // error: number ~> string
 var infer_stmt_next = infer_stmt().next(0).value; // error: number ~> boolean
 if (typeof infer_stmt_next === "undefined") {
-} else if (typeof infer_stmt_next === "number") {
-} else {
+}
+else if (typeof infer_stmt_next === "number") {
+}
+else {
   (infer_stmt_next: boolean); // error: string ~> boolean
 }
 
 function* widen_next() {
   var x = yield 0;
   if (typeof x === "number") {
-  } else if (typeof x === "boolean") {
-  } else {
+  }
+  else if (typeof x === "boolean") {
+  }
+  else {
     (x: string); // ok, sherlock
   }
 }
@@ -518,8 +530,10 @@ function* widen_yield() {
 }
 for (var x of widen_yield()) {
   if (typeof x === "number") {
-  } else if (typeof x === "boolean") {
-  } else {
+  }
+  else if (typeof x === "boolean") {
+  }
+  else {
     (x: string); // ok, sherlock
   }
 }
@@ -583,7 +597,8 @@ function* generic_next<N>(): Generator<void, N, N> {
 function* multiple_return(b) {
   if (b) {
     return 0;
-  } else {
+  }
+  else {
     return "foo";
   }
 }
@@ -708,7 +723,8 @@ function test1(gen: Generator<void, string, void>) {
 function* refuse_return() {
   try {
     yield 1;
-  } finally {
+  }
+  finally {
     return 0;
   }
 }
@@ -756,7 +772,8 @@ if (yield_return_value !== undefined) {
 function* catch_return() {
   try {
     yield 0;
-  } catch (e) {
+  }
+  catch (e) {
     return e;
   }
 }
@@ -770,7 +787,8 @@ function* yield_return() {
   try {
     yield 0;
     return;
-  } catch (e) {
+  }
+  catch (e) {
     yield e;
   }
 }

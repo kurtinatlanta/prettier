@@ -23,7 +23,8 @@ function foo() {
 function bar() {
   L: do {
     continue L;
-  } while (false);
+  }
+  while (false);
 }
 
 ================================================================================

@@ -65,7 +65,8 @@ type MyOwnBooleanLOL = true | false;
 function bar(x: MyOwnBooleanLOL): false {
   if (x) {
     return x;
-  } else {
+  }
+  else {
     return !x;
   }
 }
@@ -77,7 +78,8 @@ bar(1); // error
 function alwaysFalsy(x: boolean): false {
   if (x) {
     return !x;
-  } else {
+  }
+  else {
     return x;
   }
 }
