@@ -108,7 +108,8 @@ class Foo {
     try {
       const lastInstances = loadLastInstances();
       Foo.#count += lastInstances.length;
-    } catch {}
+    }
+    catch {}
   }
 }
 
