@@ -30,15 +30,19 @@ function identity<A>(val: A): Functor<A> {
 /* @flow */
 
 type F<A> = { foo<B>(x: A): F<B> };
+
 declare function foo(x: any): F<any>;
+
 ({ foo }: F<any>);
 
 function bar(y: F<number>): F<string> {
   return y;
 }
+
 function bar1<X>(y: F<X>): F<any> {
   return y;
 }
+
 function bar2<X>(y: F<any>): F<X> {
   return y;
 }
@@ -120,9 +124,11 @@ class P<X> {
 type Pstar<X> = X | Pstar<P<X>>; // this is like Promise*
 
 var p: P<number> = new P();
+
 (p.x: string); // error
 
 var pstar: Pstar<number> = 0; // OK
+
 (pstar: number); // error, but limit potentially unbounded number of errors!
 // e.g., P<number> ~/~ number, P<P<number>> ~/~ number, ...
 
@@ -174,6 +180,7 @@ class C<X> extends B<X> { }
 
 =====================================output=====================================
 var a = []; // Array<X> ~> a
+
 function bar() {
   a = a.concat([]); // terminate despite expanding types:
   // a ~> .concat(Array<Y>)
@@ -186,13 +193,17 @@ function bar() {
 class A<X> {
   x: A<A<X>>;
 }
+
 var a_ = new A();
+
 function foo0() {
   a_ = a_.x; // terminate despite expanding types
 }
 
 type T<X> = { y: S<X> };
+
 type S<X> = T<S<X>>;
+
 function foo1(b: S<*>) {
   b = b.y; // terminate despite expanding types, OK
   // S<*> = { y: S<S<*>> }
@@ -200,8 +211,11 @@ function foo1(b: S<*>) {
 }
 
 class D<X> {}
+
 class B<X> extends D<X> {}
+
 class C<X> extends B<X> {}
+
 ((new C(): C<number>): D<string>); // error: number ~/~ string
 
 ================================================================================
@@ -232,6 +246,7 @@ function bar(x: P<number>): () => P<number> {
 
 =====================================output=====================================
 type I<X> = () => I<I<X>>;
+
 type J<X> = () => J<J<X>>;
 
 function foo(x: I<number>): J<number> {
@@ -240,6 +255,7 @@ function foo(x: I<number>): J<number> {
 }
 
 type Q<X> = { x: X };
+
 type P<X> = () => Q<P<X>>;
 
 function bar(x: P<number>): () => P<number> {
@@ -289,6 +305,7 @@ type NestedArray<T> = Array<T | NestedArray<T>>;
 
 function flatten<T>(arrArg: NestedArray<T>) {
   let arr = arrArg;
+
   while (true) {
     arr = Array.prototype.concat.apply([], arr);
   }

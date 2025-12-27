@@ -234,7 +234,9 @@ class Outer {
       #inner: Outer;
       constructor() {
         this.#inner = new Outer();
+
         var x = new Outer();
+
         x.#outer = 0; // Both inner and outer should be visible here!
         x.#inner = new Outer(); // Error, #inner is not a private field of Outer
       }
@@ -251,7 +253,9 @@ class Clash {
         (this.#p: number); // Error, #p is a string not a number
         this.#p = "test";
         this.#p = 3; // Error, #p is a string not a number
+
         var x = new Clash();
+
         (x.#p: string); // Error, here #p is a number not a string
       }
     };
@@ -275,8 +279,11 @@ class IncompatibleGetAndSet {
   static #q: number;
   constructor() {
     const a: number = 3;
+
     a.#p = 3; // Error, #p not on number
+
     const b: { p: number } = { p: 3 };
+
     b.#p; // Error, #p not on b.
   }
 }
@@ -287,10 +294,12 @@ class Static {
   #r: number;
   m(): number {
     Static.#p = 2;
+
     if (Static.#p === 3) {
       // Refinements still work
       (Static.#p: 3);
     }
+
     return Static.#p;
   }
   bad() {
@@ -366,6 +375,7 @@ class RefinementClashes {
       (this.p: 3); // Error, this.#p doesnt refine this.p
       (this.p: 4); // this.#p doesnt havoc this.p
     }
+
     (this.#p: 3); // Error, Havoc happens as normal
   }
   test2() {
@@ -380,6 +390,7 @@ class RefinementClashes {
       (RefinementClashes.q: 3); // Error, RefinementClashes.#q doesnt refine RefinementClashes.q
       (RefinementClashes.q: 4); // RefinementClashes.#q doesnt havoc RefinementClashes.q
     }
+
     (RefinementClashes.#q: 3); // Error, Havoc happens as normal
   }
   test3(other: RefinementClashes) {

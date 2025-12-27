@@ -294,6 +294,7 @@ semi: false
     @click="$emit('click')"
     @click="
       $emit('click')
+
       if (something) {
         for (let i = j; i < 100; i++) {}
       }
@@ -661,6 +662,7 @@ trailingComma: "es5"
     @click="$emit('click')"
     @click="
       $emit('click');
+
       if (something) {
         for (let i = j; i < 100; i++) {}
       }
@@ -1028,6 +1030,7 @@ trailingComma: "none"
     @click="$emit('click')"
     @click="
       $emit('click');
+
       if (something) {
         for (let i = j; i < 100; i++) {}
       }

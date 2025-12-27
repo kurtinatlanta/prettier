@@ -413,11 +413,14 @@ function subtype_optional_c_to_dict(
 
 // Some logic is variance-sensitive.
 class A {}
+
 class B extends A {}
+
 class C extends B {}
 
 // Just a couple of short type names. Compare to string/number.
 class X {}
+
 class Y {}
 
 // Any property can be set on a dict with string keys.
@@ -489,21 +492,25 @@ function unsound_string_conversion_alias_declared_prop(o: {
 
 function unification_dict_values_invariant(x: Array<{ [k: string]: B }>) {
   let a: Array<{ [k: string]: A }> = x; // error
+
   a[0].p = new A(); // in[0].p no longer B
 
   let b: Array<{ [k: string]: B }> = x; // ok
 
   let c: Array<{ [k: string]: C }> = x; // error
+
   (x[0].p: C); // not true
 }
 
 function subtype_dict_values_invariant(x: { [k: string]: B }) {
   let a: { [k: string]: A } = x; // error
+
   a.p = new A(); // x[0].p no longer B
 
   let b: { [k: string]: B } = x; // ok
 
   let c: { [k: string]: C } = x; // error
+
   (x.p: C); // not true
 }
 
@@ -548,11 +555,13 @@ function unification_mix_with_declared_props_invariant_l(
   x: Array<{ [k: string]: B }>,
 ) {
   let a: Array<{ [k: string]: B, p: A }> = x; // error: A ~> B
+
   a[0].p = new A(); // x[0].p no longer B
 
   let b: Array<{ [k: string]: B, p: B }> = x; // ok
 
   let c: Array<{ [k: string]: B, p: C }> = x; // error
+
   (x[0].p: C); // not true
 }
 
@@ -562,21 +571,25 @@ function unification_mix_with_declared_props_invariant_r(
   xc: Array<{ [k: string]: C, p: B }>,
 ) {
   let a: Array<{ [k: string]: A }> = xa; // error
+
   a[0].p = new A(); // xa[0].p no longer B
 
   let b: Array<{ [k: string]: B }> = xb; // ok
 
   let c: Array<{ [k: string]: C }> = xc; // error
+
   (xc[0].p: C); // not true
 }
 
 function subtype_mix_with_declared_props_invariant_l(x: { [k: string]: B }) {
   let a: { [k: string]: B, p: A } = x; // error: A ~> B
+
   a.p = new A(); // x.p no longer B
 
   let b: { [k: string]: B, p: B } = x; // ok
 
   let c: { [k: string]: B, p: C } = x; // error
+
   (x.p: C); // not true
 }
 
@@ -586,11 +599,13 @@ function subtype_mix_with_declared_props_invariant_r(
   xc: { [k: string]: C, p: B },
 ) {
   let a: { [k: string]: A } = xa; // error
+
   a.p = new A(); // xa.p no longer B
 
   let b: { [k: string]: B } = xb; // ok
 
   let c: { [k: string]: C } = xc; // error
+
   (xc.p: C); // not true
 }
 
@@ -608,21 +623,25 @@ function unification_obj_to_dict(
 
 function subtype_dict_to_obj(x: { [k: string]: B }) {
   let a: { p: A } = x; // error
+
   a.p = new A(); // x.p no longer B
 
   let b: { p: B } = x; // ok
 
   let c: { p: C } = x; // error
+
   (x.p: C); // not true
 }
 
 function subtype_obj_to_dict(x: { p: B }) {
   let a: { [k: string]: A } = x; // error
+
   a.p = new A(); // x.p no longer B
 
   let b: { [k: string]: B } = x;
 
   let c: { [k: string]: C } = x; // error
+
   (x.p: C); // not true
 }
 
@@ -888,6 +907,7 @@ module.exports = o;
 
 =====================================output=====================================
 type Params = { count: number, [name: string]: string };
+
 type QueryFunction = (params: Params) => string;
 
 var o: { foo: QueryFunction } = {

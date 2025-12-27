@@ -70,7 +70,9 @@ let tests = [
   // toString
   function () {
     true.toString();
+
     let x: boolean = false;
+
     x.toString();
     new Boolean(true).toString();
   },
@@ -316,6 +318,7 @@ let ws4 = new WeakSet(generator());
 
 function* numbers(): Iterable<number> {
   let i = 0;
+
   while (true) {
     yield i++;
   }

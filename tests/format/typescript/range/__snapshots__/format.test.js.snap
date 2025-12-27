@@ -54,6 +54,7 @@ class Foo {
       for (let attr in this) {
         if (this[attr] !== keyevent[attr]) return false;
       }
+
       return true;
     }
 }

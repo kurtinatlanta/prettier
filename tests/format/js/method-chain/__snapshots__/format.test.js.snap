@@ -782,12 +782,15 @@ function f() {
   }).then((metadata) => {
     // \`1\` for truthy values instead of \`true\` to save cache space.
     fileMetadata[H.VISITED] = 1;
+
     const metadataId = metadata.id;
     const metadataModule = metadata.module;
+
     if (metadataId && metadataModule) {
       fileMetadata[H.ID] = metadataId;
       setModule(metadataId, metadataModule);
     }
+
     fileMetadata[H.DEPENDENCIES] = metadata.dependencies || [];
   });
 }
@@ -896,6 +899,7 @@ let column = new Column(null, conn)
 
 =====================================output=====================================
 const fetched = fetch("/foo");
+
 fetched
   .then((response) => response.json())
   .then((json) => processThings(json.data.things));
@@ -1230,6 +1234,7 @@ window.FooClient.setVars({
 
 it("gets triggered by mouseenter", () => {
   const wrapper = shallow(<CalendarDay />);
+
   wrapper.dive().find(Button).prop();
 });
 
@@ -1237,6 +1242,7 @@ const a1 = x.a(true).b(null).c(123);
 const a2 = x.d("").e(\`\`).f(g);
 const a3 = x.d("").e(\`\${123}\`).f(g);
 const a4 = x.h(i.j).k(l()).m([n, o]);
+
 class X {
   y() {
     const j = x.a(this).b(super.cde()).f(/g/).h(new i()).j();

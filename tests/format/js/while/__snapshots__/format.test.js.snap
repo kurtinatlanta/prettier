@@ -29,12 +29,14 @@ if (
   someVeryLongStringD
 ) {
 }
+
 while (
   someVeryLongStringA &&
   someVeryLongStringB &&
   someVeryLongStringC &&
   someVeryLongStringD
 ) {}
+
 do {}
 while (
   someVeryLongStringA &&
@@ -52,6 +54,7 @@ if (
   )
 ) {
 }
+
 while (
   someVeryLongFunc(
     someVeryLongArgA,
@@ -60,6 +63,7 @@ while (
     someVeryLongArgD,
   )
 ) {}
+
 do {}
 while (
   someVeryLongFunc(

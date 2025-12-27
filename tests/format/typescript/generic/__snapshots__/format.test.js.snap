@@ -213,6 +213,7 @@ function filterTooltipWithFoo<F extends Field>(
   filteredEncoding: Encoding<F>;
 } {
   const { tooltip, ...filteredEncoding } = oldEncoding;
+
   if (!tooltip) {
     return { filteredEncoding };
   }

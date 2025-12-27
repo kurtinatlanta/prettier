@@ -58,6 +58,7 @@ class A {
     return "some string";
   }
 }
+
 A._sProperty = 48;
 
 class B extends A {
@@ -75,6 +76,7 @@ class B extends A {
     return 23;
   }
 }
+
 B._sProperty = "B._sProperty string";
 
 ================================================================================

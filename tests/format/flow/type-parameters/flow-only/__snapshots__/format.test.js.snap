@@ -15,10 +15,15 @@ type A</* comment */T :string> = B;
 
 =====================================output=====================================
 type A<T: string /* comment */> = B;
+
 type A<T: /* comment */ string> = B;
+
 type A<T: /* comment */ string> = B;
+
 type A<T /* comment */ : string> = B;
+
 type A<T /* comment */ : string> = B;
+
 type A</* comment */ T: string> = B;
 
 ================================================================================
@@ -45,14 +50,20 @@ class D<const +T>{}
 =====================================output=====================================
 // Simple
 type T<const X> = X;
+
 function f<const T>(): void {}
+
 <const T>(x: T) => {};
+
 class C<const T> {}
 
 // With variance
 type T<const +X> = X;
+
 function f<const +T>(): void {}
+
 <const +T>(x: T) => {};
+
 class D<const +T> {}
 
 ================================================================================

@@ -107,6 +107,7 @@ class Foo {
   static {
     try {
       const lastInstances = loadLastInstances();
+
       Foo.#count += lastInstances.length;
     }
     catch {}

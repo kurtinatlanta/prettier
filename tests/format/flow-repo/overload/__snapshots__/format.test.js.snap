@@ -128,6 +128,7 @@ function foo() {
 =====================================output=====================================
 function foo() {
   var output = new FakeUint8Array();
+
   output.set(new FakeUint8Array(), 0); // matches one of the overloads of set
 }
 
@@ -153,7 +154,9 @@ declare class Foo {
   bar(x: "hmm"): number;
   bar(x: string): string;
 }
+
 var foo = new Foo();
+
 (foo.bar("hmm"): number); // OK
 (foo.bar("hmmm"): number); // error
 
@@ -194,20 +197,27 @@ h(x_h.p); // ok
 
 // unions
 declare function f(x: string): void;
+
 declare function f(x: number): void;
+
 declare var x_f: string | number;
 f(x_f); // ok
 
 // maybe
 declare function g(x: null): void;
+
 declare function g(x: void): void;
+
 declare function g(x: string): void;
+
 declare var x_g: ?string;
 g(x_g); // ok
 
 // optional
 declare function h(x: void): void;
+
 declare function h(x: string): void;
+
 declare var x_h: { p?: string };
 h(x_h.p); // ok
 

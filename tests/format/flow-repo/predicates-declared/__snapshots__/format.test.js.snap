@@ -70,6 +70,7 @@ class C {
 }
 
 declare var m: Function;
+
 const o = { a: 1 };
 
 if (m.bind(o)) {
@@ -86,7 +87,9 @@ class D {
 }
 
 declare var m: Function;
+
 const x = "";
+
 if (m.bind(this)(x)) {
 }
 
@@ -122,6 +125,7 @@ function foo(x: number | string | Array<string>): number {
 // @flow
 
 declare function f1(x: mixed): boolean %checks(typeof x === "string");
+
 declare function f2(x: mixed): boolean %checks(Array.isArray(x));
 
 declare var cond: boolean;
@@ -170,6 +174,7 @@ function foo(x: string | Array<string>): string {
 // @flow
 
 declare function is_string(x: mixed): boolean %checks(typeof x === "string");
+
 declare function is_number(x: mixed): boolean %checks(typeof x === "number");
 
 // Feature check:
@@ -227,11 +232,14 @@ function foo(x: mixed) { return 1; }
 //   expressions (e.g. \`||\`)
 
 declare function r(x: string): number;
+
 var s = "a";
 var n = r(s) || 1;
+
 (n: number);
 
 var x = "";
+
 if ((x = r(s) || 1)) {
   (x: number);
 }
@@ -241,6 +249,7 @@ declare var dollars: mixed;
 function foo(x: mixed) {
   return 1;
 }
+
 foo(dollars) || 0;
 
 Number(dollars) || 0;
@@ -301,6 +310,7 @@ function f(_this: { m: ?Meeting }): string {
 
   if (_this.m.es.some((a) => a.fbid === 0)) {
   }
+
   return "3";
 }
 
@@ -375,6 +385,7 @@ function foo(s: Array<string>): string {
   if (pred(s)) {
     return "1";
   }
+
   return 1;
 }
 
@@ -456,6 +467,7 @@ function bar(x: string | Array<string>): string {
 // @flow
 
 declare function is_string(x: mixed): boolean %checks(typeof x === "string");
+
 declare function is_number(x: mixed): boolean %checks(typeof x === "number");
 
 // Sanity check:
@@ -542,6 +554,7 @@ function foo(x: string | Array<string>): string {
   if (pred(x)) {
     return x;
   }
+
   return "1";
 }
 

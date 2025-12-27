@@ -39,8 +39,11 @@ var numStrTuple2: [number, string] = [5, "foo", true];
 var numStrBoolTuple: [number, string, boolean] = [5, "foo", true];
 var objNumTuple: [{ a: string }, number] = [{ a: "world" }, 5];
 var strTupleTuple: [string, [number, {}]] = ["bar", [5, { x: 1, y: 1 }]];
+
 class C {}
+
 class D {}
+
 var unionTuple: [C, string | number] = [new C(), "foo"];
 var unionTuple1: [C, string | number] = [new C(), "foo"];
 var unionTuple2: [C, string | number, D] = [new C(), "foo", new D()];
@@ -52,6 +55,7 @@ numStrTuple = numStrBoolTuple;
 // error
 objNumTuple = [{}, 5];
 numStrBoolTuple = numStrTuple;
+
 var strStrTuple: [string, string] = ["foo", "bar", 5];
 
 unionTuple = unionTuple1;
@@ -238,11 +242,14 @@ function zip<T, U>(array1: T[], array2: U[]): [[T, U]] {
   if (array1.length != array2.length) {
     return [[undefined, undefined]];
   }
+
   var length = array1.length;
   var zipResult: [[T, U]];
+
   for (var i = 0; i < length; ++i) {
     zipResult.push([array1[i], array2[i]]);
   }
+
   return zipResult;
 }
 
@@ -270,6 +277,7 @@ y = [""];
 declare function foo<T extends [any]>(x: T): T;
 
 var y = foo([undefined]);
+
 y = [""];
 
 ================================================================================
@@ -292,6 +300,7 @@ var foo: () => [any] = function bar() {
 //@noImplicitAny: true
 var foo: () => [any] = function bar() {
   let intermediate = bar();
+
   intermediate = [""];
   return [undefined];
 };
@@ -334,6 +343,7 @@ b = ["", ""];
 var a: [any];
 
 var b = (a = [undefined, null]);
+
 b = ["", ""];
 
 ================================================================================
@@ -367,6 +377,7 @@ b = "";
 
 =====================================output=====================================
 var [a, b] = [undefined, null];
+
 a = "";
 b = "";
 

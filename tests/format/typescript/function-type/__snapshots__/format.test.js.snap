@@ -75,6 +75,7 @@ type X = (options: {
   a: string;
   b: AbstractCompositeThingamabobberFactoryProvider;
 }) => {};
+
 type Y = new (options: {
   a: string;
   b: AbstractCompositeThingamabobberFactoryProvider;
@@ -95,7 +96,9 @@ const baz = (): ((() => void)) => (): void => null;
 
 =====================================output=====================================
 const foo = (): (() => void) => (): void => null;
+
 const bar = (): (() => void) => (): void => null;
+
 const baz = (): (() => void) => (): void => null;
 
 ================================================================================

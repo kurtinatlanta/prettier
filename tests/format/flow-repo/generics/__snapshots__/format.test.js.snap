@@ -87,7 +87,9 @@ var e = new E(); // error: too few arguments to inherited constructor
 var x: string = e.set(0);
 
 class F<X> {}
+
 class G<Y> extends F<Array<Y>> {}
+
 class H<Z> extends G<Array<Z>> {
   x: Z;
   foo(x: Z) {
@@ -96,10 +98,13 @@ class H<Z> extends G<Array<Z>> {
 }
 
 var h1 = new H();
+
 h1.foo(["..."]);
+
 var h2: F<Array<Array<Array<number>>>> = h1;
 
 var obj: Object<string, string> = {}; // error, arity 0
+
 var fn: Function<string> = function () {
   return "foo";
 }; // error, arity 0
