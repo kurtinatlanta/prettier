@@ -1,6 +1,6 @@
 {
   "name": "@kurtinatlanta/prettier",
-  "version": "3.9.0-hoyt.1",
+  "version": "3.9.0-hoyt.2",
   "description": "Prettier is an opinionated code formatter",
   "bin": "./bin/prettier.cjs",
   "repository": "kurtinatlanta/prettier",
