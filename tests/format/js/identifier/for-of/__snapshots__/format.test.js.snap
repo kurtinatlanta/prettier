@@ -16,8 +16,11 @@ async function a() {
 =====================================output=====================================
 async function a() {
   for await ((let) of foo);
+
   for await ((let).a of foo);
+
   for await ((let)[a] of foo);
+
   for await ((let)()[a] of foo);
 }
 
@@ -46,15 +49,23 @@ for (let of of let);
 
 =====================================output=====================================
 for ((let) of foo);
+
 for (foo of let);
+
 for (foo of let.a);
+
 for (foo of let[a]);
+
 for ((let).a of foo);
+
 for ((let)[a] of foo);
+
 for ((let)().a of foo);
+
 for (letFoo of foo);
 
 for ((let).a in foo);
+
 for ((let)[a] in foo);
 
 for (let of of let);

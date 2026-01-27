@@ -1707,6 +1707,7 @@ lbl: for (;;) {
     // breaking comment
     ;(possibleArray || []).sort()
   }
+
   if (condition) {
     // prettier-ignore
     break                   lbl
@@ -1787,6 +1788,7 @@ lbl: for (;;) {
     // breaking comment
     (possibleArray || []).sort();
   }
+
   if (condition) {
     // prettier-ignore
     break                   lbl;
@@ -1976,9 +1978,11 @@ var b = {
   // dangling
 }
 var b = [/* dangling */]
+
 function d() {
   /* dangling */
 }
+
 new Thing(/* dangling */)
 Thing(/* dangling */)
 export /* dangling */ {}
@@ -2010,9 +2014,11 @@ var b = {
   // dangling
 };
 var b = [/* dangling */];
+
 function d() {
   /* dangling */
 }
+
 new Thing(/* dangling */);
 Thing(/* dangling */);
 export /* dangling */ {};
@@ -2278,8 +2284,10 @@ a /* a */ // b
 foo // first
 // second
 // third
+
 function x() {} // first
 // second
+
 a =
   b + // 1
   // 2
@@ -2325,8 +2333,10 @@ a; /* a */ // b
 foo; // first
 // second
 // third
+
 function x() {} // first
 // second
+
 a =
   b + // 1
   // 2
@@ -2394,11 +2404,13 @@ export //comment
 export /* comment */ {}
 
 const foo = ""
+
 export {
   foo, // comment
 }
 
 const bar = ""
+
 export {
   // comment
   bar,
@@ -2406,6 +2418,7 @@ export {
 
 const fooo = ""
 const barr = ""
+
 export {
   fooo, // comment
   barr, // comment
@@ -2413,6 +2426,7 @@ export {
 
 const foooo = ""
 const barrr = ""
+
 export {
   foooo,
   // comment
@@ -2421,6 +2435,7 @@ export {
 
 const fooooo = ""
 const barrrr = ""
+
 export {
   fooooo,
   // comment
@@ -2484,11 +2499,13 @@ export //comment
 export /* comment */ {};
 
 const foo = "";
+
 export {
   foo, // comment
 };
 
 const bar = "";
+
 export {
   // comment
   bar,
@@ -2496,6 +2513,7 @@ export {
 
 const fooo = "";
 const barr = "";
+
 export {
   fooo, // comment
   barr, // comment
@@ -2503,6 +2521,7 @@ export {
 
 const foooo = "";
 const barrr = "";
+
 export {
   foooo,
   // comment
@@ -2511,6 +2530,7 @@ export {
 
 const fooooo = "";
 const barrrr = "";
+
 export {
   fooooo,
   // comment
@@ -2743,8 +2763,11 @@ function foo4() {
 
 =====================================output=====================================
 function a(/* comment */) {} // comment
+
 function b() {} // comment
+
 function c(/* comment */ argA, argB, argC) {} // comment
+
 call((/*object*/ row) => {})
 KEYPAD_NUMBERS.map(
   (
@@ -2753,12 +2776,17 @@ KEYPAD_NUMBERS.map(
 )
 
 function f1 /* f */() {}
+
 function f2(/* args */) {}
+
 function f3() /* returns */ {}
+
 function f4 /* f */(/* args */) /* returns */ {}
 
 function f5 /* f */(/* a */ a) {}
+
 function f6 /* f */(a /* a */) {}
+
 function f7 /* f */(/* a */ a) /* returns */ {}
 
 const obj = {
@@ -2776,12 +2804,15 @@ const obj = {
 class C1 {
   f /* f */() {}
 }
+
 class C2 {
   f(/* args */) {}
 }
+
 class C3 {
   f() /* returns */ {}
 }
+
 class C4 {
   f /* f */(/* args */) /* returns */ {}
 }
@@ -2879,8 +2910,11 @@ function foo4() {
 
 =====================================output=====================================
 function a(/* comment */) {} // comment
+
 function b() {} // comment
+
 function c(/* comment */ argA, argB, argC) {} // comment
+
 call((/*object*/ row) => {});
 KEYPAD_NUMBERS.map(
   (
@@ -2889,12 +2923,17 @@ KEYPAD_NUMBERS.map(
 );
 
 function f1 /* f */() {}
+
 function f2(/* args */) {}
+
 function f3() /* returns */ {}
+
 function f4 /* f */(/* args */) /* returns */ {}
 
 function f5 /* f */(/* a */ a) {}
+
 function f6 /* f */(a /* a */) {}
+
 function f7 /* f */(/* a */ a) /* returns */ {}
 
 const obj = {
@@ -2912,12 +2951,15 @@ const obj = {
 class C1 {
   f /* f */() {}
 }
+
 class C2 {
   f(/* args */) {}
 }
+
 class C3 {
   f() /* returns */ {}
 }
+
 class C4 {
   f /* f */(/* args */) /* returns */ {}
 }
@@ -6590,6 +6632,7 @@ switch (foo) {
 =====================================output=====================================
 switch (node && node.type) {
   case "Property":
+
   case "MethodDefinition":
     prop = node.key
     break
@@ -6677,6 +6720,7 @@ switch (foo) {
 =====================================output=====================================
 switch (node && node.type) {
   case "Property":
+
   case "MethodDefinition":
     prop = node.key;
     break;
@@ -7264,6 +7308,7 @@ let // Comment
   bar = "val"
 
 const foo3 = 123
+
 // Nothing to see here.
 ;["2", "3"].forEach((x) => console.log(x))
 
@@ -7414,6 +7459,7 @@ let // Comment
   bar = "val";
 
 const foo3 = 123;
+
 // Nothing to see here.
 ["2", "3"].forEach((x) => console.log(x));
 
