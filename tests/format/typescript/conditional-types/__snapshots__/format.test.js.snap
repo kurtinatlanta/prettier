@@ -209,6 +209,7 @@ type T =
     // Multiline comment
     B | C
   : D;
+
 T =
   any instanceof B ?
     // Comment
@@ -226,6 +227,7 @@ type T =
     // Comment
     B | C
   : D;
+
 T =
   any instanceof B ?
     // Comment
@@ -239,13 +241,16 @@ type T =
      */
     B | C
   : D;
+
 T = any instanceof B ?
     /**
      * Comment
      */
     B | C
   : D;
+
 type T = any extends B ? /* Comment */ B | C : D;
+
 T = any instanceof B ? /* Comment */ B | C : D;
 
 ================================================================================
@@ -450,6 +455,7 @@ type T = any extends B
     // Multiline comment
     B | C
   : D;
+
 T =
   any instanceof B
     ? // Comment
@@ -467,6 +473,7 @@ type T = any extends B
   ? // Comment
     B | C
   : D;
+
 T =
   any instanceof B
     ? // Comment
@@ -479,6 +486,7 @@ type T = any extends B
      */
     B | C
   : D;
+
 T =
   any instanceof B
     ? /**
@@ -486,7 +494,9 @@ T =
        */
       B | C
     : D;
+
 type T = any extends B ? /* Comment */ B | C : D;
+
 T = any instanceof B ? /* Comment */ B | C : D;
 
 ================================================================================

@@ -389,6 +389,7 @@ else {
       node.type === "TSImportType" ||
       node.type === "TSExternalModuleReference"
     ));
+
   else if (!(
     node.type === "ImportExpression" ||
     node.type === "TSImportType" ||
@@ -420,6 +421,7 @@ else {
       node.type === "TSImportType" ||
       node.type === "TSExternalModuleReference"
     );
+
   else if (
     node.type === "ImportExpression" ||
     node.type === "TSImportType" ||

@@ -1270,6 +1270,7 @@ class C {
 
   ensure0(): string {
     if (this.p != null) return this.p;
+
     else return "";
   }
 
@@ -1281,6 +1282,7 @@ class C {
 
   ensure2(): string | void {
     if (this.p !== null) return this.p;
+
     else return "";
   }
 
@@ -1295,11 +1297,13 @@ class C {
 class D extends C {
   ensure100(): string {
     if (super.p != null) return super.p;
+
     else return "";
   }
 
   ensure101(): string {
     if (super.p == null) return "";
+
     else return super.p;
   }
 
@@ -1732,21 +1736,25 @@ class A {
 
   ensure0(): string {
     if (typeof this.p == "string") return this.p;
+
     else return "";
   }
 
   ensure1(): string {
     if (typeof this.p != "string") return "";
+
     else return this.p;
   }
 
   ensure2(): string | void {
     if (typeof this.p === "string") return this.p;
+
     else return "";
   }
 
   ensure3(): string | void {
     if (typeof this.p !== "string") return "";
+
     else return this.p;
   }
 }
@@ -1909,11 +1917,13 @@ class A {
 
   ensure0(): string {
     if (this.p !== undefined && this.p !== null) return this.p;
+
     else return "";
   }
 
   ensure1(): string {
     if (this.p === undefined || this.p === null) return "";
+
     else return this.p;
   }
 }
@@ -2076,11 +2086,13 @@ class A {
 
   ensure0(): string {
     if (this.p !== void 0 && this.p !== null) return this.p;
+
     else return "";
   }
 
   ensure1(): string {
     if (this.p === void 0 || this.p === null) return "";
+
     else return this.p;
   }
 }

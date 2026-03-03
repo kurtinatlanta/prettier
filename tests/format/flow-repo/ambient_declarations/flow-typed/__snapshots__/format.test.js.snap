@@ -62,7 +62,9 @@ declare module 'test-module' {
 declare module "test-module" {
   // Implicit ambient const/let/var (without 'declare' keyword)
   const foo: string;
+
   let bar: number;
+
   var baz: boolean;
 
   // These can be used in type expressions within the module

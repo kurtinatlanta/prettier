@@ -13,6 +13,7 @@ const x = Foo
 =====================================output=====================================
 // Not a \`RecordExpression\`
 const x = Foo;
+
 {
 }
 

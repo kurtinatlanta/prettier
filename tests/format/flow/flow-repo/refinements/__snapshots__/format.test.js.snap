@@ -2919,6 +2919,7 @@ type NonCitizen = { citizen: false, nationality: string };
 
 function nationality(x: Citizen | NonCitizen) {
   if (x.citizen) return "Shire";
+
   else return x.nationality;
 }
 
